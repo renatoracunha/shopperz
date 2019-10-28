@@ -1,199 +1,41 @@
 
 <?php $usuario_id = $_SESSION['user_id'] ?>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
-  <!-- Meta tags Obrigatórias -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.css') ?>">
-  <!-- JavaScript (Opcional) -->
-  <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
-  <script src="<?php echo base_url('js/jquery.js') ?>"></script>
-  <script src="<?php echo base_url('js/popper.js') ?>"></script>
-  <script src="<?php echo base_url('js/bootstrap.js') ?>"></script>
-  <script src="https://kit.fontawesome.com/8d24bc018e.js"></script>
-
-  <title>Shopperz!</title>
-
-
-  <script>
-    function get_view_produtos_loja(id_loja){
-      window.location.href = "<?php echo base_url('shopperz/listar_produtos/') ?>/"+id_loja; 
-    }
-    $(document).ready(function(){
-      loadData();
-      //$('#pesquisar_palavra').hide();
-    });
-    function loadDataInApp(value){
-
-      var lines = '';
-      lines+='<div onclick="get_view_produtos_loja('+value.id+')" class="card card_img" >';
-      
-      lines+='<img class="card-img-top" style="width: 100%" src="../imagens/'+value.img+'" alt="Imagem de capa do card"></div>'; 
-      
-      return lines;
-    }
-
-    function loadData(){
-      $.ajax({
-        url: "<?php echo site_url();?>shopperz/ajax_get_listar_lojas_ativas",
-        dataType:"json",
-        type:"get",
-        cache:false,
-        success:function(data){
-          var lines = '';
-          $.each(data,function(index,value){
-            lines+= loadDataInApp(value);
-          });
-
-          if (lines) {
-            $("#lojas").html('');
-            $("#lojas").append(lines);
-          }else{
-            alert('não há produtos cadastrados');
-          }
-        },error:function(e){
-          alert('errorr');
-        }
-      })
-    }
-
-    function get_favoritos(){
-      $.ajax({
-        url: "<?php echo site_url();?>shopperz/ajax_get_lojas_favoritas_usuario",
-        dataType:"json",
-        type:"get",
-        cache:false,
-        success:function(data){
-          var lines = '';
-          $.each(data,function(index,value){
-            lines+= loadDataInApp(value);
-          });
-
-          if (lines) {
-            $("#lojas").html('');
-            $("#lojas").append(lines);
-          }else{
-            alert('não há produtos cadastrados');
-          }
-        },
-        error:function(e){
-          alert('erro');
-        }
-      })
-    }
-
-    /*function abrirPesquisa(){
-      $('#brand').toggle();     
-      $('#pesquisar_palavra').toggle();                   
-    }    */
+  <title>Shopperz</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--===============================================================================================--> 
+  <link rel="icon" type="image/png" href="<?php echo site_url(); ?>/imagens/icons/favicon.ico"/>
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/vendor/bootstrap/css/bootstrap.min.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/vendor/animate/animate.css">
+  <!--===============================================================================================-->  
+  <link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/vendor/css-hamburgers/hamburgers.min.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/vendor/animsition/css/animsition.min.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/vendor/select2/select2.min.css">
+  <!--===============================================================================================-->  
+  <link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/vendor/daterangepicker/daterangepicker.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/css/util.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/css/main.css">
+  <!--===============================================================================================-->
 
 
-    function get_lojas_populares(){
-      $.ajax({
-        url: "<?php echo site_url();?>shopperz/ajax_get_lojas_populares",
-        dataType:"json",
-        type:"get",
-        cache:false,
-        success:function(data){
-         var lines = '';
-          $.each(data,function(index,value){
-            lines+= loadDataInApp(value);
-          });
 
-          if (lines) {
-            $("#lojas").html('');
-            $("#lojas").append(lines);
-          }else{
-            alert('não há produtos cadastrados');
-          }
-        },
-        error:function(e){
-          alert('erro');
-        }
-      })
-    }
+</head>
+<body>
 
-   /* function get_produtos_descontos(){
-     $.ajax({
-      url: "<?php echo site_url();?>shopperz/ajax_get_produtos_descontos",
-      dataType:"json",
-      type:"get",
-      cache:false,
-      success:function(data){
-        var lines = '';
-        $.each(data,function(index,value){
-          lines+= loadDataInApp(value);
-        });
 
-        if (lines) {
-          $("#lojas").html('');
-          $("#lojas").append(lines);
-        }else{
-          alert('não há produtos cadastrados');
-        }
-      },error:function(e){
-        alert('erro');
-      }
-    })
-   }*/
-
-   function pesquisar_loja(nome){
-    $.ajax({
-      url: "<?php echo site_url();?>shopperz/ajax_get_loja_by_nome",
-      dataType:"json",
-      data:{nome:nome},
-      type:"get",
-      cache:false,
-      success:function(data){
-        var lines = '';
-        $.each(data,function(index,value){
-          lines+= loadDataInApp(value);
-        });
-
-        if (lines) {
-          $("#lojas").html('');
-          $("#lojas").append(lines);
-        }else{
-          alert('nenhuma loja encontrada');
-        }
-      },error:function(e){
-        alert('erro');
-      }
-    })
-   }
-
-   function get_tipo_produto(tipo_id){
-   
-     $.ajax({
-      url: "<?php echo site_url();?>shopperz/ajax_get_loja_by_tipo",
-      dataType:"json",
-      data:{tipo_id:tipo_id},
-      type:"get",
-      cache:false,
-      success:function(data){
-       
-        var lines = '';
-        $.each(data,function(index,value){
-          lines+= loadDataInApp(value);
-        });
-
-        if (lines) {
-          $("#lojas").html('');
-          $("#lojas").append(lines);
-        }else{
-          alert('nenhuma loja encontrada');
-        }
-      },error:function(e){
-        alert('erro');
-      }
-    })
-   }
- </script>
- <style type="text/css">
+  <style type="text/css">
    .title{
     color: white;
     text-align: center;
@@ -203,10 +45,7 @@
     border: none;
     text-align: center;
   }
-  .container{
-    text-align: center;
-    align-items: center;
-  }
+
   .card_img{
     margin-top: 50px;    
     width: 100%;
@@ -301,60 +140,237 @@
   .search > div > input:valid {
     width: 250px;
   }
+  .login100-form-btn{
+    border-radius: 0;
+  }
 </style>
 </head>
-<body style="background-color: #3761a3">
+<body>
   <div id="header">
     <?php $this->load->view('menu.php') ?>
   </div>
-
-  <div class="container">
-
-    <div class="row">
-      <div class="btn-group" role="group" style="margin-bottom: 3%">
-      <select onchange='get_tipo_produto(this.value)' class="form-control" id="tipo_de_produto">
-        <option disabled selected>Tipo</option>
-          <?php 
-            foreach ($tipos_produtos as $produto) {
-              echo "<option  value=".$produto['id'].">".$produto['descricao']."</option>";
-            }
-          ?>
-        </select>
-        <button type="button" onclick="get_lojas_populares()" class="btn btn-secondary btn_select">Em Alta</button>
-        <button type="button" onclick="get_favoritos()" class="btn btn-secondary btn_select">Favoritos</button> 
-      </div>
-      <div class="search" >
-        
+  <div class="limiter">
+    <div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
+      <div style="margin-bottom: 5%">
+       <div class="search" >
         <div>
-
-          <input id="input_pesquisar" onkeyup="pesquisar_loja(this.value)" type="text" placeholder="       Pesquisar lojas . . ." required>
+          <input id="input_pesquisar"  onkeyup="pesquisar_loja(this.value)" type="text" placeholder="       Pesquisar lojas . . ." required>
         </div>
       </div>
-      <div id="lojas"></div>
     </div>
-  </div>
-</div><!--Fim container-->
+    <div class="wrap-login100  p-b-33">
 
-
-<script type="text/javascript">			
-	
-    // This is the "Offline page" service worker
-
-    // Add this below content to your HTML page, or add the js file to your page at the very top to register service worker
-
-    // Check compatibility for the browser we're running this in
-    if ("serviceWorker" in navigator) {
-      if (navigator.serviceWorker.controller) {
-        console.log("[PWA Builder] active service worker found, no need to register");
-      } else {
-            // Register the service worker
-            navigator.serviceWorker
-            .register("./pwabuilder-sw.js")
-            .then(function (reg) {
-              console.log("[PWA Builder] Service worker has been registered for scope: " + reg.scope);
-            });
+      <div class="btn-group" role="group" style="margin-bottom: 3%">
+        <select class="input100" onchange='get_tipo_produto(this.value)'  id="tipo_de_produto">
+          <option disabled selected>Tipo</option>
+          <?php 
+          foreach ($tipos_produtos as $produto) {
+            echo "<option  value=".$produto['id'].">".$produto['descricao']."</option>";
           }
-        }	
-      </script>
-    </body>
-    </html>
+          ?>
+        </select>
+        <button type="button" class="login100-form-btn" onclick="get_lojas_populares()" >Em Alta</button>
+        <button type="button" class="login100-form-btn" onclick="get_favoritos()" >Favoritos</button> 
+      </div>
+      <div style="margin-bottom: 70%" id="lojas"></div>
+    </div>
+  </div><!--Fim container-->
+</div><!--Fim limiter-->
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script src="<?php echo site_url(); ?>/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="<?php echo site_url(); ?>/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="<?php echo site_url(); ?>/vendor/bootstrap/js/popper.js"></script>
+<script src="<?php echo site_url(); ?>/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="<?php echo site_url(); ?>/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="<?php echo site_url(); ?>/vendor/daterangepicker/moment.min.js"></script>
+<script src="<?php echo site_url(); ?>/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="<?php echo site_url(); ?>/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script src="<?php echo site_url(); ?>/js/main.js"></script>
+
+<script>
+  function get_view_produtos_loja(id_loja){
+    window.location.href = "<?php echo base_url('shopperz/listar_produtos/') ?>/"+id_loja; 
+  }
+  $(document).ready(function(){
+    loadData();
+      //$('#pesquisar_palavra').hide();
+    });
+  function loadDataInApp(value){
+
+    var lines = '';
+    lines+='<div onclick="get_view_produtos_loja('+value.id+')" class="card card_img" >';
+
+    lines+='<img class="card-img-top" style="width: 100%" src="../imagens/'+value.img+'" alt="Imagem de capa do card"></div>'; 
+
+    return lines;
+  }
+
+  function loadData(){
+    $.ajax({
+      url: "<?php echo site_url();?>shopperz/ajax_get_listar_lojas_ativas",
+      dataType:"json",
+      type:"get",
+      cache:false,
+      success:function(data){
+        var lines = '';
+        $.each(data,function(index,value){
+          lines+= loadDataInApp(value);
+        });
+
+        if (lines) {
+          $("#lojas").html('');
+          $("#lojas").append(lines);
+        }else{
+          alert('não há produtos cadastrados');
+        }
+      },error:function(e){
+        alert('errorr');
+      }
+    })
+  }
+
+  function get_favoritos(){
+    $.ajax({
+      url: "<?php echo site_url();?>shopperz/ajax_get_lojas_favoritas_usuario",
+      dataType:"json",
+      type:"get",
+      cache:false,
+      success:function(data){
+        var lines = '';
+        $.each(data,function(index,value){
+          lines+= loadDataInApp(value);
+        });
+
+        if (lines) {
+          $("#lojas").html('');
+          $("#lojas").append(lines);
+        }else{
+          alert('não há produtos cadastrados');
+        }
+      },
+      error:function(e){
+        alert('erro');
+      }
+    })
+  }
+
+    /*function abrirPesquisa(){
+      $('#brand').toggle();     
+      $('#pesquisar_palavra').toggle();                   
+    }    */
+
+
+    function get_lojas_populares(){
+      $.ajax({
+        url: "<?php echo site_url();?>shopperz/ajax_get_lojas_populares",
+        dataType:"json",
+        type:"get",
+        cache:false,
+        success:function(data){
+         var lines = '';
+         $.each(data,function(index,value){
+          lines+= loadDataInApp(value);
+        });
+
+         if (lines) {
+          $("#lojas").html('');
+          $("#lojas").append(lines);
+        }else{
+          alert('não há produtos cadastrados');
+        }
+      },
+      error:function(e){
+        alert('erro');
+      }
+    })
+    }
+
+   /* function get_produtos_descontos(){
+     $.ajax({
+      url: "<?php echo site_url();?>shopperz/ajax_get_produtos_descontos",
+      dataType:"json",
+      type:"get",
+      cache:false,
+      success:function(data){
+        var lines = '';
+        $.each(data,function(index,value){
+          lines+= loadDataInApp(value);
+        });
+
+        if (lines) {
+          $("#lojas").html('');
+          $("#lojas").append(lines);
+        }else{
+          alert('não há produtos cadastrados');
+        }
+      },error:function(e){
+        alert('erro');
+      }
+    })
+  }*/
+
+  function pesquisar_loja(nome){
+    $.ajax({
+      url: "<?php echo site_url();?>shopperz/ajax_get_loja_by_nome",
+      dataType:"json",
+      data:{nome:nome},
+      type:"get",
+      cache:false,
+      success:function(data){
+        var lines = '';
+        $.each(data,function(index,value){
+          lines+= loadDataInApp(value);
+        });
+
+        if (lines) {
+          $("#lojas").html('');
+          $("#lojas").append(lines);
+        }else{
+          alert('nenhuma loja encontrada');
+        }
+      },error:function(e){
+        alert('erro');
+      }
+    })
+  }
+
+  function get_tipo_produto(tipo_id){
+
+   $.ajax({
+    url: "<?php echo site_url();?>shopperz/ajax_get_loja_by_tipo",
+    dataType:"json",
+    data:{tipo_id:tipo_id},
+    type:"get",
+    cache:false,
+    success:function(data){
+
+      var lines = '';
+      $.each(data,function(index,value){
+        lines+= loadDataInApp(value);
+      });
+
+      if (lines) {
+        $("#lojas").html('');
+        $("#lojas").append(lines);
+      }else{
+        alert('nenhuma loja encontrada');
+      }
+    },error:function(e){
+      alert('erro');
+    }
+  })
+ }
+</script>
+
+
+
+</body>
+</html>
