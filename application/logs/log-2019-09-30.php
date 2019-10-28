@@ -1,0 +1,33 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
+ERROR - 30-09-2019 00:46:02 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 01:39:35 --> 404 Page Not Found --> arqlibras
+ERROR - 30-09-2019 01:39:36 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 01:40:56 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 01:40:57 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 01:40:58 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 01:40:58 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 01:41:16 --> Severity: Notice  --> Undefined index: user_id D:\0PWAs\shopperz\application\views\listagem_produtos.php 2
+ERROR - 30-09-2019 01:41:16 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 01:42:11 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 01:42:12 --> 404 Page Not Found --> shopperz/ajax_get_listar_produtos
+ERROR - 30-09-2019 01:42:42 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 01:42:42 --> 404 Page Not Found --> shopperz/ajax_get_listar_produtos
+ERROR - 30-09-2019 01:45:59 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 01:45:59 --> 404 Page Not Found --> shopperz/ajax_get_listar_produtos
+ERROR - 30-09-2019 01:46:27 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 01:46:27 --> 404 Page Not Found --> shopperz/ajax_get_listar_produtos
+ERROR - 30-09-2019 01:48:11 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 01:48:11 --> 404 Page Not Found --> shopperz/ajax_get_listar_produtos
+ERROR - 30-09-2019 02:00:51 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 02:00:51 --> 404 Page Not Found --> shopperz/ajax_get_listar_produtos
+ERROR - 30-09-2019 02:00:59 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 02:00:59 --> 404 Page Not Found --> shopperz/ajax_get_listar_produtos
+ERROR - 30-09-2019 02:01:04 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 02:01:24 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 02:01:24 --> 404 Page Not Found --> shopperz/ajax_get_listar_produtos
+ERROR - 30-09-2019 02:01:39 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 02:01:39 --> 404 Page Not Found --> shopperz/ajax_get_listar_produtos
+ERROR - 30-09-2019 02:02:06 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 02:09:14 --> 404 Page Not Found --> favicon.ico
+ERROR - 30-09-2019 02:13:15 --> 404 Page Not Found --> favicon.ico

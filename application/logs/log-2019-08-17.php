@@ -1,0 +1,29 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
+ERROR - 17-08-2019 15:45:04 --> 404 Page Not Found --> favicon.ico
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
+ERROR - 17-08-2019 15:45:04 --> 404 Page Not Found --> 192.168.43.76
+ERROR - 17-08-2019 15:45:12 --> 404 Page Not Found --> 192.168.43.76
+ERROR - 17-08-2019 15:45:14 --> 404 Page Not Found --> 192.168.43.76
+ERROR - 17-08-2019 15:45:32 --> 404 Page Not Found --> 192.168.43.76
+ERROR - 17-08-2019 15:45:33 --> 404 Page Not Found --> 192.168.43.76
+ERROR - 17-08-2019 19:18:09 --> 404 Page Not Found --> 192.168.1.14
+ERROR - 17-08-2019 19:18:13 --> 404 Page Not Found --> favicon.ico
+ERROR - 17-08-2019 19:18:24 --> 404 Page Not Found --> 192.168.1.14
+ERROR - 17-08-2019 19:18:28 --> 404 Page Not Found --> 192.168.1.14
+ERROR - 17-08-2019 19:18:54 --> 404 Page Not Found --> 192.168.1.14
+ERROR - 17-08-2019 19:20:46 --> 404 Page Not Found --> 192.168.1.14
+ERROR - 17-08-2019 19:20:48 --> 404 Page Not Found --> favicon.ico
+ERROR - 17-08-2019 19:20:50 --> 404 Page Not Found --> 192.168.1.14
+ERROR - 17-08-2019 19:21:01 --> 404 Page Not Found --> favicon.ico
+ERROR - 17-08-2019 19:22:18 --> 404 Page Not Found --> 192.168.46.76
+ERROR - 17-08-2019 19:22:19 --> 404 Page Not Found --> favicon.ico
+ERROR - 17-08-2019 19:22:21 --> 404 Page Not Found --> 192.168.46.76
+ERROR - 17-08-2019 19:24:33 --> 404 Page Not Found --> 192.168.46.76
+ERROR - 17-08-2019 19:27:20 --> 404 Page Not Found --> 192.168.46.76
+ERROR - 17-08-2019 19:27:21 --> 404 Page Not Found --> 192.168.46.76
+ERROR - 17-08-2019 19:28:49 --> 404 Page Not Found --> favicon.ico
+ERROR - 17-08-2019 19:28:50 --> 404 Page Not Found --> http
+ERROR - 17-08-2019 19:28:50 --> 404 Page Not Found --> http
+ERROR - 17-08-2019 19:30:01 --> 404 Page Not Found --> favicon.ico
