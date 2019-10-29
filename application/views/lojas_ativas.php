@@ -172,7 +172,7 @@
         <button type="button" class="login100-form-btn" onclick="get_lojas_populares()" >Em Alta</button>
         <button type="button" class="login100-form-btn" onclick="get_favoritos()" >Favoritos</button> 
       </div>
-      <div style="margin-bottom: 70%" id="lojas"></div>
+      <div id="lojas"></div>
     </div>
   </div><!--Fim container-->
 </div><!--Fim limiter-->
@@ -223,11 +223,17 @@
         var lines = '';
         $.each(data,function(index,value){
           lines+= loadDataInApp(value);
+
         });
 
         if (lines) {
           $("#lojas").html('');
           $("#lojas").append(lines);
+          if (Object.keys(data).length==1) {
+            $('#lojas').css('margin-bottom','65%');
+          }else{
+            $('#lojas').css('margin-bottom','5%');
+          }
         }else{
           alert('não há produtos cadastrados');
         }
@@ -252,6 +258,11 @@
         if (lines) {
           $("#lojas").html('');
           $("#lojas").append(lines);
+          if (Object.keys(data).length==1) {
+            $('#lojas').css('margin-bottom','65%');
+          }else{
+            $('#lojas').css('margin-bottom','5%');
+          }
         }else{
           alert('não há produtos cadastrados');
         }
@@ -261,11 +272,6 @@
       }
     })
   }
-
-    /*function abrirPesquisa(){
-      $('#brand').toggle();     
-      $('#pesquisar_palavra').toggle();                   
-    }    */
 
 
     function get_lojas_populares(){
@@ -283,6 +289,11 @@
          if (lines) {
           $("#lojas").html('');
           $("#lojas").append(lines);
+          if (Object.keys(data).length==1) {
+            $('#lojas').css('margin-bottom','65%');
+          }else{
+            $('#lojas').css('margin-bottom','5%');
+          }
         }else{
           alert('não há produtos cadastrados');
         }
@@ -333,6 +344,11 @@
         if (lines) {
           $("#lojas").html('');
           $("#lojas").append(lines);
+          if (Object.keys(data).length==1) {
+            $('#lojas').css('margin-bottom','65%');
+          }else{
+            $('#lojas').css('margin-bottom','5%');
+          }
         }else{
           alert('nenhuma loja encontrada');
         }
@@ -360,6 +376,11 @@
       if (lines) {
         $("#lojas").html('');
         $("#lojas").append(lines);
+        if (Object.keys(data).length==1) {
+          $('#lojas').css('margin-bottom','65%');
+        }else{
+          $('#lojas').css('margin-bottom','5%');
+        }
       }else{
         alert('nenhuma loja encontrada');
       }

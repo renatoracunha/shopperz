@@ -1,4 +1,3 @@
-<?php// $usuario_id = $_SESSION['user_id']; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -145,8 +144,9 @@
 					});
 
 					if (lines) {
-						$("#produtos").html('');
+						$("#produto").html('');
 						$("#produto").append(lines);
+
 					}else{
 						alert('não há produtos cadastrados');
 					}
@@ -162,7 +162,7 @@
 					}else{
 						$('#div_favButton').append('<button onclick="status_fav()" class="btn btn-primary btnFav">f</button>');
 					}
-					//data.yt_id;
+					
 				},error:function(e){
 					alert('erro');
 				}

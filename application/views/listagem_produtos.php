@@ -225,7 +225,8 @@
       type:"get",
       cache:false,
       success:function(data){
-          //console.log(data.favorita);
+          console.log(data);
+
           var lines = '';
           $.each(data.produtos,function(index,value){
             lines+= loadDataInApp(value);
@@ -241,6 +242,11 @@
           if (lines) {
             $("#produtos").html('');
             $("#produtos").append(lines);
+            if (Object.keys(data.produtos).length==1) {
+              $('#produtos').css('margin-bottom','65%');
+            }else{
+              $('#produtos').css('margin-bottom','5%');
+            }
           }else{
             alert('não há produtos cadastrados');
           }
@@ -345,6 +351,11 @@
         if (lines) {
           $("#produtos").html('');
           $("#produtos").append(lines);
+          if (Object.keys(data).length==1) {
+            $('#produtos').css('margin-bottom','65%');
+          }else{
+            $('#produtos').css('margin-bottom','5%');
+          }
         }else{
           alert('nenhum produto encontrado');
         }
