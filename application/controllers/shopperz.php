@@ -27,7 +27,9 @@ class Shopperz extends CI_Controller
 	#Login
 	#
 	public function main(){
-		if ($_SESSION['user_tipo']==1) {
+		if (empty($_SESSION['user_tipo'])) {
+			redirect("/..");
+		}else if ($_SESSION['user_tipo']==1) {
 			$dados['tipos_produtos'] = $this->shopperz_model->get_tipos_produtos();
 			$this->load->view('lojas_ativas.php',$dados);
 		}else{
@@ -90,6 +92,9 @@ class Shopperz extends CI_Controller
 	#Código
 	#
 	public function codigo(){
+		if (empty($_SESSION['user_tipo'])) {
+			redirect("/..");
+		}
 		$dados['codigo']= url_base64_encode($_SESSION['user_id']);
 		$this->load->view('codigo_view', $dados);
 	}
@@ -138,6 +143,9 @@ class Shopperz extends CI_Controller
 	}
 
 	public function listar_produtos($loja_id){
+		if (empty($_SESSION['user_tipo'])) {
+			redirect("/..");
+		}
 		$dados['loja_id'] = $loja_id;
 		$this->load->view('listagem_produtos', $dados);
 	}
@@ -191,8 +199,12 @@ class Shopperz extends CI_Controller
 	#
 	#Tela de Produto
 	#
-	public function produto_view($produto_id){
+	public function produto_view($produto_id,$loja_id){
+		if (empty($_SESSION['user_tipo'])) {
+			redirect("/..");
+		}
 		$dados['produto_id'] = $produto_id;
+		$dados['loja_id'] = $loja_id;
 		$this->load->view('produto_view', $dados);
 	}
 
@@ -200,6 +212,17 @@ class Shopperz extends CI_Controller
 		$produto_id = $this->input->get('produto_id');
 		$registros=$this->shopperz_model->get_produto($produto_id);
 		
+		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
+	}
+
+	public function ajax_gerar_voucher(){
+		$produto_id = $this->input->get('produto_id');
+		$valor_produto = $this->input->get('valor_produto');
+		$loja_id = $this->input->get('loja_id');
+		$usuario_id = $this->input->get('usuario_id');
+		$registros=$this->shopperz_model->gerar_voucher($valor_produto,$produto_id,$loja_id,$usuario_id);
+		
+		$registros=base64_encode($registros);
 		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
 	}
 
@@ -223,6 +246,11 @@ class Shopperz extends CI_Controller
 	}
 
 	public function cadastarProduto(){
+		if (empty($_SESSION['user_tipo'])) {
+			redirect("/..");
+		}else if($_SESSION['user_tipo']!=2){
+			redirect("/..");
+		}
 		$this->load->view('cadastar_produto');
 	}
 	
@@ -232,4 +260,38 @@ class Shopperz extends CI_Controller
 		$registros=$this->shopperz_model->cadastrar_produto($dados_produto);
 		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
 	}
+
+	###gerenciamento de loja###
+
+	public function gerenciarVendas(){
+		//print_r($_SESSION['codigo_empresa']);exit;
+		if (empty($_SESSION['user_tipo'])) {
+			redirect("/..");
+		}else if($_SESSION['user_tipo']!=2){
+			redirect("/..");
+		}
+
+		$this->load->view('gerenciar_vendas');
+	}
+
+	public function ajax_get_transacoes(){
+		$status = $this->input->get('status');
+		$registros=$this->shopperz_model->get_transacoes($status);
+		foreach ($registros as $key => $value) {
+		//print_r($key);
+			$registros[$key]['id_voucher_cript']=base64_encode($registros[$key]['id_voucher']);
+		}
+		
+		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
+	}
+
+	public function ajax_fechar_transacao(){
+		$voucher_id = $this->input->get('voucher_id');
+		$status = $this->input->get('status');
+		$registros=$this->shopperz_model->fechar_transacao($voucher_id,$status);
+		
+		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
+	}
+
+	
 }

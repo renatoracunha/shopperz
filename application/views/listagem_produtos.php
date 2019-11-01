@@ -1,5 +1,7 @@
 
-<?php $usuario_id = 1 ?>
+<?php
+$usuario_id = $_SESSION['user_id'] ;
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <!DOCTYPE html>
@@ -201,7 +203,8 @@
 
 <script>
   function get_view_produto(id_produto){
-    window.location.href = "<?php echo base_url('shopperz/produto_view/') ?>/"+id_produto; 
+    let loja_id = "<?php echo $loja_id; ?>";
+    window.location.href = "<?php echo base_url('shopperz/produto_view/') ?>/"+id_produto+"/"+loja_id; 
   }
   $(document).ready(function(){
     loadData();

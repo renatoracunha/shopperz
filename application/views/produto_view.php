@@ -1,4 +1,6 @@
-
+<?php
+$usuario_id = $_SESSION['user_id'] ;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,7 +92,7 @@
 		<div id="div_favButton"></div>
 		<!-- botão comprar -->
 		<div id="div_btnComprar">
-			<button type="button" class="login100-form-btn btnComprar" >Add ao carrinho</button>
+			<button type="button" class="login100-form-btn btnComprar" id="btn_gerar_voucher" value="" onclick="gerar_voucher(this.value)" style="background-color: red">Comprar Agora!</button>
 		</div>
 		
 	</div><!--Fim container-->
@@ -146,6 +148,7 @@
 					if (lines) {
 						$("#produto").html('');
 						$("#produto").append(lines);
+						$("#btn_gerar_voucher").val(data[0].PRECO_ATUAL);
 
 					}else{
 						alert('não há produtos cadastrados');
@@ -175,7 +178,7 @@
 				dataType:"json",
 				cache:false,
 				type:"get",
-				data:{ usuario_id:1,id_palavra:<?php echo $produto_id ?>},
+				data:{ usuario_id:<?php echo $usuario_id ?>,id_palavra:<?php echo $produto_id ?>},
 				success: function(data){
 					$('#div_favButton').html('');
 					$('#div_favButton').append('<button onclick="status_desfav('+data+')" class="btn btn-danger btnFav">F</button>');
@@ -186,7 +189,7 @@
 			});
 		}
 
-		function status_desfav(favorito_id){
+		/*function status_desfav(favorito_id){
 			$.ajax({
 				url: "<?php echo site_url();?>arqlibras/ajax_change_desfav_status",
 				dataType:"json",
@@ -197,6 +200,23 @@
 					$('#div_favButton').html('');
 					$('#div_favButton').append('<button onclick="status_fav()" class="btn btn-primary btnFav">F</button>');
 					
+				},
+				error:function(e){
+					alert('erro');
+				}
+			});
+		}*/
+
+		function gerar_voucher(valor_produto){
+			//return console.log(valor_produto);
+			$.ajax({
+				url: "<?php echo site_url();?>shopperz/ajax_gerar_voucher",
+				dataType:"json",
+				cache:false,
+				type:"get",
+				data:{ valor_produto:valor_produto,usuario_id:<?php echo $usuario_id ?>,produto_id:<?php echo $produto_id ?>,loja_id:<?php echo $loja_id ?>},
+				success: function(data){
+					alert("Sucesso!!! Voucher:"+data);
 				},
 				error:function(e){
 					alert('erro');

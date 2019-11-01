@@ -253,6 +253,28 @@ class Shopperz_model extends CI_Model
 		return $resultado;
 	}
 
+	public function gerar_voucher($valor_produto,$produto_id,$loja_id,$usuario_id)
+	{
+		$stmt = $this->db->prepare("INSERT INTO historico_transacoes_usuario(CODIGO_USUARIO,CODIGO_LOJA,CODIGO_PRODUTO,VALOR) VALUES (:USUARIO_ID,:LOJA_ID,:PRODUTO_ID,:VALOR)");
+		$stmt->bindParam(':PRODUTO_ID',$produto_id, PDO::PARAM_INT);
+		$stmt->bindParam(':LOJA_ID',$loja_id, PDO::PARAM_INT);
+		$stmt->bindParam(':USUARIO_ID',$usuario_id, PDO::PARAM_INT);
+		$stmt->bindParam(':VALOR',$valor_produto, PDO::PARAM_INT);
+	
+		if($stmt->execute())
+		{
+			$stmt2 = $this->db->prepare("select LAST_INSERT_ID() as ID");
+			if($stmt2->execute()){
+				$resultado = $stmt2->fetch(PDO::FETCH_ASSOC);	
+				return $resultado['ID'];
+			}
+			else
+			{
+				return false;
+			}   
+		}
+	}
+
 	#
 	#Empresa
 	#
@@ -292,7 +314,37 @@ class Shopperz_model extends CI_Model
 			return false;
 		}   
 	}
+	###gerenciamento de transações###
+	public function get_transacoes($status)
+	{
+		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, produtos.NOME as nome, historico_transacoes_usuario.STATUS as status_voucher from historico_transacoes_usuario
+			join produtos on produtos.CODIGO = historico_transacoes_usuario.CODIGO_PRODUTO
+			where historico_transacoes_usuario.STATUS = :STATUS and historico_transacoes_usuario.CODIGO_LOJA = :USER_ID");
+		$stmt->bindParam(':USER_ID',$_SESSION['codigo_empresa'], PDO::PARAM_INT);
+		$stmt->bindParam(':STATUS',$status, PDO::PARAM_INT);
+		$stmt->execute();
+		$resultado = $stmt->fetchall(PDO::FETCH_ASSOC);
+		
+		return $resultado;
+	}
 	
+	public function fechar_transacao($voucher_id,$status)
+	{
+		$stmt = $this->db->prepare("UPDATE historico_transacoes_usuario SET STATUS = :STATUS, DATA_CONCLUSAO = CURRENT_TIME() WHERE CODIGO =:VOUCHER_ID");
+		
+		$stmt->bindParam(':VOUCHER_ID',$voucher_id, PDO::PARAM_INT);
+		$stmt->bindParam(':STATUS',$status, PDO::PARAM_INT);
+		
+		if($stmt->execute())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}   
+		
+	}
 
 	
 }

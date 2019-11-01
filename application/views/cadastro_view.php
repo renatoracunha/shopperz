@@ -26,83 +26,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/css/util.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/css/main.css">
 <!--===============================================================================================-->
-<script type="text/javascript">
-	function verify_cadastro(){
-		let email = $('#email').val();
-		let nome = $('#nome').val();
-		let senha = $('#senha').val();
-		let telefone = $('#telefone').val();
-		let confirmarSenha = $('#confirmarSenha').val();
-		let tipoUsuario = $('#tipoUsuario').val();
 
-		if(senha==''){
-			$('#senha').addClass('is-invalid');
-			$('#senha').focus();
-			$('#senha').attr('placeholder','Informe uma senha');
-			$('#senha').css("background-color", "#FFD6D6");
-			return;
-		}
-
-		if(email==''){
-			$('#email').addClass('is-invalid');
-			$('#email').focus();
-			$('#email').attr('placeholder','Informe um email/Login');
-			$('#email').css("background-color", "#FFD6D6");
-			return;
-		}
-		if(nome==''){
-			$('#nome').addClass('is-invalid');
-			$('#nome').focus();
-			$('#nome').attr('placeholder','Informe um nome');
-			$('#nome').css("background-color", "#FFD6D6");
-			return;
-		}
-		if(telefone==''){
-			$('#telefone').addClass('is-invalid');
-			$('#telefone').focus();
-			$('#telefone').attr('placeholder','Informe um telefone');
-			$('#telefone').css("background-color", "#FFD6D6");
-			return;
-		}
-		if(confirmarSenha==''){
-			$('#confirmarSenha').addClass('is-invalid');
-			$('#confirmarSenha').focus();
-			$('#confirmarSenha').attr('placeholder','Informe um confirmação de senha');
-			$('#confirmarSenha').css("background-color", "#FFD6D6");
-			return;
-		}
-		if(senha!=confirmarSenha){
-			$('#confirmarSenha').addClass('is-invalid');
-			$('#confirmarSenha').focus();
-			$('#confirmarSenha').val('');
-			$('#senha').val('');
-			$('#span_confirmarSenha').html('');
-			$('#span_confirmarSenha').html('Senhas não correspondentes');
-			$('#confirmarSenha').attr('placeholder','senhas informadas diferentes');
-			$('#confirmarSenha').css("background-color", "#FFD6D6");
-			return;
-		}
-		$.ajax({
-			url: "<?php echo site_url();?>shopperz/ajax_cadastro",
-			dataType:"json",
-			type:"get",
-			data:{senha:senha,email:email,nome:nome,telefone:telefone,tipoUsuario:tipoUsuario,patrocinador:<?php echo $patrocinador['CODIGO'] ?>},
-			cache:false,
-			success:function(data){
-				if (data.cadastrado) {
-					alert('email já cadastrado');
-				}else if(data.usuario){
-					window.location.href = "<?php echo site_url(); ?>shopperz/main";
-				}else{
-					alert('Para registro de empresa, aguarde nossa análise de dados.');
-					window.location.href = "<?php echo site_url(); ?>";
-				}
-			},error:function(e){
-				alert('erro');
-			}
-		})
-	}
-</script>
 </head>
 <body>
 	
@@ -216,6 +140,87 @@
 	<script src="<?php echo site_url(); ?>/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="<?php echo site_url(); ?>/js/main.js"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="<?php echo site_url(); ?>js/jquery.mask.min.js"/></script>
+	<script type="text/javascript">$("#telefone").mask("(00) 00000-0009");</script>
+
+	<script type="text/javascript">
+		function verify_cadastro(){
+			let email = $('#email').val();
+			let nome = $('#nome').val();
+			let senha = $('#senha').val();
+			let telefone = $('#telefone').val();
+			let confirmarSenha = $('#confirmarSenha').val();
+			let tipoUsuario = $('#tipoUsuario').val();
+
+			if(senha==''){
+				$('#senha').addClass('is-invalid');
+				$('#senha').focus();
+				$('#senha').attr('placeholder','Informe uma senha');
+				$('#senha').css("background-color", "#FFD6D6");
+				return;
+			}
+
+			if(email==''){
+				$('#email').addClass('is-invalid');
+				$('#email').focus();
+				$('#email').attr('placeholder','Informe um email/Login');
+				$('#email').css("background-color", "#FFD6D6");
+				return;
+			}
+			if(nome==''){
+				$('#nome').addClass('is-invalid');
+				$('#nome').focus();
+				$('#nome').attr('placeholder','Informe um nome');
+				$('#nome').css("background-color", "#FFD6D6");
+				return;
+			}
+			if(telefone==''){
+				$('#telefone').addClass('is-invalid');
+				$('#telefone').focus();
+				$('#telefone').attr('placeholder','Informe um telefone');
+				$('#telefone').css("background-color", "#FFD6D6");
+				return;
+			}
+			if(confirmarSenha==''){
+				$('#confirmarSenha').addClass('is-invalid');
+				$('#confirmarSenha').focus();
+				$('#confirmarSenha').attr('placeholder','Informe um confirmação de senha');
+				$('#confirmarSenha').css("background-color", "#FFD6D6");
+				return;
+			}
+			if(senha!=confirmarSenha){
+				$('#confirmarSenha').addClass('is-invalid');
+				$('#confirmarSenha').focus();
+				$('#confirmarSenha').val('');
+				$('#senha').val('');
+				$('#span_confirmarSenha').html('');
+				$('#span_confirmarSenha').html('Senhas não correspondentes');
+				$('#confirmarSenha').attr('placeholder','senhas informadas diferentes');
+				$('#confirmarSenha').css("background-color", "#FFD6D6");
+				return;
+			}
+			$.ajax({
+				url: "<?php echo site_url();?>shopperz/ajax_cadastro",
+				dataType:"json",
+				type:"get",
+				data:{senha:senha,email:email,nome:nome,telefone:telefone,tipoUsuario:tipoUsuario,patrocinador:<?php echo $patrocinador['CODIGO'] ?>},
+				cache:false,
+				success:function(data){
+					if (data.cadastrado) {
+						alert('email já cadastrado');
+					}else if(data.usuario){
+						window.location.href = "<?php echo site_url(); ?>shopperz/main";
+					}else{
+						alert('Para registro de empresa, aguarde nossa análise de dados.');
+						window.location.href = "<?php echo site_url(); ?>";
+					}
+				},error:function(e){
+					alert('erro');
+				}
+			})
+		}
+	</script>
 
 </body>
 </html>
