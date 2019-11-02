@@ -288,6 +288,16 @@ class Shopperz_model extends CI_Model
 		return $resultado['CODIGO_LOJA'];
 	}
 
+	public function get_categorias_produtos()
+	{
+		$stmt = $this->db->prepare("SELECT * FROM categoria_produto order by descricao");
+		
+		$stmt->execute();
+		$resultado = $stmt->fetchall(PDO::FETCH_ASSOC);
+		
+		return $resultado;
+	}
+
 	public function cadastrar_produto($dados)
 	{
 		
@@ -314,6 +324,29 @@ class Shopperz_model extends CI_Model
 			return false;
 		}   
 	}
+
+	public function set_img_path($img_path){
+		
+		$stmt2 = $this->db->prepare("select LAST_INSERT_ID() as ID");
+		if($stmt2->execute()){
+			$resultado = $stmt2->fetch(PDO::FETCH_ASSOC);	
+		}
+		$stmt = $this->db->prepare("UPDATE produtos SET IMAGEM=:IMAGEM where CODIGO = :ID");
+
+		$stmt->bindValue(':IMAGEM', $img_path, PDO::PARAM_STR);
+		$stmt->bindValue(':ID',$resultado['ID'], PDO::PARAM_INT);
+
+		if($stmt->execute())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}   
+
+	}
+
 	###gerenciamento de transações###
 	public function get_transacoes($status)
 	{

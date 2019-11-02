@@ -73,10 +73,13 @@
 							Imagem
 						</span>
 					</div>
-					<div class="wrap-input100 validate-input" data-validate = "imagem">
-						<input class="input100" type="text" id="imagem" >
-						<span class="focus-input100"></span>
-					</div>
+					<form method="POST" action="<?php echo site_url(); ?>shopperz/upload_imagem" id="upload_file" enctype="multipart/form-data">
+						
+						<div class="wrap-input100 validate-input" data-validate = "imagem">
+							<input style="margin-top: 5%" class="input100" type="file" name="imagem_produto" id="imagem" >
+							<span class="focus-input100"></span>
+						</div>
+					</form>
 					<div class="p-t-13 p-b-9">
 						<span class="txt1">
 							Estoque
@@ -86,6 +89,23 @@
 						<input class="input100" type="text" id="estoque" >
 						<span class="focus-input100"></span>
 					</div>
+
+					<div class="p-t-31 p-b-9">
+						<span class="txt1">
+							Categoria do produto
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Categoria do produto">
+						<select class="input100" id="categoria">
+							<option selected value="99">Outras</option>
+							<?php foreach ($categoria_produto as $categoria): ?>
+								<option  value="<?php echo $categoria['id'] ?>"><?php echo $categoria['descricao'] ?></option>
+							<?php endforeach ?>
+							
+						</select>
+						<span class="focus-input100"></span>
+					</div>
+
 
 					<div class="container-login100-form-btn m-t-17">
 						<button type="button" class="login100-form-btn"  onclick="cadastrar()">
@@ -120,11 +140,13 @@
 
 	<script type="text/javascript">
 		function cadastrar(){
+			//return console.log($('#imagem'));
 			let preco = $('#preco').val();
 			let nome = $('#nome').val();
 			let descricao = $('#descricao').val();
 			let imagem = $('#imagem').val();
 			let estoque = $('#estoque').val();
+			let categoria = $('#categoria').val();
 			if(preco==''){
 				$('#preco').addClass('is-invalid');
 				$('#preco').focus();
@@ -161,17 +183,18 @@
 				$('#estoque').css("background-color", "#FFD6D6");
 				return;
 			}
+			
 			$.ajax({
 				url: "<?php echo site_url();?>shopperz/ajax_cadastrar_produto",
 				dataType:"json",
 				type:"get",
-				data:{preco:preco,descricao:descricao,nome:nome,imagem:imagem,estoque:estoque},
+				data:{preco:preco,descricao:descricao,nome:nome,imagem:imagem,estoque:estoque,categoria:categoria},
 				cache:false,
 				success:function(data){
 					console.log('ok')
 					if (data) {
 						alert('Produto cadastrado com sucesso');
-						window.location.href = "<?php echo site_url(); ?>shopperz/main";
+						document.getElementById("upload_file").submit();	
 					}
 				},error:function(e){
 					alert('erro');

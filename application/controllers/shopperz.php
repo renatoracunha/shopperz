@@ -104,6 +104,9 @@ class Shopperz extends CI_Controller
 	public function ajax_get_listar_produtos(){
 		$loja_id = $this->input->get('loja_id');
 		$registros['produtos']=$this->shopperz_model->get_listar_produto($loja_id);
+		//$registros['produtos'][0]['img'] = str_replace("ll", "", $registros['produtos'][0]['img']);	
+		//print_r($registros['produtos'][0]['img']);exit;
+		
 
 		$registros['favorita']=$this->shopperz_model->get_lojas_favoritas($_SESSION['user_id'],$loja_id);
 		if (!$registros['favorita']) {
@@ -251,20 +254,34 @@ class Shopperz extends CI_Controller
 		}else if($_SESSION['user_tipo']!=2){
 			redirect("/..");
 		}
-		$this->load->view('cadastar_produto');
+		$dados['categoria_produto'] = $this->shopperz_model->get_categorias_produtos();
+		$this->load->view('cadastar_produto',$dados);
 	}
 	
 	public function ajax_cadastrar_produto(){
 		$dados_produto = $this->input->get();
-		$dados_produto['categoria'] = 1;
+	
+		//$dados_produto['categoria'] = 1;//alterar categoria do produto;
 		$registros=$this->shopperz_model->cadastrar_produto($dados_produto);
+		
 		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
+	}
+
+	public function upload_imagem(){
+		
+		$filename = basename($_FILES["imagem_produto"]["name"]);
+
+		$targetPath ='./imagens/'.$_FILES['imagem_produto']['name'];
+		move_uploaded_file($_FILES["imagem_produto"]["tmp_name"], $targetPath);
+		
+		$this->shopperz_model->set_img_path($filename);
+		$this->load->view('empresa_overview.php');
 	}
 
 	###gerenciamento de loja###
 
 	public function gerenciarVendas(){
-		//print_r($_SESSION['codigo_empresa']);exit;
+		
 		if (empty($_SESSION['user_tipo'])) {
 			redirect("/..");
 		}else if($_SESSION['user_tipo']!=2){
@@ -278,7 +295,6 @@ class Shopperz extends CI_Controller
 		$status = $this->input->get('status');
 		$registros=$this->shopperz_model->get_transacoes($status);
 		foreach ($registros as $key => $value) {
-		//print_r($key);
 			$registros[$key]['id_voucher_cript']=base64_encode($registros[$key]['id_voucher']);
 		}
 		

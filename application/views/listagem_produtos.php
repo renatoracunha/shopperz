@@ -211,11 +211,11 @@ $usuario_id = $_SESSION['user_id'] ;
       //$('#pesquisar_palavra').hide();
     });
   function loadDataInApp(value){
-
+    let img = value.img.replace('C:\\fakepath\\','');
     var lines = '';
     lines+='<div style="text-align: center" onclick="get_view_produto('+value.id+')" class="card card_img" >';
 
-    lines+=value.nome+'-R$'+value.preco+'<img class="card-img-top" style="width: 100%" src="<?php echo base_url('imagens') ?>/'+value.img+'" alt="Imagem de capa do card"></div>'; 
+    lines+=value.nome+'-R$'+value.preco+'<img class="card-img-top" style="width: 100%" src="<?php echo base_url('imagens') ?>/'+img+'" alt="Imagem de capa do card"></div>'; 
 
     return lines;
   }
