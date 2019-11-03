@@ -51,7 +51,16 @@
 					</div>
 					<div class="p-t-31 p-b-9">
 						<span class="txt1">
-							Preço
+							Preço na loja
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Defina um preço">
+						<input class="input100" type="text" id="preco_inicial"  >
+						<span class="focus-input100"></span>
+					</div>
+						<div class="p-t-31 p-b-9">
+						<span class="txt1">
+							Preço no App
 						</span>
 					</div>
 					<div class="wrap-input100 validate-input" data-validate = "Defina um preço">
@@ -142,6 +151,7 @@
 		function cadastrar(){
 			//return console.log($('#imagem'));
 			let preco = $('#preco').val();
+			let preco_inicial = $('#preco_inicial').val();
 			let nome = $('#nome').val();
 			let descricao = $('#descricao').val();
 			let imagem = $('#imagem').val();
@@ -188,7 +198,7 @@
 				url: "<?php echo site_url();?>shopperz/ajax_cadastrar_produto",
 				dataType:"json",
 				type:"get",
-				data:{preco:preco,descricao:descricao,nome:nome,imagem:imagem,estoque:estoque,categoria:categoria},
+				data:{preco:preco,descricao:descricao,nome:nome,imagem:imagem,estoque:estoque,categoria:categoria,preco_inicial:preco_inicial},
 				cache:false,
 				success:function(data){
 					console.log('ok')

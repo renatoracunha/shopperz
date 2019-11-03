@@ -123,8 +123,8 @@ $usuario_id = $_SESSION['user_id'] ;
 
 			var lines = '';
 			lines+='<div class="card card_img" >';
-
-			lines+='<img class="card-img-top" style="width: 100%" src="<?php echo base_url('imagens') ?>/'+value.IMAGEM+'" alt="Imagem de capa do card"></div>'; 
+		
+			lines+='<img class="card-img-top" style="width: 100%" src="<?php echo base_url('imagens') ?>/'+value.IMAGEM.replace('C:\\fakepath\\','')+'" alt="Imagem de capa do card"></div>'; 
 			lines+='<div style="text-align:left">Produto: '+value.NOME+'<br></div>';
 			lines+='<div style="text-align:left">Preço: R$'+value.PRECO_ATUAL+'<br></div>';
 			lines+='<div style="text-align:left">Descrição: '+value.DESCRICAO+'<br></div>';

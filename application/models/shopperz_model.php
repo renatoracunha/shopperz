@@ -90,7 +90,7 @@ class Shopperz_model extends CI_Model
 
 	public function get_listar_produto($loja_id,$nome=null)
 	{
-		$stmt = $this->db->prepare("SELECT CODIGO as id,IMAGEM as img,PRECO_ATUAL as preco,NOME as nome,STATUS FROM produtos where STATUS = 1 and CODIGO_LOJA = :LOJA_ID and NOME like :NOME order by NOME");
+		$stmt = $this->db->prepare("SELECT CODIGO as id,IMAGEM as img,PRECO_ATUAL as preco,PRECO_ORIGINAL as preco_inicial ,NOME as nome,STATUS FROM produtos where STATUS = 1 and CODIGO_LOJA = :LOJA_ID and NOME like :NOME order by NOME");
 		$nome = '%'.$nome.'%';
 		$stmt->bindParam(':NOME',$nome, PDO::PARAM_STR);
 		$stmt->bindParam(':LOJA_ID',$loja_id, PDO::PARAM_INT);
@@ -301,7 +301,7 @@ class Shopperz_model extends CI_Model
 	public function cadastrar_produto($dados)
 	{
 		
-		$stmt = $this->db->prepare("INSERT INTO produtos (DATA_POSTAGEM,CODIGO_USUARIO,CODIGO_LOJA,CODIGO_CATEGORIA,NOME,DESCRICAO,PRECO_ATUAL,IMAGEM,TOTAL_ESTOQUE) VALUES (:DATA_POSTAGEM,:CODIGO_USUARIO,:CODIGO_LOJA,:CODIGO_CATEGORIA,:NOME,:DESCRICAO,:PRECO_ATUAL,:IMAGEM,:TOTAL_ESTOQUE)");
+		$stmt = $this->db->prepare("INSERT INTO produtos (DATA_POSTAGEM,CODIGO_USUARIO,CODIGO_LOJA,CODIGO_CATEGORIA,NOME,DESCRICAO,PRECO_ATUAL,IMAGEM,TOTAL_ESTOQUE,PRECO_ORIGINAL) VALUES (:DATA_POSTAGEM,:CODIGO_USUARIO,:CODIGO_LOJA,:CODIGO_CATEGORIA,:NOME,:DESCRICAO,:PRECO_ATUAL,:IMAGEM,:TOTAL_ESTOQUE,:PRECO_ORIGINAL)");
 		
 		$stmt->bindValue(':DATA_POSTAGEM', date('Y-m-d H:i'), PDO::PARAM_STR);
 		$stmt->bindValue(':CODIGO_USUARIO', $_SESSION['user_id'], PDO::PARAM_INT);
@@ -310,6 +310,7 @@ class Shopperz_model extends CI_Model
 		$stmt->bindValue(':NOME', element('nome', $dados), PDO::PARAM_STR);
 		$stmt->bindValue(':DESCRICAO', element('descricao', $dados), PDO::PARAM_STR);
 		$stmt->bindValue(':PRECO_ATUAL', element('preco', $dados), PDO::PARAM_STR);
+		$stmt->bindValue(':PRECO_ORIGINAL', element('preco_inicial', $dados), PDO::PARAM_STR);
 		$stmt->bindValue(':IMAGEM', element('imagem', $dados), PDO::PARAM_STR);
 		
 		$stmt->bindValue(':TOTAL_ESTOQUE', element('estoque', $dados), PDO::PARAM_INT);

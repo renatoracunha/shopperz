@@ -39,6 +39,9 @@ $usuario_id = $_SESSION['user_id'] ;
 <body>
 
  <style type="text/css">
+  #card_produto{
+    font-size: 130%;
+  }
    .title{
     color: white;
     text-align: center;
@@ -167,14 +170,17 @@ $usuario_id = $_SESSION['user_id'] ;
   <div class="limiter">
 
     <div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
-      <div style="margin-bottom: 5%" class="search">
-        <div>
-          <input onkeyup="pesquisar_produto(this.value)" type="text" placeholder="       Pesquisar produto . . ." required>
+      <div class="row" style="margin-bottom: 5%">
+
+        <div  class="search">
+          <div class="row">
+            <input onkeyup="pesquisar_produto(this.value)" type="text" placeholder="       Pesquisar produto . . ." required>
+          </div>
         </div>
-      </div>
-      <div class="wrap-login100  p-b-33">
-        <div style="margin-bottom: 70%" id="produtos"></div>
-      </div>
+        </div>
+        <div class="wrap-login100  p-b-33" style="margin-bottom: 5%">
+          <div style="margin-bottom: 70%" id="produtos"></div>
+        </div>
       <!-- botão favoritar -->
       <div id="div_favButton"></div>
     </div>
@@ -211,11 +217,16 @@ $usuario_id = $_SESSION['user_id'] ;
       //$('#pesquisar_palavra').hide();
     });
   function loadDataInApp(value){
+    if (value.preco_inicial) {
+      preco_inicial = '<br><strike><span style="color:red">R$'+value.preco_inicial+'</span></strike>';  
+    }else{
+      preco_inicial='';
+    }
     let img = value.img.replace('C:\\fakepath\\','');
     var lines = '';
-    lines+='<div style="text-align: center" onclick="get_view_produto('+value.id+')" class="card card_img" >';
+    lines+='<div id="card_produto" style="text-align: center" onclick="get_view_produto('+value.id+')" class="card card_img" >';
 
-    lines+=value.nome+'-R$'+value.preco+'<img class="card-img-top" style="width: 100%" src="<?php echo base_url('imagens') ?>/'+img+'" alt="Imagem de capa do card"></div>'; 
+    lines+='---'+value.nome+'---'+preco_inicial+'<strong>R$'+value.preco+'</strong><img class="card-img-top" style="width: 100%" src="<?php echo base_url('imagens') ?>/'+img+'" alt="Imagem de capa do card"></div>'; 
 
     return lines;
   }

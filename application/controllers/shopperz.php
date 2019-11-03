@@ -104,9 +104,6 @@ class Shopperz extends CI_Controller
 	public function ajax_get_listar_produtos(){
 		$loja_id = $this->input->get('loja_id');
 		$registros['produtos']=$this->shopperz_model->get_listar_produto($loja_id);
-		//$registros['produtos'][0]['img'] = str_replace("ll", "", $registros['produtos'][0]['img']);	
-		//print_r($registros['produtos'][0]['img']);exit;
-		
 
 		$registros['favorita']=$this->shopperz_model->get_lojas_favoritas($_SESSION['user_id'],$loja_id);
 		if (!$registros['favorita']) {
@@ -261,7 +258,6 @@ class Shopperz extends CI_Controller
 	public function ajax_cadastrar_produto(){
 		$dados_produto = $this->input->get();
 	
-		//$dados_produto['categoria'] = 1;//alterar categoria do produto;
 		$registros=$this->shopperz_model->cadastrar_produto($dados_produto);
 		
 		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
