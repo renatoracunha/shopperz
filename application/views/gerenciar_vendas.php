@@ -26,16 +26,88 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/css/util.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>/css/main.css">
 <!--===============================================================================================-->
+<style type="text/css">
+	/*input pesquisar*/
+	@import url("https://fonts.googleapis.com/css?family=Roboto:400,400i,700");
 
+	.search {
+		margin: 0 auto;
+	}
+
+	.search > h3 {
+		font-weight: normal;
+	}
+
+
+
+	.search > div {
+		display: inline-block;
+		position: relative;
+	}
+
+	.search > div:after {
+		content: "";
+		background: white;
+		width: 4px;
+		height: 20px;
+		position: absolute;
+		top: 20px;
+		right:0px;
+		transform: rotate(135deg);
+		box-shadow: 1px 0 #0091c2;
+	}
+
+	.search > div > input {
+		color: white;
+		font-size: 16px;
+		background: transparent;
+		width: 25px;
+		height: 25px;
+		padding: 10px;
+		border: solid 3px white;
+		outline: none;
+		border-radius: 35px;
+		box-shadow: 0 1px #0091c2;
+		transition: width 0.5s;
+	}
+
+	.search > div > input::placeholder {
+		color: #efefef;
+		opacity: 1;
+	}
+
+	.search > div > input::-ms-placeholder {
+		color: #efefef;
+	}
+
+	.search > div > input::-ms-input-placeholder {
+		color: #efefef;
+	}
+
+	.search > div > input:focus,
+	.search > div > input:valid {
+		width: 250px;
+	}
+</style>
 </head>
 <body>
+
 	<div id="header">
 		<?php $this->load->view('menu.php') ?>
 	</div>
 	<div class="limiter">
+
 		<div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
+			<div class="row" style="margin-bottom: 5%">
+
+					<div  class="search">
+						<div class="row">
+							<input onkeyup="pesquisar_transacao(this.value)" type="text" placeholder="       Pesquisar transação . . ." required>
+						</div>
+					</div>
+				</div>
+
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-				
 
 				<span class="login100-form-title p-b-53">
 					<div class="p-t-31 p-b-9">
@@ -43,8 +115,8 @@
 							Gerenciar produtos
 						</span>
 					</div>
-					<div class="wrap-input100 validate-input">
-						<select onchange="loadData()" class="input100" id="status">
+					<div style="align-items: center" class="input100 validate-input">
+						<select  onchange="loadData()" class="input100" id="status">
 							<option value="9">Pendentes</option>
 							<option value="1">Usados Com Sucesso</option>
 							<option value="3">Cancelados</option>
@@ -58,7 +130,7 @@
 							<tr>
 								<th>Código</th>
 								<th>Descrição</th>
-								<th>Opções</th>
+								
 							</tr>
 						</thead>
 						<tbody>
@@ -98,22 +170,9 @@
 
 		function loadDataInTable(value){
 			var lines = '';
-			lines+='<tr>';
+			lines+='<tr onclick="abrirModal('+value.id_voucher+')" >';
 			lines+='<td>'+value.id_voucher_cript+'</td>';
 			lines+='<td>'+value.nome+'</td>';
-			
-			lines+='<td>';
-			if (value.status_voucher==9) {
-				lines+='<button style="margin-right:5px;" onclick="fechar_transacao('+value.id_voucher+',1)" class="btn btn-success">C</button>';
-				lines+='<button onclick="fechar_transacao('+value.id_voucher+',3)" class="btn btn-danger">X</button>';
-			}else if (value.status_voucher==1) {
-				lines+='<button disabled class="btn btn-success">ok</button>';
-			}else{
-				lines+='<button disabled class="btn btn-danger">X</button>';
-			}
-
-
-			lines+='</td>';
 
 			lines+='</tr>'; 
 
@@ -138,6 +197,11 @@
 					if (lines) {
 						$("#tabela tbody").html('');
 						$("#tabela tbody").append(lines);
+						if (Object.keys(data).length==1) {
+							$('#tabela').css('margin-bottom','65%');
+						}else{
+							$('#tabela').css('margin-bottom','5%');
+						}
 					}else{
 						$("#tabela tbody").html('');
 						$("#tabela tbody").append('<td colsplan="3">Não há produtos com esse status</td>');
@@ -149,6 +213,7 @@
 		}
 
 		function fechar_transacao(voucher_id,confirmacao){
+			console.log(voucher_id);
 			$.ajax({
 				url: "<?php echo site_url();?>shopperz/ajax_fechar_transacao",
 				dataType:"json",
@@ -193,6 +258,89 @@
 				}
 			})
 		}*/
+
+		function abrirModal(voucher_id){
+			$.ajax({
+				url: "<?php echo site_url();?>shopperz/ajax_get_dados_transacao",
+				dataType:"json",
+				type:"get",
+				data:{voucher_id:voucher_id},
+				cache:false,
+				success:function(data){
+					$('#gerenciarCompra').modal('show');
+					$('#voucherModal').html('');
+					$('#voucherModal').html(data.voucher_code);
+					$('#nomeModal').html('');
+					$('#nomeModal').html(data.NOME);
+					$('#confirmar_compra').val(voucher_id);
+					$('#cancelar_compra').val(voucher_id);
+					if ($('#status').val()==9) {
+						$('#modalFooter').show();
+					}else{
+						$('#modalFooter').hide();
+					}
+				},error:function(e){
+					alert('erro');
+				}
+			})
+		}
+
+		function pesquisar_transacao(nome){
+
+			let status = $('#status').val();
+			$.ajax({
+				url: "<?php echo site_url();?>shopperz/ajax_get_transacao_by_nome",
+				dataType:"json",
+				data:{nome:nome, status:status},
+				type:"get",
+				cache:false,
+				success:function(data){
+					var lines = '';
+					$.each(data,function(index,value){
+						lines+= loadDataInTable(value);
+					});
+
+					if (lines) {
+						$("#tabela tbody").html('');
+						$("#tabela tbody").append(lines);
+						if (Object.keys(data).length==1) {
+							$('#tabela').css('margin-bottom','65%');
+						}else{
+							$('#tabela').css('margin-bottom','5%');
+						}
+					}else{
+						$("#tabela tbody").html('');
+						$("#tabela tbody").append('<td colsplan="3">Não há produtos com esse status</td>');
+					}
+
+				},error:function(e){
+					alert('erro');
+				}
+			})
+		}
 	</script>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="gerenciarCompra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Gerenciar Venda</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					Dados da compra:<br>
+					<center><strong>Voucher: <span id="voucherModal"></span></strong></center><br>
+					<center><strong>Nome do Comprador: <span id="nomeModal"></span></strong></center><br>
+				</div>
+				<div id="modalFooter" class="modal-footer">
+					<button type="button" id="confirmar_compra" value="" onclick="fechar_transacao(this.value,3)" class="btn btn-danger" data-dismiss="modal">Recusar Venda</button>
+					<button type="button" id="cancelar_compra" value="" onclick="fechar_transacao(this.value,1)" class="btn btn-success" data-dismiss="modal">Confirmar Venda</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

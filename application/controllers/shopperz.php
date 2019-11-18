@@ -59,7 +59,7 @@ class Shopperz extends CI_Controller
 	#Cadastro
 	#
 	public function cadastro($codigo_patrocinador=null){
-		$codigo_patrocinador = url_base64_decode($codigo_patrocinador);
+		$codigo_patrocinador = voucher_base64_decode($codigo_patrocinador);
 		if ($codigo_patrocinador) {
 			$dados['patrocinador']=$this->shopperz_model->get_patrocinador($codigo_patrocinador);
 		}else{
@@ -95,7 +95,7 @@ class Shopperz extends CI_Controller
 		if (empty($_SESSION['user_tipo'])) {
 			redirect("/..");
 		}
-		$dados['codigo']= url_base64_encode($_SESSION['user_id']);
+		$dados['codigo']= voucher_base64_encode($_SESSION['user_id']);
 		$this->load->view('codigo_view', $dados);
 	}
 	#
@@ -221,8 +221,9 @@ class Shopperz extends CI_Controller
 		$loja_id = $this->input->get('loja_id');
 		$usuario_id = $this->input->get('usuario_id');
 		$registros=$this->shopperz_model->gerar_voucher($valor_produto,$produto_id,$loja_id,$usuario_id);
+		$this->shopperz_model->inserir_voucher_venda($registros);
 		
-		$registros=base64_encode($registros);
+		$registros=voucher_base64_encode($registros);
 		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
 	}
 
@@ -238,9 +239,25 @@ class Shopperz extends CI_Controller
 		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
 	}
 
+	public function ajax_desabilitar_itens(){
+			$id_item = $this->input->get('id_item');
+		
+		$registros=$this->shopperz_model->desabilitar_itens($id_item);
+		
+		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
+	}
+
+	public function ajax_habilitar_itens(){
+			$id_item = $this->input->get('id_item');
+		
+		$registros=$this->shopperz_model->habilitar_itens($id_item);
+		
+		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
+	}
+
 	public function ajax_get_produtos_inativos_editar(){
 		
-		$registros=$this->shopperz_model->get_listar_produto($_SESSION['user_id']);
+		$registros=$this->shopperz_model->get_listar_produto($_SESSION['codigo_empresa'],'',2);
 		
 		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
 	}
@@ -257,7 +274,7 @@ class Shopperz extends CI_Controller
 	
 	public function ajax_cadastrar_produto(){
 		$dados_produto = $this->input->get();
-	
+		
 		$registros=$this->shopperz_model->cadastrar_produto($dados_produto);
 		
 		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
@@ -291,7 +308,7 @@ class Shopperz extends CI_Controller
 		$status = $this->input->get('status');
 		$registros=$this->shopperz_model->get_transacoes($status);
 		foreach ($registros as $key => $value) {
-			$registros[$key]['id_voucher_cript']=base64_encode($registros[$key]['id_voucher']);
+			$registros[$key]['id_voucher_cript']=voucher_base64_encode($registros[$key]['id_voucher']);
 		}
 		
 		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
@@ -301,6 +318,27 @@ class Shopperz extends CI_Controller
 		$voucher_id = $this->input->get('voucher_id');
 		$status = $this->input->get('status');
 		$registros=$this->shopperz_model->fechar_transacao($voucher_id,$status);
+		
+		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
+	}
+
+	public function ajax_get_dados_transacao(){
+		$voucher_id = $this->input->get('voucher_id');
+		
+		$registros=$this->shopperz_model->get_dados_transacao($voucher_id);
+		$registros['voucher_code'] = voucher_base64_encode($registros['id_voucher']);
+		
+		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
+	}
+
+	public function ajax_get_transacao_by_nome(){
+		$nome = $this->input->get('nome');
+		$status = $this->input->get('status');
+		
+		$registros=$this->shopperz_model->get_transacoes($status,$nome);
+		foreach ($registros as $key => $value) {
+			$registros[$key]['id_voucher_cript']=voucher_base64_encode($registros[$key]['id_voucher']);
+		}
 		
 		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
 	}

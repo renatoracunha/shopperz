@@ -159,6 +159,59 @@ $usuario_id = $_SESSION['user_id'] ;
   .search > div > input:valid {
     width: 250px;
   }
+  /*cards de imagens*/
+  .card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-family: arial;
+  height: 350px;
+  margin: 1px;
+}
+
+.price {
+  color: grey;
+  font-size: 100%;
+  position: absolute;
+  top: 180px;
+  margin: 0 auto;
+
+}
+
+.card button {
+  border: none;
+  outline: 0;
+  padding: 10%;
+  color: white;
+  background-color: #ff0000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 100%;
+  position: absolute;
+  bottom: 10px;
+  left: 0%;
+}
+
+.card button:hover {
+  opacity: 0.7;
+}
+
+/* Float two columns side by side */
+.column {
+  float: left;
+  width: 49%;
+  padding: 0 10px;
+}
+
+.img{
+  width: 130px;
+  height: 150px;
+}
+
+.nome_produto{
+  position: absolute;
+  top: 160px;
+}
 
 </style>
 </head>
@@ -224,9 +277,14 @@ $usuario_id = $_SESSION['user_id'] ;
     }
     let img = value.img.replace('C:\\fakepath\\','');
     var lines = '';
-    lines+='<div id="card_produto" style="text-align: center" onclick="get_view_produto('+value.id+')" class="card card_img" >';
-
-    lines+='---'+value.nome+'---'+preco_inicial+'<strong>R$'+value.preco+'</strong><img class="card-img-top" style="width: 100%" src="<?php echo base_url('imagens') ?>/'+img+'" alt="Imagem de capa do card"></div>'; 
+     lines+='<div onclick="get_view_produto('+value.id+')" style="align-items: center" class="card column">';
+     lines+='<img class="img" src="<?php echo base_url('imagens') ?>/'+img+'" alt="Imagem de capa do card" >';
+     lines+='<h4 class="nome_produto">'+value.nome+'</h4>';
+     lines+='<p class="price">'+preco_inicial+'<br><strong>R$'+value.preco+'</strong></p>';
+    // lines+='<p>Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>';
+     lines+='<p><button >Comprar</button></p>';
+     lines+='</div>';
+   
 
     return lines;
   }

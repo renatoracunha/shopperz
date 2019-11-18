@@ -6,9 +6,9 @@
  * @param string $str String ou Array a ser codificado
  * @return string
  */
-function url_base64_encode(&$str = "") {
+function voucher_base64_encode(&$str = "") {
 	
-	$salto = "senhapesada";
+	$salto = "caramelo";
     
 	return base64_encode($str.$salto);
 }
@@ -19,9 +19,9 @@ function url_base64_encode(&$str = "") {
  * @param string $str A seqüência de caracteres base64 para decodificar.
  * @return object
  */
-function url_base64_decode(&$str = "") {
+function voucher_base64_decode(&$str = "") {
 	
-	$salto = "senhapesada";
+	$salto = "caramelo";
 	
     return str_replace($salto,'',base64_decode($str)); 
 }

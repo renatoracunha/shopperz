@@ -216,7 +216,9 @@ $usuario_id = $_SESSION['user_id'] ;
 				type:"get",
 				data:{ valor_produto:valor_produto,usuario_id:<?php echo $usuario_id ?>,produto_id:<?php echo $produto_id ?>,loja_id:<?php echo $loja_id ?>},
 				success: function(data){
-					alert("Sucesso!!! Voucher:"+data);
+					$('#modalVoucher').modal('show');
+					$('#voucherModal').html('');
+					$('#voucherModal').html(data);
 				},
 				error:function(e){
 					alert('erro');
@@ -224,6 +226,27 @@ $usuario_id = $_SESSION['user_id'] ;
 			});
 		}
 	</script>
+
+	<!-- Modal -->
+	<div class="modal fade" id="modalVoucher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Parabéns pela compra!</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					Vá até a loja e apresente o voucher para a retirada do produto.<br>
+					<center><strong>Voucher: <span id="voucherModal"></span></strong></center>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
 

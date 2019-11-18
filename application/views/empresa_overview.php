@@ -50,7 +50,7 @@
 						</span>
 					</div>
 					<div class="wrap-input100 validate-input">
-						<select class="input100" id="status">
+						<select onchange="loadData()" class="input100" id="status">
 							<option value="1">Ativos</option>
 							<option value="2">Inativos</option>
 						</select>

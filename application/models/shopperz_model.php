@@ -88,16 +88,51 @@ class Shopperz_model extends CI_Model
 	#Listagem de Produtos
 	#
 
-	public function get_listar_produto($loja_id,$nome=null)
+	public function get_listar_produto($loja_id,$nome=null,$status = 1)
 	{
-		$stmt = $this->db->prepare("SELECT CODIGO as id,IMAGEM as img,PRECO_ATUAL as preco,PRECO_ORIGINAL as preco_inicial ,NOME as nome,STATUS FROM produtos where STATUS = 1 and CODIGO_LOJA = :LOJA_ID and NOME like :NOME order by NOME");
+		$stmt = $this->db->prepare("SELECT CODIGO as id,IMAGEM as img,PRECO_ATUAL as preco,PRECO_ORIGINAL as preco_inicial ,NOME as nome,STATUS FROM produtos where STATUS = :STATUS and CODIGO_LOJA = :LOJA_ID and NOME like :NOME order by NOME");
 		$nome = '%'.$nome.'%';
 		$stmt->bindParam(':NOME',$nome, PDO::PARAM_STR);
 		$stmt->bindParam(':LOJA_ID',$loja_id, PDO::PARAM_INT);
+		$stmt->bindParam(':STATUS',$status, PDO::PARAM_INT);
 		$stmt->execute();
 		$resultado = $stmt->fetchall(PDO::FETCH_ASSOC);
 		
 		return $resultado;
+	}
+
+	public function desabilitar_itens($id_item)
+	{
+		$stmt = $this->db->prepare("UPDATE produtos SET STATUS =2 WHERE CODIGO =:ID_ITEM");
+		
+		$stmt->bindParam(':ID_ITEM',$id_item, PDO::PARAM_INT);
+		
+		
+		if($stmt->execute())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}   
+	}
+
+	public function habilitar_itens($id_item)
+	{
+		$stmt = $this->db->prepare("UPDATE produtos SET STATUS =1 WHERE CODIGO =:ID_ITEM");
+		
+		$stmt->bindParam(':ID_ITEM',$id_item, PDO::PARAM_INT);
+		
+		
+		if($stmt->execute())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}   
 	}
 
 	public function get_lojas_favoritas($usuario_id=null,$loja_id=null)
@@ -275,6 +310,24 @@ class Shopperz_model extends CI_Model
 		}
 	}
 
+	public function inserir_voucher_venda($id_transacao)
+	{
+		$voucher=voucher_base64_encode($id_transacao);
+		$stmt = $this->db->prepare("UPDATE historico_transacoes_usuario SET VOUCHER = :VOUCHER WHERE CODIGO =:PRODUTO_ID");
+				
+		$stmt->bindParam(':PRODUTO_ID',$id_transacao, PDO::PARAM_INT);
+		$stmt->bindParam(':VOUCHER',$voucher, PDO::PARAM_STR);	
+		
+		if($stmt->execute())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}   
+	}
+
 	#
 	#Empresa
 	#
@@ -349,13 +402,16 @@ class Shopperz_model extends CI_Model
 	}
 
 	###gerenciamento de transações###
-	public function get_transacoes($status)
+	public function get_transacoes($status,$nome=null)
 	{
 		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, produtos.NOME as nome, historico_transacoes_usuario.STATUS as status_voucher from historico_transacoes_usuario
 			join produtos on produtos.CODIGO = historico_transacoes_usuario.CODIGO_PRODUTO
-			where historico_transacoes_usuario.STATUS = :STATUS and historico_transacoes_usuario.CODIGO_LOJA = :USER_ID");
+			join usuario on historico_transacoes_usuario.CODIGO_USUARIO = usuario.CODIGO
+			where historico_transacoes_usuario.STATUS = :STATUS and historico_transacoes_usuario.CODIGO_LOJA = :USER_ID AND (usuario.NOME like :NOME or historico_transacoes_usuario.VOUCHER like :NOME)  order by historico_transacoes_usuario.CODIGO");
+		$nome = '%'.$nome.'%';
 		$stmt->bindParam(':USER_ID',$_SESSION['codigo_empresa'], PDO::PARAM_INT);
 		$stmt->bindParam(':STATUS',$status, PDO::PARAM_INT);
+		$stmt->bindParam(':NOME',$nome, PDO::PARAM_STR);
 		$stmt->execute();
 		$resultado = $stmt->fetchall(PDO::FETCH_ASSOC);
 		
@@ -377,6 +433,21 @@ class Shopperz_model extends CI_Model
 		{
 			return false;
 		}   
+		
+	}
+
+	public function get_dados_transacao($voucher_id)
+	{
+		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, produtos.NOME as nome, historico_transacoes_usuario.STATUS as status_voucher, usuario.NOME from historico_transacoes_usuario
+			join produtos on produtos.CODIGO = historico_transacoes_usuario.CODIGO_PRODUTO
+            join usuario on historico_transacoes_usuario.CODIGO_USUARIO = usuario.CODIGO
+			where historico_transacoes_usuario.CODIGO = :VOUCHER_ID and historico_transacoes_usuario.CODIGO_LOJA = :USER_ID");
+		$stmt->bindParam(':USER_ID',$_SESSION['codigo_empresa'], PDO::PARAM_INT);
+		$stmt->bindParam(':VOUCHER_ID',$voucher_id, PDO::PARAM_INT);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+		
+		return $resultado;
 		
 	}
 
