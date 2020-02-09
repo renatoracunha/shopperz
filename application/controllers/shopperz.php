@@ -55,6 +55,24 @@ class Shopperz extends CI_Controller
 		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
 	}
 
+	public function ajax_api_login()
+	{
+		$nome = $this->input->get('nome');
+		$email = $this->input->get('email');
+		$api = $this->input->get('api');
+
+		$registros=$this->shopperz_model->get_user_data_by_api($email);
+
+		if (!empty($registros)) {
+			$_SESSION['user_id'] = $registros['CODIGO'];
+			$_SESSION['user_tipo'] = $registros['CODIGO_TIPO_USUARIO'];
+			$_SESSION['user_name'] = $registros['NOME'];
+			if ($_SESSION['user_tipo']==2) {
+				$_SESSION['codigo_empresa'] = $this->shopperz_model->get_codigo_empresa($_SESSION['user_id']);
+			}
+		}
+	}
+
 	#
 	#Cadastro
 	#

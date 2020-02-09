@@ -26,6 +26,21 @@ class Shopperz_model extends CI_Model
 	}
 
 	#
+	public function get_user_data_by_api($email=null){
+
+		
+		$stmt = $this->db->prepare("SELECT CODIGO,CODIGO_TIPO_USUARIO,NOME FROM usuario where EMAIL = :EMAIL");
+		
+		$stmt->bindValue(':EMAIL',$email, PDO::PARAM_STR);
+		
+		$stmt->execute();
+
+		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return $resultado;	
+	}
+
+	#
 	#Cadastro
 	#
 	public function get_patrocinador($codigo_patrocinador){
