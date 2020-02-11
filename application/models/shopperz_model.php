@@ -328,10 +328,10 @@ class Shopperz_model extends CI_Model
 	public function inserir_voucher_venda($id_transacao)
 	{
 		$voucher=voucher_base64_encode($id_transacao);
-		$stmt = $this->db->prepare("UPDATE historico_transacoes_usuario SET VOUCHER = :VOUCHER WHERE CODIGO =:PRODUTO_ID");
+		$stmt = $this->db->prepare("UPDATE historico_transacoes_usuario SET VOUCHER = 21 WHERE CODIGO =21");
 				
 		$stmt->bindParam(':PRODUTO_ID',$id_transacao, PDO::PARAM_INT);
-		$stmt->bindParam(':VOUCHER',$voucher, PDO::PARAM_STR);	
+		$stmt->bindParam(':VOUCHER',$voucher, PDO::PARAM_STR);
 		
 		if($stmt->execute())
 		{
