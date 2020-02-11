@@ -71,12 +71,14 @@ class Shopperz extends CI_Controller
 				$_SESSION['codigo_empresa'] = $this->shopperz_model->get_codigo_empresa($_SESSION['user_id']);
 			}
 		}
+		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
 
 	#
 	#Cadastro
 	#
-	public function cadastro($codigo_patrocinador=null){
+	public function cadastro ($codigo_patrocinador=null)
+    {
 		$codigo_patrocinador = voucher_base64_decode($codigo_patrocinador);
 		if ($codigo_patrocinador) {
 			$dados['patrocinador']=$this->shopperz_model->get_patrocinador($codigo_patrocinador);
@@ -86,7 +88,8 @@ class Shopperz extends CI_Controller
 		$this->load->view('cadastro_view', $dados);
 	}
 
-	public function ajax_cadastro(){
+	public function ajax_cadastro()
+    {
 		$dados_usuario = $this->input->get();
 
 		$cadastrado = $this->shopperz_model->verify_email($dados_usuario['email']);
