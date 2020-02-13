@@ -1,6 +1,6 @@
 <?php
 
-include_once('../class.phpmailer.php');
+include_once('../phpmailer.php');
 
 $mail             = new PHPMailer(); // defaults to using php "mail()"
 

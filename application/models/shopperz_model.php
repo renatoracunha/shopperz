@@ -40,6 +40,8 @@ class Shopperz_model extends CI_Model
 		return $resultado;	
 	}
 
+
+
 	#
 	#Cadastro
 	#
@@ -56,6 +58,20 @@ class Shopperz_model extends CI_Model
 
 		return $resultado;	
 	}
+
+    public function ajax_alterar_senha($user,$senha)
+    {
+        $stmt = $this->db->prepare("UPDATE usuario SET SENHA = :SENHA WHERE CODIGO = :ID");
+
+        $stmt->bindValue(':ID',$user, PDO::PARAM_INT);
+        $stmt->bindValue(':SENHA',$senha, PDO::PARAM_INT);
+
+        if ($stmt->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 	public function verify_email($email=null){
 

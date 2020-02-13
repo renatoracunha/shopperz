@@ -7,7 +7,7 @@ error_reporting(E_STRICT);
 date_default_timezone_set('America/Toronto');
 //date_default_timezone_set(date_default_timezone_get());
 
-include_once('class.phpmailer.php');
+include_once('phpmailer.php');
 
 $mail             = new PHPMailer();
 $body             = $mail->getFile('contents.html');

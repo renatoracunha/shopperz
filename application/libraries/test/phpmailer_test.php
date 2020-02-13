@@ -7,7 +7,7 @@
 $INCLUDE_DIR = "../";
 
 require("phpunit.php");
-require($INCLUDE_DIR . "class.phpmailer.php");
+require($INCLUDE_DIR . "phpmailer.php");
 error_reporting(E_ALL);
 
 /**

@@ -74,6 +74,63 @@ class Shopperz extends CI_Controller
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
 
+	public function recuperarSenha()
+    {
+        $this->load->view('recuperar_senha');
+    }
+
+    public function ajax_recuperar_senha()
+    {
+        $email = $this->input->post('email');
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+
+            $result = $this->shopperz_model->verify_email($email);
+
+           echo json_encode($result,JSON_UNESCAPED_UNICODE);
+        }
+
+        //        if (filter_var($email, FILTER_VALIDATE_EMAIL))
+//        {
+//
+//            $mensagem = 'Recebemos um pedido para redefinir sua senha';
+//
+//            $mensagem += 'Use o link abaixo para cadastrar uma nova senha para sua conta.';
+//
+//            $mensagem +=  base_url().'shopperz/alterarSenha/'.base64_encode($email) ;
+//
+//            $mensagem += " Se você não solicitou a troca da senha, ignore este email e o link irá expirar por ele mesmo.";
+//
+//            $mensagem += "Este email foi enviado para ";
+//
+//            $mensagem += $email;
+//
+//            $mensagem += "TROCAR SENHA";
+//
+//            print_r($mensagem);exit;
+//            $assunto = "Recuperação de Senha";
+//
+//            $headers = 'From: danielvictormiquiles@gmail.com';
+//
+//            mail($email, $assunto, $mensagem, $headers);
+//        }
+    }
+
+    public function alterarSenha($id)
+    {
+        $dados['id'] = $id;
+	    $this->load->view('alterar_senha', $dados);
+    }
+
+    public function ajax_alterar_senha ()
+    {
+        $nova_senha = $this->input->post('nova_senha');
+        $user = $this->input->post('user');
+
+        $result = $this->shopperz_model->ajax_alterar_senha($user,$nova_senha);
+
+        echo json_encode($result,JSON_UNESCAPED_UNICODE);
+    }
+
 	#
 	#Cadastro
 	#
