@@ -33,6 +33,8 @@
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('<?php echo base_url(); ?>/imagens/bg-01.jpg');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
+
+				<a href="<?php echo base_url(); ?>"><- Voltar</a>
 				
 					<?php 
 						if (!empty($patrocinador['CODIGO'])) {

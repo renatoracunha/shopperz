@@ -145,13 +145,30 @@
 <!--===============================================================================================-->
 	<script src="<?php echo site_url(); ?>/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
-	<script src="<?php echo site_url(); ?>/js/main.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.mask.min.js"/></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.maskMoney.min.js"/></script>
+
+    <script src="<?php echo site_url(); ?>/js/main.js"></script>
 
 	<script type="text/javascript">
+
+        $(document).ready(function(){
+            $('#preco').maskMoney({
+                prefix: "R$ ",
+                decimal: ",",
+                thousands: "."
+            });
+            $('#preco_inicial').maskMoney({
+                prefix: "R$ ",
+                decimal: ",",
+                thousands: "."
+            });
+        });
+
 		function cadastrar(){
 			//return console.log($('#imagem'));
-			let preco = $('#preco').val();
-			let preco_inicial = $('#preco_inicial').val();
+			let preco = $('#preco').val().maskMoney('destroy');
+			let preco_inicial = $('#preco_inicial').val().maskMoney('destroy');
 			let nome = $('#nome').val();
 			let descricao = $('#descricao').val();
 			let imagem = $('#imagem').val();
