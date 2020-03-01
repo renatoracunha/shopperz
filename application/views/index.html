@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>Shopperz</title>
+	<title>Gupy</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--===============================================================================================-->
@@ -49,7 +49,7 @@
 		<div class="container-login100" style="background-image: url('imagens/bg-01.jpg');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 				<form class="login100-form validate-form flex-sb flex-w"
-					action="<?php echo base_url() ?>/shopperz/login">
+					action="<?php echo base_url() ?>/gupy/login">
 					<span class="login100-form-title p-b-53">
 						Entrar com...
 					</span>
@@ -79,7 +79,7 @@
 							Senha
 						</span>
 
-						<a href="<?php echo base_url()?>shopperz/recuperarSenha" class="txt2 bo1 m-l-5">
+						<a href="<?php echo base_url()?>gupy/recuperarSenha" class="txt2 bo1 m-l-5">
 							Esqueceu a senha?
 						</a>
 					</div>
@@ -99,7 +99,7 @@
 							Não é membro ainda?
 						</span>
 
-						<a href="<?php echo base_url()?>shopperz/cadastro" class="txt2 bo1">
+						<a href="<?php echo base_url()?>gupy/cadastro" class="txt2 bo1">
 							Cadastre-se!
 						</a>
 					</div>
@@ -229,14 +229,14 @@
 		function api_login(login_info) {
 			
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_api_login",
+				url: "<?php echo site_url();?>gupy/ajax_api_login",
 				dataType: "json",
 				type: "get",
 				data: { nome: login_info.nome, email: login_info.email,api:login_info.api },
 				cache: false,
 				success: function (data) {
 					if (data) {
-						window.location.href = "./shopperz/main";
+						window.location.href = "./gupy/main";
 					} else {
 						alert('cadastro inválido ou inexistente')
 					}
@@ -265,14 +265,14 @@
 				$('#telefone').css("background-color", "#FFD6D6");
 			}
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_get_user_data",
+				url: "<?php echo site_url();?>gupy/ajax_get_user_data",
 				dataType: "json",
 				type: "get",
 				data: { senha: senha, telefone: telefone },
 				cache: false,
 				success: function (data) {
 					if (data) {
-						window.location.href = "./shopperz/main";
+						window.location.href = "./gupy/main";
 					} else {
 						alert('cadastro inválido ou inexistente')
 					}

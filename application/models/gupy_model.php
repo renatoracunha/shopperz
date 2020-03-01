@@ -1,5 +1,5 @@
 <?php
-class Shopperz_model extends CI_Model
+class Gupy_model extends CI_Model
 {
 	//Trata os caracteres para utf-8, tanto os de entrada como os de saída de dados.
 	function __construct()

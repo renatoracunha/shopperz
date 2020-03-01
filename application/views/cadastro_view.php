@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Shopperz</title>
+	<title>Gupy</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -201,7 +201,7 @@
 				return;
 			}
 			$.ajax({
-				url: "<?php echo base_url();?>shopperz/ajax_cadastro",
+				url: "<?php echo base_url();?>gupy/ajax_cadastro",
 				dataType:"json",
 				type:"get",
 				data:{senha:senha,email:email,nome:nome,telefone:telefone,tipoUsuario:tipoUsuario,patrocinador:<?php echo $patrocinador['CODIGO'] ?>},
@@ -210,7 +210,7 @@
 					if (data.cadastrado) {
 						alert('email já cadastrado');
 					}else if(data.usuario){
-						window.location.href = "<?php echo base_url(); ?>shopperz/main";
+						window.location.href = "<?php echo base_url(); ?>gupy/main";
 					}else{
 						alert('Para registro de empresa, aguarde nossa análise de dados.');
 						window.location.href = "<?php echo base_url(); ?>";

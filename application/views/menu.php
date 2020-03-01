@@ -11,10 +11,10 @@
   </button>
   <?php if ($_SESSION['user_tipo']==2) {
     ?>
-    <a id="brand" class="navbar-brand" href="<?php echo site_url('shopperz/main');?>"><?php echo $_SESSION['user_name'] ?></a>
+    <a id="brand" class="navbar-brand" href="<?php echo site_url('gupy/main');?>"><?php echo $_SESSION['user_name'] ?></a>
   <?php
   } else{?>
-  <a id="brand" class="navbar-brand" href="<?php echo site_url('shopperz/main');?>">Shopperz</a>
+  <a id="brand" class="navbar-brand" href="<?php echo site_url('gupy/main');?>">gupy</a>
   <?php 
     }
   ?>  
@@ -29,23 +29,23 @@
           Opções de administrador
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="<?php echo site_url("shopperz/cadastrarProduto")?>">Cadastrar Produto</a>
-          <a class="dropdown-item" href="<?php echo site_url("shopperz/editarProduto")?>">Editar Produto</a>
-          <a class="dropdown-item" href="<?php echo site_url("shopperz/gerenciarVendas")?>">Gerenciar Vendas</a>
+          <a class="dropdown-item" href="<?php echo site_url("gupy/cadastrarProduto")?>">Cadastrar Produto</a>
+          <a class="dropdown-item" href="<?php echo site_url("gupy/editarProduto")?>">Editar Produto</a>
+          <a class="dropdown-item" href="<?php echo site_url("gupy/gerenciarVendas")?>">Gerenciar Vendas</a>
         </div>
       </li>  
       <?php
     }else{ ?>
      <li class="nav-item active">
-      <a class="nav-link" href="<?php echo site_url('shopperz/main');?>">Listar Parceiras</a>
+      <a class="nav-link" href="<?php echo site_url('gupy/main');?>">Listar Parceiras</a>
     </li>
       <li id="li_adm" class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Opções de usuário
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="<?php echo site_url("shopperz/perfil")?>">Perfil</a>
-          <a class="dropdown-item" href="<?php echo site_url("shopperz/codigo")?>">Compartilhar Código</a>
+          <a class="dropdown-item" href="<?php echo site_url("gupy/perfil")?>">Perfil</a>
+          <a class="dropdown-item" href="<?php echo site_url("gupy/codigo")?>">Compartilhar Código</a>
           
         </div>
       </li>

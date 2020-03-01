@@ -7,7 +7,7 @@ $usuario_id = $_SESSION['user_id'] ;
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Shopperz</title>
+  <title>Gupy</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--===============================================================================================--> 
@@ -263,7 +263,7 @@ $usuario_id = $_SESSION['user_id'] ;
 <script>
   function get_view_produto(id_produto){
     let loja_id = "<?php echo $loja_id; ?>";
-    window.location.href = "<?php echo base_url('shopperz/produto_view/') ?>/"+id_produto+"/"+loja_id; 
+    window.location.href = "<?php echo base_url('gupy/produto_view/') ?>/"+id_produto+"/"+loja_id; 
   }
   $(document).ready(function(){
     loadData();
@@ -291,7 +291,7 @@ $usuario_id = $_SESSION['user_id'] ;
 
   function loadData(){
     $.ajax({
-      url: "<?php echo site_url();?>shopperz/ajax_get_listar_produtos",
+      url: "<?php echo site_url();?>gupy/ajax_get_listar_produtos",
       dataType:"json",
       data:{loja_id:<?php echo $loja_id ; ?>},
       type:"get",
@@ -330,7 +330,7 @@ $usuario_id = $_SESSION['user_id'] ;
 
    /* function get_favoritos(){
       $.ajax({
-        url: "<?php echo site_url();?>shopperz/ajax_get_favoritos",
+        url: "<?php echo site_url();?>gupy/ajax_get_favoritos",
         dataType:"json",
         data:{usuario_id:<?php echo $usuario_id ; ?>},
         type:"get",
@@ -362,7 +362,7 @@ $usuario_id = $_SESSION['user_id'] ;
 
   /*  function get_palavras_populares(){
       $.ajax({
-        url: "<?php echo site_url();?>shopperz/ajax_get_produtos_populares",
+        url: "<?php echo site_url();?>gupy/ajax_get_produtos_populares",
         dataType:"json",
         type:"get",
         cache:false,
@@ -386,7 +386,7 @@ $usuario_id = $_SESSION['user_id'] ;
 
     function get_produtos_descontos(){
      $.ajax({
-      url: "<?php echo site_url();?>shopperz/ajax_get_produtos_descontos",
+      url: "<?php echo site_url();?>gupy/ajax_get_produtos_descontos",
       dataType:"json",
       type:"get",
       cache:false,
@@ -409,7 +409,7 @@ $usuario_id = $_SESSION['user_id'] ;
   }*/
   function pesquisar_produto(nome){
     $.ajax({
-      url: "<?php echo site_url();?>shopperz/ajax_get_produto_by_nome",
+      url: "<?php echo site_url();?>gupy/ajax_get_produto_by_nome",
       dataType:"json",
       data:{loja_id:<?php echo $loja_id ; ?>,nome:nome},
       type:"get",
@@ -440,7 +440,7 @@ $usuario_id = $_SESSION['user_id'] ;
 
   function status_fav(){
     $.ajax({
-      url: "<?php echo site_url();?>shopperz/ajax_usuario_favoritar_loja",
+      url: "<?php echo site_url();?>gupy/ajax_usuario_favoritar_loja",
       dataType:"json",
       cache:false,
       type:"get",
@@ -457,7 +457,7 @@ $usuario_id = $_SESSION['user_id'] ;
 
   function status_desfav(){
     $.ajax({
-      url: "<?php echo site_url();?>shopperz/ajax_usuario_desfavoritar_loja",
+      url: "<?php echo site_url();?>gupy/ajax_usuario_desfavoritar_loja",
       dataType:"json",
       cache:false,
       type:"get",

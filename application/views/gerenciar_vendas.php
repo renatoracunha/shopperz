@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Shopperz</title>
+	<title>Gupy</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -182,7 +182,7 @@
 		function loadData(status = $('#status').val()){
 			
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_get_transacoes",
+				url: "<?php echo site_url();?>gupy/ajax_get_transacoes",
 				dataType:"json",
 				type:"get",
 				data:{status:status},
@@ -215,7 +215,7 @@
 		function fechar_transacao(voucher_id,confirmacao){
 			console.log(voucher_id);
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_fechar_transacao",
+				url: "<?php echo site_url();?>gupy/ajax_fechar_transacao",
 				dataType:"json",
 				type:"get",
 				data:{voucher_id:voucher_id,status:confirmacao},
@@ -231,7 +231,7 @@
 
 		/*function desabilitar(id_item){
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_desabilitar_itens",
+				url: "<?php echo site_url();?>gupy/ajax_desabilitar_itens",
 				dataType:"json",
 				type:"get",
 				data:{id_item:id_item},
@@ -246,7 +246,7 @@
 
 		function habilitar(id_item){
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_habilitar_itens",
+				url: "<?php echo site_url();?>gupy/ajax_habilitar_itens",
 				dataType:"json",
 				type:"get",
 				data:{id_item:id_item},
@@ -261,7 +261,7 @@
 
 		function abrirModal(voucher_id){
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_get_dados_transacao",
+				url: "<?php echo site_url();?>gupy/ajax_get_dados_transacao",
 				dataType:"json",
 				type:"get",
 				data:{voucher_id:voucher_id},
@@ -289,7 +289,7 @@
 
 			let status = $('#status').val();
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_get_transacao_by_nome",
+				url: "<?php echo site_url();?>gupy/ajax_get_transacao_by_nome",
 				dataType:"json",
 				data:{nome:nome, status:status},
 				type:"get",

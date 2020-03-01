@@ -15,7 +15,7 @@
 	<script src="<?php echo base_url('js/bootstrap.js') ?>"></script>
 	<script src="https://kit.fontawesome.com/8d24bc018e.js"></script>
 
-	<title>Shopperz!</title>
+	<title>Gupy</title>
 	<style type="text/css">
 		.title{
 			color: white;
@@ -75,7 +75,7 @@
 			
 			<div class="col-md-12">
 				<center> Compartilhe o link com seu código.<br></center>
-				<textarea style="height: 150%;width: 100%;margin-bottom: 15%;background-image: url('../imagens/bg-01.jpg');" id="codigo" disabled> <?php echo base_url(); ?>shopperz/cadastro/<?php echo $codigo ?></textarea>
+				<textarea style="height: 150%;width: 100%;margin-bottom: 15%;background-image: url('../imagens/bg-01.jpg');" id="codigo" disabled> <?php echo base_url(); ?>gupy/cadastro/<?php echo $codigo ?></textarea>
 			</div>
 
 			<div class="col-md-12">

@@ -4,7 +4,7 @@ $usuario_id = $_SESSION['user_id'] ;
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Shopperz</title>
+	<title>Gupy</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--===============================================================================================--> 
@@ -134,7 +134,7 @@ $usuario_id = $_SESSION['user_id'] ;
 
 		function loadData(){
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_get_produto",
+				url: "<?php echo site_url();?>gupy/ajax_get_produto",
 				dataType:"json",
 				type:"get",
 				data:{produto_id:<?php echo $produto_id ?>	},
@@ -174,7 +174,7 @@ $usuario_id = $_SESSION['user_id'] ;
 
 		function status_fav(status){
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_change_fav_status",
+				url: "<?php echo site_url();?>gupy/ajax_change_fav_status",
 				dataType:"json",
 				cache:false,
 				type:"get",
@@ -210,7 +210,7 @@ $usuario_id = $_SESSION['user_id'] ;
 		function gerar_voucher(valor_produto){
 			//return console.log(valor_produto);
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_gerar_voucher",
+				url: "<?php echo site_url();?>gupy/ajax_gerar_voucher",
 				dataType:"json",
 				cache:false,
 				type:"get",

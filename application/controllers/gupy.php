@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed'); //Define que o arquivo n?o tem acesso direto via navegador
 
-class Shopperz extends CI_Controller
+class Gupy extends CI_Controller
 {
 
 	public function __construct()
@@ -13,7 +13,7 @@ class Shopperz extends CI_Controller
 		$this->load->library('table'); // Carrega a bibioteca de tabela
 
 		$this->load->library('form_validation'); //Carrega a biblioteca de valida??o de formul?rio
-		$this->load->model('shopperz_model'); //Carrega o model		
+		$this->load->model('gupy_model'); //Carrega o model		
 		//Limpa o cache, não permitindo ao usuário visualizar nenhuma página logo depois de ter feito logout do sistema
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0");
 		$this->output->set_header("Pragma: no-cache");
@@ -32,7 +32,7 @@ class Shopperz extends CI_Controller
 		if (empty($_SESSION['user_tipo'])) {
 			redirect("/..");
 		} else if ($_SESSION['user_tipo'] == 1) {
-			$dados['tipos_produtos'] = $this->shopperz_model->get_tipos_produtos();
+			$dados['tipos_produtos'] = $this->gupy_model->get_tipos_produtos();
 			$this->load->view('lojas_ativas.php', $dados);
 		} else {
 			$this->load->view('empresa_overview.php');
@@ -43,14 +43,14 @@ class Shopperz extends CI_Controller
 	{
 		$telefone = $this->input->get('telefone');
 		$senha = $this->input->get('senha');
-		$registros = $this->shopperz_model->get_user_data($telefone, $senha);
+		$registros = $this->gupy_model->get_user_data($telefone, $senha);
 
 		if (!empty($registros)) {
 			$_SESSION['user_id'] = $registros['CODIGO'];
 			$_SESSION['user_tipo'] = $registros['CODIGO_TIPO_USUARIO'];
 			$_SESSION['user_name'] = $registros['NOME'];
 			if ($_SESSION['user_tipo'] == 2) {
-				$_SESSION['codigo_empresa'] = $this->shopperz_model->get_codigo_empresa($_SESSION['user_id']);
+				$_SESSION['codigo_empresa'] = $this->gupy_model->get_codigo_empresa($_SESSION['user_id']);
 			}
 		}
 
@@ -63,14 +63,14 @@ class Shopperz extends CI_Controller
 		$email = $this->input->get('email');
 		$api = $this->input->get('api');
 
-		$registros = $this->shopperz_model->get_user_data_by_api($email);
+		$registros = $this->gupy_model->get_user_data_by_api($email);
 
 		if (!empty($registros)) {
 			$_SESSION['user_id'] = $registros['CODIGO'];
 			$_SESSION['user_tipo'] = $registros['CODIGO_TIPO_USUARIO'];
 			$_SESSION['user_name'] = $registros['NOME'];
 			if ($_SESSION['user_tipo'] == 2) {
-				$_SESSION['codigo_empresa'] = $this->shopperz_model->get_codigo_empresa($_SESSION['user_id']);
+				$_SESSION['codigo_empresa'] = $this->gupy_model->get_codigo_empresa($_SESSION['user_id']);
 			}
 		}
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
@@ -86,7 +86,7 @@ class Shopperz extends CI_Controller
         $email = $this->input->post('email');
         if (filter_var($email, FILTER_VALIDATE_EMAIL)){
 
-            $result = $this->shopperz_model->verify_email($email);
+            $result = $this->gupy_model->verify_email($email);
 
            echo json_encode($result,JSON_UNESCAPED_UNICODE);
         }
@@ -98,7 +98,7 @@ class Shopperz extends CI_Controller
 //
 //            $mensagem += 'Use o link abaixo para cadastrar uma nova senha para sua conta.';
 //
-//            $mensagem +=  base_url().'shopperz/alterarSenha/'.base64_encode($email) ;
+//            $mensagem +=  base_url().'gupy/alterarSenha/'.base64_encode($email) ;
 //
 //            $mensagem += " Se você não solicitou a troca da senha, ignore este email e o link irá expirar por ele mesmo.";
 //
@@ -128,7 +128,7 @@ class Shopperz extends CI_Controller
         $nova_senha = $this->input->post('nova_senha');
         $user = $this->input->post('user');
 
-        $result = $this->shopperz_model->ajax_alterar_senha($user,$nova_senha);
+        $result = $this->gupy_model->ajax_alterar_senha($user,$nova_senha);
 
         echo json_encode($result,JSON_UNESCAPED_UNICODE);
     }
@@ -141,7 +141,7 @@ class Shopperz extends CI_Controller
 
 		if ($codigo_patrocinador) {
 			$codigo_patrocinador = voucher_base64_decode($codigo_patrocinador);
-			$dados['patrocinador'] = $this->shopperz_model->get_patrocinador($codigo_patrocinador);
+			$dados['patrocinador'] = $this->gupy_model->get_patrocinador($codigo_patrocinador);
 		} else {
 			$dados['patrocinador']['CODIGO'] = 0;
 		}
@@ -153,11 +153,11 @@ class Shopperz extends CI_Controller
 	{
 		$dados_usuario = $this->input->get();
 
-		$cadastrado = $this->shopperz_model->verify_email($dados_usuario['email']);
+		$cadastrado = $this->gupy_model->verify_email($dados_usuario['email']);
 
 		if (empty($cadastrado)) {
 			$dados_usuario['status'] = $dados_usuario['tipoUsuario'] == 1 ? 1 : 2;
-			$usuario = $this->shopperz_model->cadastrar_usuario($dados_usuario);
+			$usuario = $this->gupy_model->cadastrar_usuario($dados_usuario);
 			if ($usuario) {
 				$_SESSION['user_id'] = $usuario;
 				$_SESSION['user_tipo'] = 1;
@@ -187,9 +187,9 @@ class Shopperz extends CI_Controller
 	public function ajax_get_listar_produtos()
 	{
 		$loja_id = $this->input->get('loja_id');
-		$registros['produtos'] = $this->shopperz_model->get_listar_produto($loja_id);
+		$registros['produtos'] = $this->gupy_model->get_listar_produto($loja_id);
 
-		$registros['favorita'] = $this->shopperz_model->get_lojas_favoritas($_SESSION['user_id'], $loja_id);
+		$registros['favorita'] = $this->gupy_model->get_lojas_favoritas($_SESSION['user_id'], $loja_id);
 		if (!$registros['favorita']) {
 			$registros['favorita'] = false;
 		}
@@ -200,7 +200,7 @@ class Shopperz extends CI_Controller
 	{
 		$nome = $this->input->get('nome');
 		$loja_id = $this->input->get('loja_id');
-		$registros = $this->shopperz_model->get_listar_produto($loja_id, $nome);
+		$registros = $this->gupy_model->get_listar_produto($loja_id, $nome);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -209,9 +209,9 @@ class Shopperz extends CI_Controller
 	{
 		$usuario_id = $this->input->get('usuario_id');
 		$loja_id = $this->input->get('loja_id');
-		$registros = $this->shopperz_model->usuario_favoritar_loja($loja_id, $usuario_id);
+		$registros = $this->gupy_model->usuario_favoritar_loja($loja_id, $usuario_id);
 		if ($registros) {
-			$this->shopperz_model->update_numero_favoritos_loja($loja_id, 1);
+			$this->gupy_model->update_numero_favoritos_loja($loja_id, 1);
 		}
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -220,10 +220,10 @@ class Shopperz extends CI_Controller
 	{
 		$usuario_id = $this->input->get('usuario_id');
 		$loja_id = $this->input->get('loja_id');
-		$registros = $this->shopperz_model->usuario_desfavoritar_loja($loja_id, $usuario_id);
+		$registros = $this->gupy_model->usuario_desfavoritar_loja($loja_id, $usuario_id);
 
 		if ($registros) {
-			$this->shopperz_model->update_numero_favoritos_loja($loja_id, -1);
+			$this->gupy_model->update_numero_favoritos_loja($loja_id, -1);
 		}
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
@@ -243,7 +243,7 @@ class Shopperz extends CI_Controller
 	public function ajax_get_listar_lojas_ativas()
 	{
 
-		$registros = $this->shopperz_model->get_listar_lojas();
+		$registros = $this->gupy_model->get_listar_lojas();
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -251,7 +251,7 @@ class Shopperz extends CI_Controller
 	public function ajax_get_lojas_favoritas_usuario()
 	{
 
-		$registros = $this->shopperz_model->get_lojas_favoritas($_SESSION['user_id']);
+		$registros = $this->gupy_model->get_lojas_favoritas($_SESSION['user_id']);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -259,7 +259,7 @@ class Shopperz extends CI_Controller
 	public function ajax_get_lojas_populares()
 	{
 
-		$registros = $this->shopperz_model->get_lojas_populares();
+		$registros = $this->gupy_model->get_lojas_populares();
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -268,7 +268,7 @@ class Shopperz extends CI_Controller
 	{
 		$nome = $this->input->get('nome');
 
-		$registros = $this->shopperz_model->get_listar_lojas($nome);
+		$registros = $this->gupy_model->get_listar_lojas($nome);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -277,14 +277,14 @@ class Shopperz extends CI_Controller
 	{
 		$tipo_id = $this->input->get('tipo_id');
 
-		$registros = $this->shopperz_model->get_listar_lojas_by_tipo($tipo_id);
+		$registros = $this->gupy_model->get_listar_lojas_by_tipo($tipo_id);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
 
 	/*public function ajax_get_produtos_descontos(){
 
-		$registros=$this->shopperz_model->get_listar_lojas_by_desconto();
+		$registros=$this->gupy_model->get_listar_lojas_by_desconto();
 		
 		echo json_encode($registros,JSON_UNESCAPED_UNICODE);
 	}*/
@@ -305,7 +305,7 @@ class Shopperz extends CI_Controller
 	public function ajax_get_produto()
 	{
 		$produto_id = $this->input->get('produto_id');
-		$registros = $this->shopperz_model->get_produto($produto_id);
+		$registros = $this->gupy_model->get_produto($produto_id);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -316,10 +316,10 @@ class Shopperz extends CI_Controller
 		$valor_produto = $this->input->get('valor_produto');
 		$loja_id = $this->input->get('loja_id');
 		$usuario_id = $this->input->get('usuario_id');
-		$registros = $this->shopperz_model->gerar_voucher($valor_produto, $produto_id, $loja_id, $usuario_id);
+		$registros = $this->gupy_model->gerar_voucher($valor_produto, $produto_id, $loja_id, $usuario_id);
 
 
-		$this->shopperz_model->inserir_voucher_venda($registros);
+		$this->gupy_model->inserir_voucher_venda($registros);
 		$registros = voucher_base64_encode($registros);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
@@ -333,7 +333,7 @@ class Shopperz extends CI_Controller
 	{
 
 
-		$registros = $this->shopperz_model->get_listar_produto($_SESSION['codigo_empresa']);
+		$registros = $this->gupy_model->get_listar_produto($_SESSION['codigo_empresa']);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -342,7 +342,7 @@ class Shopperz extends CI_Controller
 	{
 		$id_item = $this->input->get('id_item');
 
-		$registros = $this->shopperz_model->desabilitar_itens($id_item);
+		$registros = $this->gupy_model->desabilitar_itens($id_item);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -351,7 +351,7 @@ class Shopperz extends CI_Controller
 	{
 		$id_item = $this->input->get('id_item');
 
-		$registros = $this->shopperz_model->habilitar_itens($id_item);
+		$registros = $this->gupy_model->habilitar_itens($id_item);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -359,7 +359,7 @@ class Shopperz extends CI_Controller
 	public function ajax_get_produtos_inativos_editar()
 	{
 
-		$registros = $this->shopperz_model->get_listar_produto($_SESSION['codigo_empresa'], '', 2);
+		$registros = $this->gupy_model->get_listar_produto($_SESSION['codigo_empresa'], '', 2);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -371,7 +371,7 @@ class Shopperz extends CI_Controller
 		} else if ($_SESSION['user_tipo'] != 2) {
 			redirect("/..");
 		}
-		$dados['categoria_produto'] = $this->shopperz_model->get_categorias_produtos();
+		$dados['categoria_produto'] = $this->gupy_model->get_categorias_produtos();
 		$this->load->view('cadastar_produto', $dados);
 	}
 
@@ -379,7 +379,7 @@ class Shopperz extends CI_Controller
 	{
 		$dados_produto = $this->input->get();
 
-		$registros = $this->shopperz_model->cadastrar_produto($dados_produto);
+		$registros = $this->gupy_model->cadastrar_produto($dados_produto);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -392,7 +392,7 @@ class Shopperz extends CI_Controller
 		$targetPath = './imagens/' . $_FILES['imagem_produto']['name'];
 		move_uploaded_file($_FILES["imagem_produto"]["tmp_name"], $targetPath);
 
-		$this->shopperz_model->set_img_path($filename);
+		$this->gupy_model->set_img_path($filename);
 		$this->load->view('empresa_overview.php');
 	}
 
@@ -413,7 +413,7 @@ class Shopperz extends CI_Controller
 	public function ajax_get_transacoes()
 	{
 		$status = $this->input->get('status');
-		$registros = $this->shopperz_model->get_transacoes($status);
+		$registros = $this->gupy_model->get_transacoes($status);
 		foreach ($registros as $key => $value) {
 			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
 		}
@@ -425,7 +425,7 @@ class Shopperz extends CI_Controller
 	{
 		$voucher_id = $this->input->get('voucher_id');
 		$status = $this->input->get('status');
-		$registros = $this->shopperz_model->fechar_transacao($voucher_id, $status);
+		$registros = $this->gupy_model->fechar_transacao($voucher_id, $status);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -434,7 +434,7 @@ class Shopperz extends CI_Controller
 	{
 		$voucher_id = $this->input->get('voucher_id');
 
-		$registros = $this->shopperz_model->get_dados_transacao($voucher_id);
+		$registros = $this->gupy_model->get_dados_transacao($voucher_id);
 		$registros['voucher_code'] = voucher_base64_encode($registros['id_voucher']);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
@@ -445,7 +445,7 @@ class Shopperz extends CI_Controller
 		$nome = $this->input->get('nome');
 		$status = $this->input->get('status');
 
-		$registros = $this->shopperz_model->get_transacoes($status, $nome);
+		$registros = $this->gupy_model->get_transacoes($status, $nome);
 		foreach ($registros as $key => $value) {
 			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
 		}

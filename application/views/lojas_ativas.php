@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Shopperz</title>
+  <title>Gupy</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--===============================================================================================--> 
@@ -197,7 +197,7 @@
 
 <script>
   function get_view_produtos_loja(id_loja){
-    window.location.href = "<?php echo base_url('shopperz/listar_produtos/') ?>/"+id_loja; 
+    window.location.href = "<?php echo base_url('gupy/listar_produtos/') ?>/"+id_loja; 
   }
   $(document).ready(function(){
     loadData();
@@ -215,7 +215,7 @@
 
   function loadData(){
     $.ajax({
-      url: "<?php echo site_url();?>shopperz/ajax_get_listar_lojas_ativas",
+      url: "<?php echo site_url();?>gupy/ajax_get_listar_lojas_ativas",
       dataType:"json",
       type:"get",
       cache:false,
@@ -245,7 +245,7 @@
 
   function get_favoritos(){
     $.ajax({
-      url: "<?php echo site_url();?>shopperz/ajax_get_lojas_favoritas_usuario",
+      url: "<?php echo site_url();?>gupy/ajax_get_lojas_favoritas_usuario",
       dataType:"json",
       type:"get",
       cache:false,
@@ -276,7 +276,7 @@
 
     function get_lojas_populares(){
       $.ajax({
-        url: "<?php echo site_url();?>shopperz/ajax_get_lojas_populares",
+        url: "<?php echo site_url();?>gupy/ajax_get_lojas_populares",
         dataType:"json",
         type:"get",
         cache:false,
@@ -306,7 +306,7 @@
 
    /* function get_produtos_descontos(){
      $.ajax({
-      url: "<?php echo site_url();?>shopperz/ajax_get_produtos_descontos",
+      url: "<?php echo site_url();?>gupy/ajax_get_produtos_descontos",
       dataType:"json",
       type:"get",
       cache:false,
@@ -330,7 +330,7 @@
 
   function pesquisar_loja(nome){
     $.ajax({
-      url: "<?php echo site_url();?>shopperz/ajax_get_loja_by_nome",
+      url: "<?php echo site_url();?>gupy/ajax_get_loja_by_nome",
       dataType:"json",
       data:{nome:nome},
       type:"get",
@@ -361,7 +361,7 @@
   function get_tipo_produto(tipo_id){
 
    $.ajax({
-    url: "<?php echo site_url();?>shopperz/ajax_get_loja_by_tipo",
+    url: "<?php echo site_url();?>gupy/ajax_get_loja_by_tipo",
     dataType:"json",
     data:{tipo_id:tipo_id},
     type:"get",

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Shopperz</title>
+	<title>Gupy</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -104,7 +104,7 @@
 		}
 
 		function cadastrar(){
-			window.location.href = '<?php echo site_url();?>shopperz/cadastarProduto'; 
+			window.location.href = '<?php echo site_url();?>gupy/cadastarProduto'; 
 		}
 
 		function loadDataInTable(value){
@@ -135,7 +135,7 @@
 				url = 'ajax_get_produtos_inativos_editar';
 			}
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/"+url+"",
+				url: "<?php echo site_url();?>gupy/"+url+"",
 				dataType:"json",
 				type:"get",
 				cache:false,
@@ -161,7 +161,7 @@
 
 		function desabilitar(id_item){
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_desabilitar_itens",
+				url: "<?php echo site_url();?>gupy/ajax_desabilitar_itens",
 				dataType:"json",
 				type:"get",
 				data:{id_item:id_item},
@@ -176,7 +176,7 @@
 
 		function habilitar(id_item){
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_habilitar_itens",
+				url: "<?php echo site_url();?>gupy/ajax_habilitar_itens",
 				dataType:"json",
 				type:"get",
 				data:{id_item:id_item},

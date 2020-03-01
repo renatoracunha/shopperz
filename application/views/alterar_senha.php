@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Shopperz</title>
+    <title>Gupy</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -89,7 +89,7 @@
 
         if(nova_senha == conf_nova_senha){
             $.ajax({
-                url: "<?php echo base_url()?>shopperz/ajax_alterar_senha",
+                url: "<?php echo base_url()?>gupy/ajax_alterar_senha",
                 type: "post",
                 dataType: "json",
                 data: {nova_senha:nova_senha, user: <?php echo $id ?> },

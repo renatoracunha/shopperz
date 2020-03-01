@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Shopperz</title>
+    <title>Gupy</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -77,7 +77,7 @@
            email = $("#email").val();
 
            $.ajax({
-               url: "<?php echo base_url()?>shopperz/ajax_recuperar_senha",
+               url: "<?php echo base_url()?>gupy/ajax_recuperar_senha",
                type: "post",
                dataType: "json",
                data: {email:email},
@@ -85,7 +85,7 @@
                success: function (data) {
                     if (data){
                         console.log(data.CODIGO)
-                        window.location = "<?php echo base_url()?>shopperz/alterarSenha/"+data.CODIGO;
+                        window.location = "<?php echo base_url()?>gupy/alterarSenha/"+data.CODIGO;
                     }
                },
                error: function (d) {

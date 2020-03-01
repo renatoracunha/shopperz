@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Shopperz</title>
+	<title>Gupy</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -82,7 +82,7 @@
 							Imagem
 						</span>
 					</div>
-					<form method="POST" action="<?php echo site_url(); ?>shopperz/upload_imagem" id="upload_file" enctype="multipart/form-data">
+					<form method="POST" action="<?php echo site_url(); ?>gupy/upload_imagem" id="upload_file" enctype="multipart/form-data">
 						
 						<div class="wrap-input100 validate-input" data-validate = "imagem">
 							<input style="margin-top: 5%" class="input100" type="file" name="imagem_produto" id="imagem" >
@@ -195,7 +195,7 @@
 			}
 			
 			$.ajax({
-				url: "<?php echo site_url();?>shopperz/ajax_cadastrar_produto",
+				url: "<?php echo site_url();?>gupy/ajax_cadastrar_produto",
 				dataType:"json",
 				type:"get",
 				data:{preco:preco,descricao:descricao,nome:nome,imagem:imagem,estoque:estoque,categoria:categoria,preco_inicial:preco_inicial},
