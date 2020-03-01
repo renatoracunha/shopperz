@@ -49,7 +49,7 @@
   .card_img{
     margin-top: 50px;    
     width: 100%;
-    background-color: #808080;
+    background-color: white;
   }
   .card-img-top{
     color: black;
