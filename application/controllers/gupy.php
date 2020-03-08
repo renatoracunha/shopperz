@@ -171,6 +171,57 @@ class Gupy extends CI_Controller
 		echo json_encode(array('cadastrado' => $cadastrado, 'usuario' => $usuario), JSON_UNESCAPED_UNICODE);
 	}
 	#
+	#############Usuários
+	#
+	public function manage_vouchers()
+	{
+		if (empty($_SESSION['user_tipo'])) {
+			redirect("/..");
+		}
+		// $dados['vouchers'] = $this->gupy_model->get_user_vouchers();
+		$this->load->view('gerenciar_vouchers_user');
+	}
+
+	public function ajax_get_user_transactions()
+	{
+		$status = $this->input->get('status');
+		$registros = $this->gupy_model->get_user_vouchers($status);
+		
+		
+		foreach ($registros as $key => $value) {
+			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
+		}
+		//print_r($registros);exit;
+		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
+	}
+
+	public function ajax_get_dados_transacao_user()
+	{
+		$voucher_id = $this->input->get('voucher_id');
+		$status = $this->input->get('status');
+
+		$registros = $this->gupy_model->get_user_vouchers($status,$voucher_id);
+		$registros = current($registros);
+		$registros['voucher_code'] = voucher_base64_encode($registros['id_voucher']);
+
+		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
+	}
+	
+	public function ajax_get_user_transacao_by_nome_loja()
+	{
+		$status = $this->input->get('status');
+		$nome = $this->input->get('nome');
+
+		$registros = $this->gupy_model->get_user_vouchers_by_company_name($status,$nome);
+		//$registros = current($registros);
+		foreach ($registros as $key => $value) {
+			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
+		}
+
+		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
+	}
+	
+	#
 	#Código
 	#
 	public function codigo()

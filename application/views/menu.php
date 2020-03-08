@@ -46,6 +46,7 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="<?php echo site_url("gupy/perfil")?>">Perfil</a>
           <a class="dropdown-item" href="<?php echo site_url("gupy/codigo")?>">Compartilhar Código</a>
+          <a class="dropdown-item" href="<?php echo site_url("gupy/manage_vouchers")?>">Gerenciar Vouchers</a>
           
         </div>
       </li>
