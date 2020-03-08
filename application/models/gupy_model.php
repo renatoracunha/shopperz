@@ -324,7 +324,7 @@ class Gupy_model extends CI_Model
 	public function inserir_voucher_venda($id_transacao)
 	{
 		$voucher = voucher_base64_encode($id_transacao);
-		$stmt = $this->db->prepare("UPDATE historico_transacoes_usuario SET VOUCHER = 21 WHERE CODIGO =21");
+		$stmt = $this->db->prepare("UPDATE historico_transacoes_usuario SET VOUCHER = :VOUCHER WHERE CODIGO =:PRODUTO_ID");
 
 		$stmt->bindParam(':PRODUTO_ID', $id_transacao, PDO::PARAM_INT);
 		$stmt->bindParam(':VOUCHER', $voucher, PDO::PARAM_STR);
@@ -396,6 +396,37 @@ class Gupy_model extends CI_Model
 		$stmt->bindValue(':IMAGEM', $img_path, PDO::PARAM_STR);
 		$stmt->bindValue(':ID', $resultado['ID'], PDO::PARAM_INT);
 
+		if ($stmt->execute()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function get_product_info($produto_id)
+	{
+
+		$stmt = $this->db->prepare("SELECT * FROM `produtos` WHERE produtos.CODIGO = :PRODUTO_ID");
+		$stmt->bindParam(':PRODUTO_ID', $produto_id, PDO::PARAM_INT);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return $resultado;
+	}
+
+	public function editar_produto($dados)
+	{
+		$stmt = $this->db->prepare("UPDATE produtos SET NOME=:NOME,CODIGO_CATEGORIA=:CODIGO_CATEGORIA,DESCRICAO=:DESCRICAO,PRECO_ATUAL=:PRECO_ATUAL,TOTAL_ESTOQUE=:TOTAL_ESTOQUE,PRECO_ORIGINAL=:PRECO_ORIGINAL where CODIGO = :ID");
+
+		$stmt->bindValue(':CODIGO_CATEGORIA', element('categoria', $dados), PDO::PARAM_INT);
+		$stmt->bindValue(':NOME', element('nome', $dados), PDO::PARAM_STR);
+		$stmt->bindValue(':DESCRICAO', element('descricao', $dados), PDO::PARAM_STR);
+		$stmt->bindValue(':PRECO_ATUAL', element('preco', $dados), PDO::PARAM_STR);
+		$stmt->bindValue(':PRECO_ORIGINAL', element('preco_inicial', $dados), PDO::PARAM_STR);
+		$stmt->bindValue(':TOTAL_ESTOQUE', element('estoque', $dados), PDO::PARAM_INT);
+		$stmt->bindValue(':ID', element('id', $dados), PDO::PARAM_INT);
+		//	$stmt->execute();
+		//print_r($stmt->errorInfo());exit;
 		if ($stmt->execute()) {
 			return true;
 		} else {

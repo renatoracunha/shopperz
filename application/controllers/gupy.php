@@ -434,33 +434,33 @@ class Gupy extends CI_Controller
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
-
+	
 	public function upload_imagem()
 	{
-
+		
 		$filename = basename($_FILES["imagem_produto"]["name"]);
-
+		
 		$targetPath = './imagens/' . $_FILES['imagem_produto']['name'];
 		move_uploaded_file($_FILES["imagem_produto"]["tmp_name"], $targetPath);
-
+		
 		$this->gupy_model->set_img_path($filename);
 		$this->load->view('empresa_overview.php');
 	}
-
+	
 	###gerenciamento de loja###
-
+	
 	public function gerenciarVendas()
 	{
-
+		
 		if (empty($_SESSION['user_tipo'])) {
 			redirect("/..");
 		} else if ($_SESSION['user_tipo'] != 2) {
 			redirect("/..");
 		}
-
+		
 		$this->load->view('gerenciar_vendas');
 	}
-
+	
 	public function ajax_get_transacoes()
 	{
 		$status = $this->input->get('status');
@@ -468,39 +468,58 @@ class Gupy extends CI_Controller
 		foreach ($registros as $key => $value) {
 			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
 		}
-
+		
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
-
+	
 	public function ajax_fechar_transacao()
 	{
 		$voucher_id = $this->input->get('voucher_id');
 		$status = $this->input->get('status');
 		$registros = $this->gupy_model->fechar_transacao($voucher_id, $status);
-
+		
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
-
+	
 	public function ajax_get_dados_transacao()
 	{
 		$voucher_id = $this->input->get('voucher_id');
-
+		
 		$registros = $this->gupy_model->get_dados_transacao($voucher_id);
 		$registros['voucher_code'] = voucher_base64_encode($registros['id_voucher']);
-
+		
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
-
+	
 	public function ajax_get_transacao_by_nome()
 	{
 		$nome = $this->input->get('nome');
 		$status = $this->input->get('status');
-
+		
 		$registros = $this->gupy_model->get_transacoes($status, $nome);
 		foreach ($registros as $key => $value) {
 			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
 		}
-
+		
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
+	
+	public function editarProduto($produto_id)
+	{
+		
+		$registros = $this->gupy_model->get_product_info($produto_id);
+		$registros['categoria_produto'] = $this->gupy_model->get_categorias_produtos();
+		//print_r($registros);exit;
+		$this->load->view('editarProduto', $registros);
+	}
+	
+	public function ajax_editar_produto()
+	{
+		$dados_produto = $this->input->get();
+	
+		$registros = $this->gupy_model->editar_produto($dados_produto);
+	
+		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
+	}
+	
 }
