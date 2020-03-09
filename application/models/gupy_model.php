@@ -541,7 +541,7 @@ class Gupy_model extends CI_Model
 	}
 
 	
-}
+
 	public function get_user_vouchers_by_company_name($status, $nome)
 	{
 
