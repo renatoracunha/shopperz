@@ -505,7 +505,6 @@ class Gupy_model extends CI_Model
 		return $resultado;
 	}
 
-<<<<<<< HEAD
 	public function get_dados_produto($id){
 
 		$stmt = $this->db->prepare("SELECT * from produtos
@@ -543,7 +542,6 @@ class Gupy_model extends CI_Model
 
 	
 }
-=======
 	public function get_user_vouchers_by_company_name($status, $nome)
 	{
 
@@ -562,4 +560,3 @@ class Gupy_model extends CI_Model
 		return $resultado;
 	}
 }
->>>>>>> 8658bd55f14fdaefc1e4a2c4405cef1ab24d2b13
