@@ -216,9 +216,15 @@ $usuario_id = $_SESSION['user_id'] ;
 				type:"get",
 				data:{ valor_produto:valor_produto,usuario_id:<?php echo $usuario_id ?>,produto_id:<?php echo $produto_id ?>,loja_id:<?php echo $loja_id ?>},
 				success: function(data){
-					$('#modalVoucher').modal('show');
-					$('#voucherModal').html('');
-					$('#voucherModal').html(data);
+					if (data) {
+						$('#modalVoucher').modal('show');
+						$('#voucherModal').html('');
+						$('#voucherModal').html(data);
+					} else {
+						$('#modalVoucher').modal('show');
+						$('#voucherModal').html('');
+						$('#voucherModal').html("Produto sem estoque. Não foi possivel emitir o voucher");
+					}					
 				},
 				error:function(e){
 					alert('erro');

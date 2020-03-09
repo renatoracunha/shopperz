@@ -482,5 +482,40 @@ class Gupy_model extends CI_Model
 		
 	}
 
+	public function get_dados_produto($id){
+
+		$stmt = $this->db->prepare("SELECT * from produtos
+			where CODIGO = :PRODUTO_ID");
+		$stmt->bindParam(':PRODUTO_ID', $id, PDO::PARAM_INT);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+		
+		return $resultado;
+	}
+
+	public function update_qtd_estoque($id){
+		$stmt = $this->db->prepare("UPDATE produtos set TOTAL_ESTOQUE = (TOTAL_ESTOQUE - 1)
+			where CODIGO = :PRODUTO_ID");
+		$stmt->bindParam(':PRODUTO_ID', $id, PDO::PARAM_INT);
+		if($stmt->execute()){
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public function update_status($id){
+		$stmt = $this->db->prepare("UPDATE produtos set STATUS = 0
+			where CODIGO = :PRODUTO_ID");
+		$stmt->bindParam(':PRODUTO_ID', $id, PDO::PARAM_INT);
+		if($stmt->execute()){
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 	
 }
