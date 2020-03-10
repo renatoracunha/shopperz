@@ -539,6 +539,26 @@ class Gupy_model extends CI_Model
 		}
 	}
 
+	
+
+	public function get_user_vouchers_by_company_name($status, $nome)
+	{
+
+		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, produtos.NOME as nome, historico_transacoes_usuario.STATUS, lojas.NOME as status_vouche from historico_transacoes_usuario
+		join produtos on produtos.CODIGO = historico_transacoes_usuario.CODIGO_PRODUTO
+		join usuario on historico_transacoes_usuario.CODIGO_USUARIO = usuario.CODIGO
+        join lojas on produtos.CODIGO_LOJA = lojas.CODIGO
+		where historico_transacoes_usuario.STATUS = :STATUS and usuario.CODIGO = :USER_ID and lojas.NOME like :NOME order by lojas.NOME");
+		$nome = '%' . $nome . '%';
+		$stmt->bindParam(':USER_ID', $_SESSION['user_id'], PDO::PARAM_INT);
+		$stmt->bindParam(':STATUS', $status, PDO::PARAM_INT);
+		$stmt->bindParam(':NOME', $nome, PDO::PARAM_STR);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+		
+		return $resultado;
+	}
+
 	public function get_user($id){
 		$stmt = $this->db->prepare("SELECT * usuario
 			where CODIGO = :USER_ID ");

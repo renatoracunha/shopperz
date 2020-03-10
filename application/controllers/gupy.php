@@ -21,7 +21,13 @@ class Gupy extends CI_Controller
 	}
 	public function index()
 	{
-		$this->load->view('index.html');
+		$dados['tipos_produtos'] = $this->gupy_model->get_tipos_produtos();
+		$this->load->view('lojas_ativas.php', $dados);
+	}
+
+	public function login()
+	{
+		$this->load->view('index.php');
 	}
 
 	#
@@ -30,7 +36,8 @@ class Gupy extends CI_Controller
 	public function main()
 	{
 		if (empty($_SESSION['user_tipo'])) {
-			redirect("/..");
+			$dados['tipos_produtos'] = $this->gupy_model->get_tipos_produtos();
+			$this->load->view('lojas_ativas.php', $dados);
 		} else if ($_SESSION['user_tipo'] == 1) {
 			$dados['tipos_produtos'] = $this->gupy_model->get_tipos_produtos();
 			$this->load->view('lojas_ativas.php', $dados);
@@ -77,61 +84,61 @@ class Gupy extends CI_Controller
 	}
 
 	public function recuperarSenha()
-    {
-        $this->load->view('recuperar_senha');
-    }
+	{
+		$this->load->view('recuperar_senha');
+	}
 
-    public function ajax_recuperar_senha()
-    {
-        $email = $this->input->post('email');
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+	public function ajax_recuperar_senha()
+	{
+		$email = $this->input->post('email');
+		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-            $result = $this->gupy_model->verify_email($email);
+			$result = $this->gupy_model->verify_email($email);
 
-           echo json_encode($result,JSON_UNESCAPED_UNICODE);
-        }
+			echo json_encode($result, JSON_UNESCAPED_UNICODE);
+		}
 
-        //        if (filter_var($email, FILTER_VALIDATE_EMAIL))
-//        {
-//
-//            $mensagem = 'Recebemos um pedido para redefinir sua senha';
-//
-//            $mensagem += 'Use o link abaixo para cadastrar uma nova senha para sua conta.';
-//
-//            $mensagem +=  base_url().'gupy/alterarSenha/'.base64_encode($email) ;
-//
-//            $mensagem += " Se você não solicitou a troca da senha, ignore este email e o link irá expirar por ele mesmo.";
-//
-//            $mensagem += "Este email foi enviado para ";
-//
-//            $mensagem += $email;
-//
-//            $mensagem += "TROCAR SENHA";
-//
-//            print_r($mensagem);exit;
-//            $assunto = "Recuperação de Senha";
-//
-//            $headers = 'From: danielvictormiquiles@gmail.com';
-//
-//            mail($email, $assunto, $mensagem, $headers);
-//        }
-    }
+		//        if (filter_var($email, FILTER_VALIDATE_EMAIL))
+		//        {
+		//
+		//            $mensagem = 'Recebemos um pedido para redefinir sua senha';
+		//
+		//            $mensagem += 'Use o link abaixo para cadastrar uma nova senha para sua conta.';
+		//
+		//            $mensagem +=  base_url().'gupy/alterarSenha/'.base64_encode($email) ;
+		//
+		//            $mensagem += " Se você não solicitou a troca da senha, ignore este email e o link irá expirar por ele mesmo.";
+		//
+		//            $mensagem += "Este email foi enviado para ";
+		//
+		//            $mensagem += $email;
+		//
+		//            $mensagem += "TROCAR SENHA";
+		//
+		//            print_r($mensagem);exit;
+		//            $assunto = "Recuperação de Senha";
+		//
+		//            $headers = 'From: danielvictormiquiles@gmail.com';
+		//
+		//            mail($email, $assunto, $mensagem, $headers);
+		//        }
+	}
 
-    public function alterarSenha($id)
-    {
-        $dados['id'] = $id;
-	    $this->load->view('alterar_senha', $dados);
-    }
+	public function alterarSenha($id)
+	{
+		$dados['id'] = $id;
+		$this->load->view('alterar_senha', $dados);
+	}
 
-    public function ajax_alterar_senha ()
-    {
-        $nova_senha = $this->input->post('nova_senha');
-        $user = $this->input->post('user');
+	public function ajax_alterar_senha()
+	{
+		$nova_senha = $this->input->post('nova_senha');
+		$user = $this->input->post('user');
 
-        $result = $this->gupy_model->ajax_alterar_senha($user,$nova_senha);
+		$result = $this->gupy_model->ajax_alterar_senha($user, $nova_senha);
 
-        echo json_encode($result,JSON_UNESCAPED_UNICODE);
-    }
+		echo json_encode($result, JSON_UNESCAPED_UNICODE);
+	}
 
 	#
 	#Cadastro
@@ -186,8 +193,8 @@ class Gupy extends CI_Controller
 	{
 		$status = $this->input->get('status');
 		$registros = $this->gupy_model->get_user_vouchers($status);
-		
-		
+
+
 		foreach ($registros as $key => $value) {
 			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
 		}
@@ -200,19 +207,19 @@ class Gupy extends CI_Controller
 		$voucher_id = $this->input->get('voucher_id');
 		$status = $this->input->get('status');
 
-		$registros = $this->gupy_model->get_user_vouchers($status,$voucher_id);
+		$registros = $this->gupy_model->get_user_vouchers($status, $voucher_id);
 		$registros = current($registros);
 		$registros['voucher_code'] = voucher_base64_encode($registros['id_voucher']);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
-	
+
 	public function ajax_get_user_transacao_by_nome_loja()
 	{
 		$status = $this->input->get('status');
 		$nome = $this->input->get('nome');
 
-		$registros = $this->gupy_model->get_user_vouchers_by_company_name($status,$nome);
+		$registros = $this->gupy_model->get_user_vouchers_by_company_name($status, $nome);
 		//$registros = current($registros);
 		foreach ($registros as $key => $value) {
 			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
@@ -220,7 +227,7 @@ class Gupy extends CI_Controller
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
-	
+
 	#
 	#Código
 	#
@@ -239,10 +246,13 @@ class Gupy extends CI_Controller
 	{
 		$loja_id = $this->input->get('loja_id');
 		$registros['produtos'] = $this->gupy_model->get_listar_produto($loja_id);
-
-		$registros['favorita'] = $this->gupy_model->get_lojas_favoritas($_SESSION['user_id'], $loja_id);
-		if (!$registros['favorita']) {
+		if (empty($_SESSION['user_id'])) {
 			$registros['favorita'] = false;
+		} else {
+			$registros['favorita'] = $this->gupy_model->get_lojas_favoritas($_SESSION['user_id'], $loja_id);
+			if (!$registros['favorita']) {
+				$registros['favorita'] = false;
+			}
 		}
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -282,9 +292,9 @@ class Gupy extends CI_Controller
 
 	public function listar_produtos($loja_id)
 	{
-		if (empty($_SESSION['user_tipo'])) {
+		/*if (empty($_SESSION['user_tipo'])) {
 			redirect("/..");
-		}
+		}*/
 		$dados['loja_id'] = $loja_id;
 		$this->load->view('listagem_produtos', $dados);
 	}
@@ -377,7 +387,6 @@ class Gupy extends CI_Controller
 			if ($registros) {
 
 				$this->input->update_qtd_estoque($produto_id);
-
 			}
 
 			echo json_encode($registros, JSON_UNESCAPED_UNICODE);
@@ -386,7 +395,7 @@ class Gupy extends CI_Controller
 			$this->input->update_status($produto_id);
 
 			echo json_encode(false, JSON_UNESCAPED_UNICODE);
-		}		
+		}
 	}
 
 	#
@@ -447,33 +456,33 @@ class Gupy extends CI_Controller
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
-	
+
 	public function upload_imagem()
 	{
-		
+
 		$filename = basename($_FILES["imagem_produto"]["name"]);
-		
+
 		$targetPath = './imagens/' . $_FILES['imagem_produto']['name'];
 		move_uploaded_file($_FILES["imagem_produto"]["tmp_name"], $targetPath);
-		
+
 		$this->gupy_model->set_img_path($filename);
 		$this->load->view('empresa_overview.php');
 	}
-	
+
 	###gerenciamento de loja###
-	
+
 	public function gerenciarVendas()
 	{
-		
+
 		if (empty($_SESSION['user_tipo'])) {
 			redirect("/..");
 		} else if ($_SESSION['user_tipo'] != 2) {
 			redirect("/..");
 		}
-		
+
 		$this->load->view('gerenciar_vendas');
 	}
-	
+
 	public function ajax_get_transacoes()
 	{
 		$status = $this->input->get('status');
@@ -481,60 +490,61 @@ class Gupy extends CI_Controller
 		foreach ($registros as $key => $value) {
 			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
 		}
-		
+
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
-	
+
 	public function ajax_fechar_transacao()
 	{
 		$voucher_id = $this->input->get('voucher_id');
 		$status = $this->input->get('status');
 		$registros = $this->gupy_model->fechar_transacao($voucher_id, $status);
-		
+
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
-	
+
 	public function ajax_get_dados_transacao()
 	{
 		$voucher_id = $this->input->get('voucher_id');
-		
+
 		$registros = $this->gupy_model->get_dados_transacao($voucher_id);
 		$registros['voucher_code'] = voucher_base64_encode($registros['id_voucher']);
-		
+
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
-	
+
 	public function ajax_get_transacao_by_nome()
 	{
 		$nome = $this->input->get('nome');
 		$status = $this->input->get('status');
-		
+
 		$registros = $this->gupy_model->get_transacoes($status, $nome);
 		foreach ($registros as $key => $value) {
 			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
 		}
-		
+
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
-	
+
 	public function editarProduto($produto_id)
 	{
-		
+
 		$registros = $this->gupy_model->get_product_info($produto_id);
 		$registros['categoria_produto'] = $this->gupy_model->get_categorias_produtos();
 		//print_r($registros);exit;
 		$this->load->view('editarProduto', $registros);
 	}
-	
+
 	public function ajax_editar_produto()
 	{
 		$dados_produto = $this->input->get();
-	
+
 		$registros = $this->gupy_model->editar_produto($dados_produto);
-	
+
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
 
+<<<<<<< HEAD
 	public function perfil()
 	{
 		$id = $_SESSION['user_id'];
@@ -542,4 +552,14 @@ class Gupy extends CI_Controller
 		$this->load->view('perfil',$dados);
 	}
 	
+=======
+	###logout
+
+	public function logout()
+	{
+		unset($_SESSION);
+		$dados['tipos_produtos'] = $this->gupy_model->get_tipos_produtos();
+		$this->load->view('lojas_ativas.php', $dados);
+	}
+>>>>>>> 1f7a99df6ff28f820db5ff969968c6da803ee21c
 }
