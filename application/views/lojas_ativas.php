@@ -1,5 +1,9 @@
 
-<?php $usuario_id = $_SESSION['user_id'] ?>
+<?php 
+if(!empty($_SESSION['user_id']))
+  $usuario_id = $_SESSION['user_id']; 
+//print_r($usuario_id);exit;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -170,7 +174,11 @@
           ?>
         </select>
         <button type="button" class="login100-form-btn" onclick="get_lojas_populares()" >Em Alta</button>
-        <button type="button" class="login100-form-btn" onclick="get_favoritos()" >Favoritos</button> 
+        <?php
+        if (!empty($usuario_id)) {
+          echo'<button type="button" id="btn_favoritos" class="login100-form-btn" onclick="get_favoritos()" >Favoritos</button>';
+        } 
+        ?>
       </div>
       <div id="lojas"></div>
     </div>
