@@ -544,7 +544,6 @@ class Gupy extends CI_Controller
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
 
-<<<<<<< HEAD
 	public function perfil()
 	{
 		$id = $_SESSION['user_id'];
@@ -552,7 +551,7 @@ class Gupy extends CI_Controller
 		$this->load->view('perfil',$dados);
 	}
 	
-=======
+
 	###logout
 
 	public function logout()
@@ -561,5 +560,5 @@ class Gupy extends CI_Controller
 		$dados['tipos_produtos'] = $this->gupy_model->get_tipos_produtos();
 		$this->load->view('lojas_ativas.php', $dados);
 	}
->>>>>>> 1f7a99df6ff28f820db5ff969968c6da803ee21c
+
 }
