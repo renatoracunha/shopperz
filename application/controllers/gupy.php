@@ -534,5 +534,12 @@ class Gupy extends CI_Controller
 	
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
+
+	public function perfil()
+	{
+		$id = $_SESSION['user_id'];
+		$dados['info'] = $this->gupy_model->get_user($id);
+		$this->load->view('perfil',$dados);
+	}
 	
 }
