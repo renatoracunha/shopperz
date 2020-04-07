@@ -2,7 +2,7 @@
 <?php 
 if(!empty($_SESSION['user_id']))
   $usuario_id = $_SESSION['user_id']; 
-//print_r($usuario_id);exit;
+//print_r($_SESSION);exit;
 ?>
 <!DOCTYPE html>
 <html lang="en">

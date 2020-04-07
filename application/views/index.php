@@ -184,11 +184,11 @@
                     var id_token = googleUser.getAuthResponse().id_token;
                     let login = {};
                     
-                    login.id = profile.Eea;
-                    login.nome = profile.ig;
-                    login.email = profile.U3;
+                    login.id = profile.getId();
+                    login.nome = profile.getName();
+                    login.email = profile.getEmail();
                     login.api = 'google';
-                    login.profile_picture_url = profile.Paa;
+                    login.profile_picture_url = profile.getImageUrl();
                     login.google_token = id_token;
 
                     api_login(login);
@@ -247,7 +247,7 @@
 				cache: false,
 				success: function (data) {
 					if (data) {
-						window.location.href = "./gupy/main";
+						window.location.href = "./main";
 					} else {
 						alert('cadastro inválido ou inexistente')
 					}
@@ -283,7 +283,7 @@
 				cache: false,
 				success: function (data) {
 					if (data) {
-						window.location.href = "<?php echo base_url('gupy/main') ?>";
+						window.location.href = "<?php echo base_url('./main') ?>";
 					} else {
 						alert('cadastro inválido ou inexistente')
 					}

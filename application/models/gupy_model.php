@@ -116,6 +116,28 @@ class Gupy_model extends CI_Model
 		}
 	}
 
+	public function sign_up_by_api($nome,$email)
+	{
+
+		$stmt = $this->db->prepare("INSERT INTO usuario (EMAIL,NOME,CODIGO_TIPO_USUARIO,DATA_CADASTRO,CODIGO_STATUS) VALUES (:EMAIL,:NOME,:CODIGO_TIPO_USUARIO,:DATA_CADASTRO,:CODIGO_STATUS)");
+
+		$stmt->bindValue(':NOME', $nome, PDO::PARAM_STR);
+		$stmt->bindValue(':EMAIL', $email, PDO::PARAM_STR);
+		$stmt->bindValue(':CODIGO_TIPO_USUARIO', 1, PDO::PARAM_INT);
+		$stmt->bindValue(':DATA_CADASTRO', date('Y-m-d H:i'), PDO::PARAM_STR);
+		$stmt->bindValue(':CODIGO_STATUS', 1, PDO::PARAM_STR);
+
+		if ($stmt->execute()) {
+			$stmt2 = $this->db->prepare("select LAST_INSERT_ID() as ID");
+			if ($stmt2->execute()) {
+				$resultado = $stmt2->fetch(PDO::FETCH_ASSOC);
+				return $resultado['ID'];
+			} else {
+				return false;
+			}
+		}
+	}
+
 	#
 	#Listagem de Produtos
 	#
