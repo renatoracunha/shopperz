@@ -272,6 +272,8 @@
 					$('#voucherModal').html(data.voucher_code);
 					$('#nomeModal').html('');
 					$('#nomeModal').html(data.NOME);
+					$('#telefoneModal').html('');
+					$('#telefoneModal').html(data.TELEFONE);
 					$('#confirmar_compra').val(voucher_id);
 					$('#cancelar_compra').val(voucher_id);
 					if ($('#status').val()==9) {
@@ -334,6 +336,7 @@
 					Dados da compra:<br>
 					<center><strong>Voucher: <span id="voucherModal"></span></strong></center><br>
 					<center><strong>Nome do Comprador: <span id="nomeModal"></span></strong></center><br>
+					<center><strong>Telefone: <span id="telefoneModal"></span></strong></center><br>
 				</div>
 				<div id="modalFooter" class="modal-footer">
 					<button type="button" id="confirmar_compra" value="" onclick="fechar_transacao(this.value,3)" class="btn btn-danger" data-dismiss="modal">Recusar Venda</button>

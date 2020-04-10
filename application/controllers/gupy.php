@@ -21,8 +21,9 @@ class Gupy extends CI_Controller
 	}
 	public function index()
 	{
-		$dados['tipos_produtos'] = $this->gupy_model->get_tipos_produtos();
-		$this->load->view('lojas_ativas.php', $dados);
+		/*$dados['tipos_produtos'] = $this->gupy_model->get_tipos_produtos();
+		$this->load->view('lojas_ativas.php', $dados);*/
+		$this->main();
 	}
 
 	public function login()

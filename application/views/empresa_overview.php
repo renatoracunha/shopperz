@@ -104,7 +104,7 @@
 		}
 
 		function cadastrar(){
-			window.location.href = '<?php echo site_url();?>gupy/cadastarProduto'; 
+			window.location.href = '<?php echo site_url();?>gupy/cadastrarProduto'; 
 		}
 
 		function loadDataInTable(value){

@@ -43,7 +43,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="<?php echo site_url("gupy/cadastrarProduto") ?>">Cadastrar Produto</a>
-            <a class="dropdown-item" href="<?php echo site_url("gupy/editarProduto") ?>">Editar Produto</a>
+            <a class="dropdown-item" href="<?php echo site_url() ?>">Editar Produto</a>
             <a class="dropdown-item" href="<?php echo site_url("gupy/gerenciarVendas") ?>">Gerenciar Vendas</a>
           </div>
         </li>

@@ -504,7 +504,7 @@ class Gupy_model extends CI_Model
 
 	public function get_dados_transacao($voucher_id)
 	{
-		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, produtos.NOME as nome, historico_transacoes_usuario.STATUS as status_voucher, usuario.NOME from historico_transacoes_usuario
+		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, produtos.NOME as nome, historico_transacoes_usuario.STATUS as status_voucher, usuario.NOME, usuario.TELEFONE from historico_transacoes_usuario
 			join produtos on produtos.CODIGO = historico_transacoes_usuario.CODIGO_PRODUTO
             join usuario on historico_transacoes_usuario.CODIGO_USUARIO = usuario.CODIGO
 			where historico_transacoes_usuario.CODIGO = :VOUCHER_ID and historico_transacoes_usuario.CODIGO_LOJA = :USER_ID");
