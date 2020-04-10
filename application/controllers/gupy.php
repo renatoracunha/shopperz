@@ -80,17 +80,19 @@ class Gupy extends CI_Controller
 			if ($_SESSION['user_tipo'] == 2) {
 				$_SESSION['codigo_empresa'] = $this->gupy_model->get_codigo_empresa($_SESSION['user_id']);
 			}
-		}else{
-			$registros['registro'] = $this->gupy_model->sign_up_by_api($nome,$email);
+		} else {
+			$registros['registro'] = $this->gupy_model->sign_up_by_api($nome, $email);
 		}
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
 
-	public function add_phone(){
+	public function add_phone()
+	{
 		$this->load->view('add_phone');
 	}
 
-	public function adicionar_telefone(){
+	public function adicionar_telefone()
+	{
 
 		$telefone = $this->input->get('telefone');
 		$result = $this->gupy_model->add_phone($telefone);
@@ -465,7 +467,12 @@ class Gupy extends CI_Controller
 	public function ajax_cadastrar_produto()
 	{
 		$dados_produto = $this->input->get();
-
+		foreach ($dados_produto as $key => $value) {
+			if ($key == 'preco' || $key == 'preco_inicial') {
+				$dados_produto[$key] = explode("R$ ", $value);
+				$dados_produto[$key] = $dados_produto[$key][1];
+			}
+		}
 		$registros = $this->gupy_model->cadastrar_produto($dados_produto);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
@@ -552,6 +559,12 @@ class Gupy extends CI_Controller
 	public function ajax_editar_produto()
 	{
 		$dados_produto = $this->input->get();
+		foreach ($dados_produto as $key => $value) {
+			if ($key == 'preco' || $key == 'preco_inicial') {
+				$dados_produto[$key] = explode("R$ ", $value);
+				$dados_produto[$key] = $dados_produto[$key][1];
+			}
+		}
 
 		$registros = $this->gupy_model->editar_produto($dados_produto);
 
