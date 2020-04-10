@@ -138,6 +138,21 @@ class Gupy_model extends CI_Model
 		}
 	}
 
+	public function add_phone($telefone){
+
+		$stmt = $this->db->prepare("UPDATE usuario SET TELEFONE = :TELEFONE WHERE CODIGO =:ID_ITEM");
+
+		$stmt->bindParam(':TELEFONE', $telefone, PDO::PARAM_STR);
+		$stmt->bindParam(':ID_ITEM', $_SESSION['user_id'], PDO::PARAM_INT);
+
+
+		if ($stmt->execute()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	#
 	#Listagem de Produtos
 	#

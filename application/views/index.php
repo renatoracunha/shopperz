@@ -246,10 +246,10 @@
 				data: { nome: login_info.nome, email: login_info.email,api:login_info.api },
 				cache: false,
 				success: function (data) {
-					if (data) {
-						window.location.href = "./main";
+					if (data.registro.TELEFONE == '') {
+						window.location.href = "./add_phone";
 					} else {
-						alert('cadastro inválido ou inexistente')
+						window.location.href = "./main";
 					}
 				}, error: function (e) {
 					alert('erro');

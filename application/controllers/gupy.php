@@ -80,9 +80,20 @@ class Gupy extends CI_Controller
 				$_SESSION['codigo_empresa'] = $this->gupy_model->get_codigo_empresa($_SESSION['user_id']);
 			}
 		}else{
-			$registros = $this->gupy_model->sign_up_by_api($nome,$email);
+			$registros['registro'] = $this->gupy_model->sign_up_by_api($nome,$email);
 		}
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
+	}
+
+	public function add_phone(){
+		$this->load->view('add_phone');
+	}
+
+	public function adicionar_telefone(){
+
+		$telefone = $this->input->get('telefone');
+		$result = $this->gupy_model->add_phone($telefone);
+		echo json_encode($result, JSON_UNESCAPED_UNICODE);
 	}
 
 	public function recuperarSenha()
