@@ -283,7 +283,7 @@
 				cache: false,
 				success: function (data) {
 					if (data) {
-						window.location.href = "<?php echo base_url() ?>/main";
+						window.location.href = "<?php echo base_url() ?>";
 					} else {
 						alert('cadastro inválido ou inexistente')
 					}
