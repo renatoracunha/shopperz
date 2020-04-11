@@ -80,9 +80,9 @@ class Gupy extends CI_Controller
 			if ($_SESSION['user_tipo'] == 2) {
 				$_SESSION['codigo_empresa'] = $this->gupy_model->get_codigo_empresa($_SESSION['user_id']);
 			}
-		}else{
-			$result = $this->gupy_model->sign_up_by_api($nome,$email);
-			if(!empty($result)){
+		} else {
+			$result = $this->gupy_model->sign_up_by_api($nome, $email);
+			if (!empty($result)) {
 				$registros = $this->gupy_model->getUserById($result);
 			}
 		}
@@ -398,8 +398,8 @@ class Gupy extends CI_Controller
 		$usuario_id = $this->input->get('usuario_id');
 
 		//$total = $this->gupy_model->get_dados_produto($produto_id);
-		
-		if (1) {//ajuste de estoque futuro
+
+		if (1) { //ajuste de estoque futuro
 			$registros = $this->gupy_model->gerar_voucher($valor_produto, $produto_id, $loja_id, $usuario_id);
 			$this->gupy_model->inserir_voucher_venda($registros);
 			$registros = voucher_base64_encode($registros);
@@ -415,6 +415,32 @@ class Gupy extends CI_Controller
 
 			echo json_encode(false, JSON_UNESCAPED_UNICODE);
 		}
+	}
+
+	public function ajax_adicionar_carrinho()
+	{
+		$produto_id = $this->input->get('produto_id');
+		$valor_produto = $this->input->get('valor_produto');
+		$loja_id = $this->input->get('loja_id');
+		//$usuario_id = $this->input->get('usuario_id');
+		$quantidade = $this->input->get('quantidade');
+		//unset($_SESSION['carrinho']);
+		$produto_info['produto_id']=$produto_id;
+		$produto_info['valor_produto']=$valor_produto;
+		$produto_info['loja_id']=$loja_id;
+		$produto_info['quantidade']=$quantidade;
+		if (empty($_SESSION['carrinho'])) {
+			$_SESSION['carrinho'] = array();	
+		}
+		array_push($_SESSION['carrinho'],$produto_info);
+		$registros['quantidade'] = 0;
+		$registros['valor'] = 0;
+		//$registros = array();
+		foreach ($_SESSION['carrinho'] as $key => $value) {
+			$registros['quantidade'] += $value['quantidade'];
+			$registros['valor'] += $value['quantidade']*(double)$value['valor_produto'];
+		}
+		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
 
 	#
@@ -584,12 +610,14 @@ class Gupy extends CI_Controller
 	}
 
 	###Perfil
-	public function perfil(){
+	public function perfil()
+	{
 		$dados['dados'] = $this->gupy_model->getUserById($_SESSION['user_id']);
-		$this->load->view('perfil',$dados);
+		$this->load->view('perfil', $dados);
 	}
 
-	public function update_cadastro(){
+	public function update_cadastro()
+	{
 
 		$dados = $this->input->get();
 
