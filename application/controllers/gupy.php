@@ -33,7 +33,13 @@ class Gupy extends CI_Controller
 
 	###checkout
 	public function checkout(){
-		$dados['dados'] = 34;//$_SESSION['carinho'];
+		$dados['user_info'] = $this->gupy_model->getUserById($_SESSION['user_id']);
+		$dados['dados'] = $_SESSION['carrinho'];
+		foreach ($dados['dados'] as $key => $value) {
+			// print_r($value);
+			$dados['produtos_info'][] = $this->gupy_model->get_produto($value['produto_id']);
+		}
+		// exit;
 		$this->load->view('checkout',$dados);
 	}
 
