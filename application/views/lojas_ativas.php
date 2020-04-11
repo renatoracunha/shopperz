@@ -155,7 +155,6 @@ if(!empty($_SESSION['user_id']))
   </div>
   <div class="limiter">
     <div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
-      <a href="javascript:window.history.back"><- Voltar</a>
       <div style="margin-bottom: 5%">
        <div class="search" >
         <div>
