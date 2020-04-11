@@ -85,6 +85,7 @@ $usuario_id = $_SESSION['user_id'] ;
 	</div>
 
 	<div class="limiter">
+		<a href="javascript:window.history.back"><- Voltar</a>
 		<div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
 			<div id="produto"></div>
 		</div>

@@ -198,12 +198,13 @@
                 },
                 function(error) {
                     console.log(JSON.stringify(error, undefined, 2));
-
                 });
         }
         
 
         function login_facebook() {
+			alert('Funcionalidade desabilitada temporáriamente.');
+			return false;
             FB.login(function(response) { // See the onlogin handler
                 FB.api('/me', {
                     fields: 'name,email,picture.width(250).height(250)'
@@ -214,7 +215,7 @@
                     login.nome = fb_profile.name;
                     login.email = fb_profile.email;
                     login.api = 'facebook';                    
-                    login.profile_picture_url = fb_profile.picture.data.url;
+					login.profile_picture_url = fb_profile.picture.data.url;
                     api_login(login);
 
                 });
@@ -246,7 +247,7 @@
 				data: { nome: login_info.nome, email: login_info.email,api:login_info.api },
 				cache: false,
 				success: function (data) {
-					if (data.registro.TELEFONE == '') {
+					if (data.TELEFONE == '') {
 						window.location.href = "./add_phone";
 					} else {
 						window.location.href = "./main";
@@ -268,7 +269,6 @@
 				$('#senha').attr('placeholder', 'Informe uma senha');
 				$('#senha').css("background-color", "#FFD6D6");
 			}
-
 			if (telefone == '') {
 				$('#telefone').addClass('is-invalid');
 				$('#telefone').focus();

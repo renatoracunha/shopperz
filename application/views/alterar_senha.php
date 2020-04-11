@@ -34,6 +34,7 @@
     <div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
         <div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 
+            <a href="javascript:window.history.back"><- Voltar</a>
             <div class="p-t-13 p-b-9">
                 <span class="txt1">
                     Nova Senha:

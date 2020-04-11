@@ -45,6 +45,7 @@
             <a class="dropdown-item" href="<?php echo site_url("gupy/cadastrarProduto") ?>">Cadastrar Produto</a>
             <a class="dropdown-item" href="<?php echo site_url() ?>">Editar Produto</a>
             <a class="dropdown-item" href="<?php echo site_url("gupy/gerenciarVendas") ?>">Gerenciar Vendas</a>
+            <a class="dropdown-item" href="<?php echo site_url("gupy/perfil") ?>">Perfil</a>
           </div>
         </li>
       <?php

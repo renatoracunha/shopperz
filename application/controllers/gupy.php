@@ -81,7 +81,10 @@ class Gupy extends CI_Controller
 				$_SESSION['codigo_empresa'] = $this->gupy_model->get_codigo_empresa($_SESSION['user_id']);
 			}
 		}else{
-			$registros['registro'] = $this->gupy_model->sign_up_by_api($nome,$email);
+			$result = $this->gupy_model->sign_up_by_api($nome,$email);
+			if(!empty($result)){
+				$registros = $this->gupy_model->getUserById($result);
+			}
 		}
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -565,5 +568,20 @@ class Gupy extends CI_Controller
 		unset($_SESSION);
 		$dados['tipos_produtos'] = $this->gupy_model->get_tipos_produtos();
 		$this->load->view('lojas_ativas.php', $dados);
+	}
+
+	###Perfil
+	public function perfil(){
+		$dados['dados'] = $this->gupy_model->getUserById($_SESSION['user_id']);
+		$this->load->view('perfil',$dados);
+	}
+
+	public function update_cadastro(){
+
+		$dados = $this->input->get();
+
+		$result = $this->gupy_model->update_cadastro($dados);
+
+		echo json_encode($result, JSON_UNESCAPED_UNICODE);
 	}
 }

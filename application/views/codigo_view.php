@@ -72,6 +72,8 @@
 
 	<div class="container">
 		<div class="row">
+
+			<a href="javascript:window.history.back"><- Voltar</a>
 			
 			<div class="col-md-12">
 				<center> Compartilhe o link com seu código.<br></center>

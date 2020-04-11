@@ -31,7 +31,7 @@ class Gupy_model extends CI_Model
 	{
 
 
-		$stmt = $this->db->prepare("SELECT CODIGO,CODIGO_TIPO_USUARIO,NOME FROM usuario where EMAIL = :EMAIL");
+		$stmt = $this->db->prepare("SELECT CODIGO,CODIGO_TIPO_USUARIO,NOME,TELEFONE FROM usuario where EMAIL = :EMAIL");
 
 		$stmt->bindValue(':EMAIL', $email, PDO::PARAM_STR);
 
@@ -145,6 +145,32 @@ class Gupy_model extends CI_Model
 		$stmt->bindParam(':TELEFONE', $telefone, PDO::PARAM_STR);
 		$stmt->bindParam(':ID_ITEM', $_SESSION['user_id'], PDO::PARAM_INT);
 
+
+		if ($stmt->execute()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function getUserById($id){
+
+		$stmt = $this->db->prepare("SELECT * FROM usuario where CODIGO = :ID");
+		$stmt->bindParam(':ID', $id, PDO::PARAM_INT);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return $resultado;
+	}
+
+	public function update_cadastro($dados){
+
+		$stmt = $this->db->prepare("UPDATE usuario SET NOME = :NOME, EMAIL = :EMAIL, TELEFONE = :TELEFONE WHERE CODIGO =:ID_ITEM");
+
+		$stmt->bindParam(':NOME', $dados['nome'], PDO::PARAM_STR);
+		$stmt->bindParam(':EMAIL', $dados['email'], PDO::PARAM_STR);
+		$stmt->bindParam(':TELEFONE', $dados['telefone'], PDO::PARAM_STR);
+		$stmt->bindParam(':ID_ITEM', $_SESSION['user_id'], PDO::PARAM_INT);
 
 		if ($stmt->execute()) {
 			return true;
@@ -576,8 +602,6 @@ class Gupy_model extends CI_Model
 		}
 
 	}
-
-	
 
 	public function get_user_vouchers_by_company_name($status, $nome)
 	{

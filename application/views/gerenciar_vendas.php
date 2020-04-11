@@ -98,14 +98,14 @@
 	<div class="limiter">
 
 		<div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
+			<a href="javascript:window.history.back"><- Voltar</a>
 			<div class="row" style="margin-bottom: 5%">
-
-					<div  class="search">
-						<div class="row">
-							<input onkeyup="pesquisar_transacao(this.value)" type="text" placeholder="       Pesquisar transação . . ." required>
-						</div>
+				<div  class="search">
+					<div class="row">
+						<input onkeyup="pesquisar_transacao(this.value)" type="text" placeholder="       Pesquisar transação . . ." required>
 					</div>
 				</div>
+			</div>
 
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 
