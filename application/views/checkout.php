@@ -24,7 +24,7 @@
             <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
             <h2>Checkout form</h2>
             <p class="lead">
-                <?php print_r($dados);?>
+                <?php //print_r($dados);?>
                 <?php //print_r($user_info);exit;?>
                 <?php //print_r($produtos_info);?>
             </p>
@@ -43,7 +43,7 @@
                                     <div>
                                         <h6 class="my-0"><?php echo $value2['NOME']." x".$dados[$key]['quantidade']?></h6>
                                     </div>
-                                    <span class="text-muted"><?php echo "R$ ".$dados[$key]['valor_produto']*$dados[$key]['quantidade']?></span>
+                                    <span class="text-muted">$12</span>
                                 </li>
                     <?php
                             }
