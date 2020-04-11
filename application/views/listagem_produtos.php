@@ -333,9 +333,9 @@
 
             if (data.favorita) {
 
-              $('#div_favButton').append('<button onclick="status_desfav()" class="btn btn-danger btnFav">f</button>');
+              $('#div_favButton').append('<button onclick="status_desfav()" class="btn btn-danger btnFav"><i class="fa fa-heart-o" aria-hidden="true"></i></button>');
             } else {
-              $('#div_favButton').append('<button onclick="status_fav()" class="btn btn-primary btnFav">f</button>');
+              $('#div_favButton').append('<button onclick="status_fav()" class="btn btn-primary btnFav"><i class="fa fa-heart-o" aria-hidden="true"></i></button>');
             }
 
             if (lines) {
@@ -485,7 +485,7 @@
             },
             success: function(data) {
               $('#div_favButton').html('');
-              $('#div_favButton').append('<button onclick="status_desfav()" class="btn btn-danger btnFav">F</button>');
+              $('#div_favButton').append('<button onclick="status_desfav()" class="btn btn-danger btnFav"><i class="fa fa-heart-o" aria-hidden="true"></i></button>');
             },
             error: function(e) {
               alert('erro');
@@ -509,7 +509,7 @@
           },
           success: function(data) {
             $('#div_favButton').html('');
-            $('#div_favButton').append('<button onclick="status_fav()" class="btn btn-primary btnFav">F</button>');
+            $('#div_favButton').append('<button onclick="status_fav()" class="btn btn-primary btnFav"><i class="fa fa-heart-o" aria-hidden="true"></i></button>');
           },
           error: function(e) {
             alert('erro');

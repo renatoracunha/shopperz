@@ -394,16 +394,16 @@ class Gupy extends CI_Controller
 		$loja_id = $this->input->get('loja_id');
 		$usuario_id = $this->input->get('usuario_id');
 
-		$total = $this->gupy_model->get_dados_produto($produto_id);
-
-		if ($total['TOTAL_ESTOQUE'] > 0) {
+		//$total = $this->gupy_model->get_dados_produto($produto_id);
+		
+		if (1) {//ajuste de estoque futuro
 			$registros = $this->gupy_model->gerar_voucher($valor_produto, $produto_id, $loja_id, $usuario_id);
 			$this->gupy_model->inserir_voucher_venda($registros);
 			$registros = voucher_base64_encode($registros);
-			if ($registros) {
+			/*if ($registros) {
 
 				$this->input->update_qtd_estoque($produto_id);
-			}
+			}*/
 
 			echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 		} else {

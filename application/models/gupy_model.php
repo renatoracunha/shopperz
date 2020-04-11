@@ -282,7 +282,10 @@ class Gupy_model extends CI_Model
 
 	public function get_listar_lojas($nome = null)
 	{
-		$stmt = $this->db->prepare("SELECT CODIGO as id,IMAGEM as img FROM lojas where STATUS = '1' and NOME like :NOME order by NOME");
+		//$stmt = $this->db->prepare("SELECT CODIGO as id,IMAGEM as img FROM lojas where STATUS = '1' and NOME like :NOME order by NOME");
+		$stmt = $this->db->prepare("SELECT lojas.CODIGO as id,lojas.IMAGEM as img FROM lojas 
+		left join produtos on produtos.CODIGO_LOJA = lojas.CODIGO
+		where lojas.STATUS = '1' and lojas.NOME like :NOME and produtos.CODIGO is not NULL GROUP by id order by lojas.NOME");
 		$nome = '%' . $nome . '%';
 		$stmt->bindParam(':NOME', $nome, PDO::PARAM_STR);
 		$stmt->execute();
