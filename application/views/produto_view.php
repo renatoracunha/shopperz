@@ -85,8 +85,8 @@ $usuario_id = $_SESSION['user_id'] ;
 	</div>
 
 	<div class="limiter">
-		<a href="javascript:window.history.back"><- Voltar</a>
 		<div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
+			
 			<div id="produto"></div>
 		</div>
 		<!-- botão favoritar -->
@@ -123,6 +123,7 @@ $usuario_id = $_SESSION['user_id'] ;
 		function loadDataInApp(value){
 
 			var lines = '';
+			lines+='<a href="javascript:window.history.go(-1)"><- Voltar</a>';
 			lines+='<div class="card card_img" >';
 		
 			lines+='<img class="card-img-top" style="width: 100%" src="<?php echo base_url('imagens') ?>/'+value.IMAGEM.replace('C:\\fakepath\\','')+'" alt="Imagem de capa do card"></div>'; 

@@ -93,20 +93,17 @@ if(!empty($_SESSION['user_id']))
   .search > h3 {
     font-weight: normal;
   }
-
-
-
-  .search > div {
+  /* .search > div {
     display: inline-block;
     position: relative;
-  }
+  } */
 
   .search > div:after {
     content: "";
     background: white;
     width: 4px;
     height: 20px;
-    position: absolute;
+    /* position: absolute; */
     top: 20px;
     right:0px;
     transform: rotate(135deg);
@@ -155,17 +152,19 @@ if(!empty($_SESSION['user_id']))
   </div>
   <div class="limiter">
     <div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
-      <div style="margin-bottom: 5%">
-       <div class="search" >
-        <div>
-          <input id="input_pesquisar"  onkeyup="pesquisar_loja(this.value)" type="text" placeholder="       Pesquisar lojas . . ." required>
+      <div>
+        <div class="search" >
+          <div>
+            <input id="input_pesquisar"  onkeyup="pesquisar_loja(this.value)" type="text" placeholder="       Pesquisar lojas . . ." required>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="wrap-login100  p-b-33">
-
-      <div class="btn-group" role="group" style="margin-bottom: 3%">
-        <select class="input100" onchange='get_tipo_produto(this.value)'  id="tipo_de_produto">
+      <br>
+      <br>
+      <br>
+      <div class="wrap-login100  p-b-5">
+      <div class="btn-group" role="group" style="margin-bottom: 3%;">
+        <select class="" onchange='get_tipo_produto(this.value)'  id="tipo_de_produto">
           <option disabled selected>Tipo</option>
           <?php 
           foreach ($tipos_produtos as $produto) {
