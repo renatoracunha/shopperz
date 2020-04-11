@@ -98,7 +98,6 @@
 	<div class="limiter">
 
 		<div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
-			<a href="javascript:window.history.back"><- Voltar</a>
 			<div class="row" style="margin-bottom: 5%">
 				<div  class="search">
 					<div class="row">
@@ -106,9 +105,10 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-
+			
+			<div class="wrap-login100 p-l-110 p-r-110 p-t-20 p-b-33">
+				
+				<a href="javascript:window.history.go(-1)"><- Voltar</a>
 				<span class="login100-form-title p-b-53">
 					<div class="p-t-31 p-b-9">
 						<span class="txt1">

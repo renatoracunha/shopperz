@@ -98,33 +98,33 @@
 	<div class="limiter">
 
 		<div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
-			<a href="javascript:window.history.back"><- Voltar</a>
 			<div class="row" style="margin-bottom: 5%">
-
-					<div  class="search">
-						<div class="row">
-							<input onkeyup="pesquisar_transacao(this.value)" type="text" placeholder="       Pesquisar transação . . ." required>
-						</div>
+				
+				<div  class="search">
+					<div class="row">
+						<input onkeyup="pesquisar_transacao(this.value)" type="text" placeholder="       Pesquisar transação . . ." required>
 					</div>
 				</div>
-
-			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-
-				<span class="login100-form-title p-b-53">
-					<div class="p-t-31 p-b-9">
-						<span class="txt1">
-							Gerenciar vouchers
-						</span>
-					</div>
-					<div style="align-items: center" class="input100 validate-input">
-						<select  onchange="loadData()" class="input100" id="status">
-							<option value="9">Pendentes</option>
-							<option value="1">Usados Com Sucesso</option>
-							<option value="3">Cancelados</option>
-						</select>
-						<span class="focus-input100"></span>
-					</div>
-				</span>
+				</div>
+				
+				<div class="wrap-login100 p-l-110 p-r-110 p-t-20 p-b-33">
+					
+					<a href="javascript:window.history.go(-1)"><- Voltar</a>
+					<span class="login100-form-title p-b-53">
+						<div class="p-t-31 p-b-9">
+							<span class="txt1">
+								Gerenciar vouchers
+							</span>
+						</div>
+						<div style="align-items: center" class="input100 validate-input">
+							<select  onchange="loadData()" class="input100" id="status">
+								<option value="9">Pendentes</option>
+								<option value="1">Usados Com Sucesso</option>
+								<option value="3">Cancelados</option>
+							</select>
+							<span class="focus-input100"></span>
+						</div>
+					</span>
 				<div class="col-lg-12">
 					<table style="color:black" id="tabela" class="table table-hover table-striped">
 						<thead>

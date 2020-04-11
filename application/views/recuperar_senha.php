@@ -32,9 +32,9 @@
 
 <div class="limiter">
     <div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
-        <div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
+        <div class="wrap-login100 p-l-110 p-r-110 p-t-20 p-b-33">
 
-            <a href="javascript:window.history.back"><- Voltar</a>
+            <a href="javascript:window.history.go(-1)"><- Voltar</a>
 
             <div class="p-t-13 p-b-9">
                 <span class="txt1" id="span_email">
@@ -74,27 +74,27 @@
 <script src="<?php echo site_url(); ?>/js/main.js"></script>
 <!--===============================================================================================-->
    <script>
-       function recuperarSenha()
-       {
-           email = $("#email").val();
+        function recuperarSenha()
+        {
+            email = $("#email").val();
 
-           $.ajax({
-               url: "<?php echo base_url()?>gupy/ajax_recuperar_senha",
-               type: "post",
-               dataType: "json",
-               data: {email:email},
-               cache: false,
-               success: function (data) {
+            $.ajax({
+                url: "<?php echo base_url()?>gupy/ajax_recuperar_senha",
+                type: "post",
+                dataType: "json",
+                data: {email:email},
+                cache: false,
+                success: function (data) {
                     if (data){
                         console.log(data.CODIGO)
                         window.location = "<?php echo base_url()?>gupy/alterarSenha/"+data.CODIGO;
                     }
-               },
-               error: function (d) {
+                },
+                error: function (d) {
                     alert('error')
-               }
-           });
-       }
+                }
+            });
+        }
    </script>
 
 </body>

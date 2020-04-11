@@ -34,23 +34,23 @@
 		<div class="container-login100" style="background-image: url('<?php echo base_url(); ?>/imagens/bg-01.jpg');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 
-				<a href="<?php echo base_url(); ?>"><- Voltar</a>
+				<a href="javascript:window.history.go(-1)"><- Voltar</a>
 				
-					<?php 
-						if (!empty($patrocinador['CODIGO'])) {
-					?>
-							<span class="login100-form-title p-b-53">
-								Indicado pelo shopper: <?php echo $patrocinador['NOME'] ?>
-							</span>
-					<?php 	
-						}else{
-					?>
-							<span class="login100-form-title p-b-53">
-								Cadastro Independente
-							</span>
-					<?php 			
-						}
-					?>
+				<?php 
+					if (!empty($patrocinador['CODIGO'])) {
+				?>
+						<span class="login100-form-title p-b-53">
+							Indicado pelo shopper: <?php echo $patrocinador['NOME'] ?>
+						</span>
+				<?php 	
+					}else{
+				?>
+						<span class="login100-form-title p-b-53">
+							Cadastro Independente
+						</span>
+				<?php 			
+					}
+				?>
 					
 					
 					<div class="p-t-31 p-b-9">

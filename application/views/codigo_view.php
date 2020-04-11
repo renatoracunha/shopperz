@@ -73,7 +73,7 @@
 	<div class="container">
 		<div class="row">
 
-			<a href="javascript:window.history.back"><- Voltar</a>
+			<a href="javascript:window.history.go(-1)"><- Voltar</a>
 			
 			<div class="col-md-12">
 				<center> Compartilhe o link com seu código.<br></center>

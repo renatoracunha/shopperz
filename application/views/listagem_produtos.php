@@ -240,7 +240,6 @@
     <div class="limiter">
 
       <div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
-        <a href="javascript:window.history.back"><- Voltar</a>
         <div class="row" style="margin-bottom: 5%">
 
           <div class="search">
@@ -249,7 +248,10 @@
             </div>
           </div>
         </div>
-        <div class="wrap-login100  p-b-33" style="margin-bottom: 5%">
+        <div class="wrap-login100  p-b-33 p-t-15" style="margin-bottom: 5%">
+          <a href="javascript:window.history.go(-1)"><- Voltar</a>
+          <br>
+          <br>
           <div style="margin-bottom: 70%" id="produtos"></div>
         </div>
         <!-- botão favoritar -->

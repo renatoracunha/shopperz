@@ -110,12 +110,12 @@ class Gupy extends CI_Controller
 	public function ajax_recuperar_senha()
 	{
 		$email = $this->input->post('email');
-		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		$result = $this->gupy_model->verify_email($email);
+		echo json_encode($result, JSON_UNESCAPED_UNICODE);
+		// if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-			$result = $this->gupy_model->verify_email($email);
 
-			echo json_encode($result, JSON_UNESCAPED_UNICODE);
-		}
+		// }
 
 		//        if (filter_var($email, FILTER_VALIDATE_EMAIL))
 		//        {
