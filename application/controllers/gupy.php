@@ -31,6 +31,12 @@ class Gupy extends CI_Controller
 		$this->load->view('index.php');
 	}
 
+	###checkout
+	public function checkout(){
+		$dados['dados'] = 34;//$_SESSION['carinho'];
+		$this->load->view('checkout',$dados);
+	}
+
 	#
 	#Login
 	#
