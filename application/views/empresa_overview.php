@@ -115,11 +115,11 @@
 			lines+='<td>'+value.nome+'</td>';
 			lines+='<td>'+value.preco+'</td>';
 			lines+='<td>';
-			lines+='<button style="margin-right:4px;" onclick="editar('+value.id+')" class="btn btn-primary">E</button>';
+			lines+='<button style="margin-right:4px;" onclick="editar('+value.id+')" class="btn btn-primary opt-btn"><i class="fa fa-pencil" aria-hidden="true"></i></button>';
 			if (value.STATUS==1) {
-				lines+='<button onclick="desabilitar('+value.id+')" class="btn btn-danger">X</button>';
+				lines+='<button onclick="desabilitar('+value.id+')" class="btn btn-danger opt-btn"><i class="fa fa-times" aria-hidden="true"></i></button>';
 			}else{
-				lines+='<button onclick="habilitar('+value.id+')" class="btn btn-success">+</button>';
+				lines+='<button onclick="habilitar('+value.id+')" class="btn btn-success opt-btn"><i class="fa fa-plus" aria-hidden="true"></i></button>';
 			}
 
 

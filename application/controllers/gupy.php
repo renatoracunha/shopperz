@@ -89,11 +89,13 @@ class Gupy extends CI_Controller
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
 
-	public function add_phone(){
+	public function add_phone()
+	{
 		$this->load->view('add_phone');
 	}
 
-	public function adicionar_telefone(){
+	public function adicionar_telefone()
+	{
 
 		$telefone = $this->input->get('telefone');
 		$result = $this->gupy_model->add_phone($telefone);
@@ -395,16 +397,16 @@ class Gupy extends CI_Controller
 		$loja_id = $this->input->get('loja_id');
 		$usuario_id = $this->input->get('usuario_id');
 
-		$total = $this->gupy_model->get_dados_produto($produto_id);
-
-		if ($total['TOTAL_ESTOQUE'] > 0) {
+		//$total = $this->gupy_model->get_dados_produto($produto_id);
+		
+		if (1) {//ajuste de estoque futuro
 			$registros = $this->gupy_model->gerar_voucher($valor_produto, $produto_id, $loja_id, $usuario_id);
 			$this->gupy_model->inserir_voucher_venda($registros);
 			$registros = voucher_base64_encode($registros);
-			if ($registros) {
+			/*if ($registros) {
 
 				$this->input->update_qtd_estoque($produto_id);
-			}
+			}*/
 
 			echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 		} else {
@@ -468,7 +470,12 @@ class Gupy extends CI_Controller
 	public function ajax_cadastrar_produto()
 	{
 		$dados_produto = $this->input->get();
-
+		foreach ($dados_produto as $key => $value) {
+			if ($key == 'preco' || $key == 'preco_inicial') {
+				$dados_produto[$key] = explode("R$ ", $value);
+				$dados_produto[$key] = $dados_produto[$key][1];
+			}
+		}
 		$registros = $this->gupy_model->cadastrar_produto($dados_produto);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
@@ -555,6 +562,12 @@ class Gupy extends CI_Controller
 	public function ajax_editar_produto()
 	{
 		$dados_produto = $this->input->get();
+		foreach ($dados_produto as $key => $value) {
+			if ($key == 'preco' || $key == 'preco_inicial') {
+				$dados_produto[$key] = explode("R$ ", $value);
+				$dados_produto[$key] = $dados_produto[$key][1];
+			}
+		}
 
 		$registros = $this->gupy_model->editar_produto($dados_produto);
 

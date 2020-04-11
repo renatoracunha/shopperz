@@ -169,8 +169,8 @@
 
 		function cadastrar(){
 			//return console.log($('#imagem'));
-			let preco = $('#preco').val().maskMoney('destroy');
-			let preco_inicial = $('#preco_inicial').val().maskMoney('destroy');
+			let preco = $('#preco').val();
+			let preco_inicial = $('#preco_inicial').val();
 			let nome = $('#nome').val();
 			let descricao = $('#descricao').val();
 			let imagem = $('#imagem').val();

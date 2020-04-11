@@ -524,4 +524,11 @@ iframe {
   .btn-google {
     width: 100%;
   }
+  .opt-btn{
+    font-size:60%;
+    max-width: 30px;
+    height: 30px;
+    margin: 1px;
+  }
 }
+

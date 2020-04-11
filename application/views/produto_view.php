@@ -129,7 +129,7 @@ $usuario_id = $_SESSION['user_id'] ;
 			lines+='<div style="text-align:left">Produto: '+value.NOME+'<br></div>';
 			lines+='<div style="text-align:left">Preço: R$'+value.PRECO_ATUAL+'<br></div>';
 			lines+='<div style="text-align:left">Descrição: '+value.DESCRICAO+'<br></div>';
-			lines+='<div style="text-align:left">Curtidas: '+value.TOTAL_CURTIDAS+'<br></div>';
+			//lines+='<div style="text-align:left">Curtidas: '+value.TOTAL_CURTIDAS+'<br></div>';
 			return lines;
 		}
 
@@ -141,6 +141,7 @@ $usuario_id = $_SESSION['user_id'] ;
 				data:{produto_id:<?php echo $produto_id ?>	},
 				cache:false,
 				success:function(data){
+					
 					var lines = '';
 					$.each(data,function(index,value){
 						lines+= loadDataInApp(value);
@@ -154,7 +155,7 @@ $usuario_id = $_SESSION['user_id'] ;
 					}else{
 						alert('não há produtos cadastrados');
 					}
-					if (data.favorita) {
+					/*if (data.favorita) {
 						
 						$('#div_favButton').append('<button onclick="status_desfav('+data.favorita+')" class="btn btn-danger btnFav">f</button>');
 					}else{
@@ -165,7 +166,7 @@ $usuario_id = $_SESSION['user_id'] ;
 						$('#div_favButton').append('<button onclick="status_desfav('+data.favorita+')" class="btn btn-danger btnFav">f</button>');
 					}else{
 						$('#div_favButton').append('<button onclick="status_fav()" class="btn btn-primary btnFav">f</button>');
-					}
+					}*/
 					
 				},error:function(e){
 					alert('erro');
@@ -209,7 +210,7 @@ $usuario_id = $_SESSION['user_id'] ;
 		}*/
 
 		function gerar_voucher(valor_produto){
-			//return console.log(valor_produto);
+			//console.log(data);
 			$.ajax({
 				url: "<?php echo site_url();?>gupy/ajax_gerar_voucher",
 				dataType:"json",
@@ -217,6 +218,7 @@ $usuario_id = $_SESSION['user_id'] ;
 				type:"get",
 				data:{ valor_produto:valor_produto,usuario_id:<?php echo $usuario_id ?>,produto_id:<?php echo $produto_id ?>,loja_id:<?php echo $loja_id ?>},
 				success: function(data){
+					
 					if (data) {
 						$('#modalVoucher').modal('show');
 						$('#voucherModal').html('');
