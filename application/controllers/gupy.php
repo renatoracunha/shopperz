@@ -35,12 +35,64 @@ class Gupy extends CI_Controller
 	public function checkout(){
 		$dados['user_info'] = $this->gupy_model->getUserById($_SESSION['user_id']);
 		$dados['dados'] = $_SESSION['carrinho'];
+		$precoTotalItem =0;
+		$precoTotalCompra = 0;
 		foreach ($dados['dados'] as $key => $value) {
 			// print_r($value);
-			$dados['produtos_info'][] = $this->gupy_model->get_produto($value['produto_id']);
+			$precoTotalItem = (double)$value['quantidade']*(double)$value['valor_produto'];
+
+			$precoTotalCompra += $precoTotalItem;
+
+			$result = $this->gupy_model->get_produto($value['produto_id']);
+			
+			$dados['produtos_info'][$value['produto_id']]['nome'] = $result['NOME'];
+
+			$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] = $precoTotalItem;
+			
+			if(array_key_exists('quantidade',$dados['produtos_info'][$value['produto_id']])){
+				
+				$dados['produtos_info'][$value['produto_id']]['quantidade'] += $value['quantidade'];
+				$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] *= $value['quantidade'];
+			} else {
+				$dados['produtos_info'][$value['produto_id']]['quantidade'] = $value['quantidade'];
+			}
 		}
-		// exit;
+		$dados['precoTotalCompra'] = $precoTotalCompra;
 		$this->load->view('checkout',$dados);
+	}
+
+	public function ajax_remover_item(){
+		$id = $this->input->post('id');
+
+		$dados['dados'] = $_SESSION['carrinho'];
+		$precoTotalItem = 0;
+		$precoTotalCompra = 0;
+		foreach ($dados['dados'] as $key => $value) {
+			if(in_array($id,$value)){
+				unset($_SESSION['carrinho'][$key]);
+				continue;
+			}
+			$precoTotalItem = (double)$value['quantidade']*(double)$value['valor_produto'];
+
+			$precoTotalCompra += $precoTotalItem;
+
+			$result = $this->gupy_model->get_produto($value['produto_id']);
+			
+			$dados['produtos_info'][$value['produto_id']]['nome'] = $result['NOME'];
+
+			$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] = $precoTotalItem;
+			
+			if(array_key_exists('quantidade',$dados['produtos_info'][$value['produto_id']])){
+				
+				$dados['produtos_info'][$value['produto_id']]['quantidade'] += $value['quantidade'];
+				$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] *= $value['quantidade'];
+			} else {
+				$dados['produtos_info'][$value['produto_id']]['quantidade'] = $value['quantidade'];
+			}
+		}
+		$dados['qtd_produtos'] = count($dados['produtos_info']);
+		$dados['precoTotalCompra'] = $precoTotalCompra;
+		echo json_encode($dados,JSON_UNESCAPED_UNICODE);
 	}
 
 	#

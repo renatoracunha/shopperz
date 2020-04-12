@@ -363,7 +363,7 @@ class Gupy_model extends CI_Model
 		$stmt = $this->db->prepare("SELECT * FROM produtos where STATUS = 1 and CODIGO = :PRODUTO_ID order by NOME");
 		$stmt->bindParam(':PRODUTO_ID', $produto_id, PDO::PARAM_INT);
 		$stmt->execute();
-		$resultado = $stmt->fetchall(PDO::FETCH_ASSOC);
+		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		return $resultado;
 	}

@@ -9,46 +9,58 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-        <link rel="icon" href="../../../../favicon.ico">
         <title>Gupy Checkout</title>
-        <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css">
-        <!-- Custom styles for this template -->
-        <link href="form-validation.css" rel="stylesheet">
+	    <link rel="icon" type="image/png" href="<?php echo base_url(); ?>/imagens/icons/favicon.ico"/>
+	    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/vendor/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+        <style>
+            .botao{
+                height: 30px;
+                width: 30px;
+                padding: unset;
+                margin-top: 10px;
+            }
+            div > h6{
+                font-size: 12px;
+            }
+        </style>
     </head>
 
     <body class="bg-light">
 
     <div class="container">
         <div class="py-5 text-center">
-            <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-            <h2>Checkout form</h2>
-            <p class="lead">
-                <?php //print_r($dados);?>
-                <?php //print_r($user_info);exit;?>
-                <?php //print_r($produtos_info);?>
-            </p>
+            <!-- <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
+            <h2>Finalizar Compra</h2>
         </div>
         <div class="row">
             <div class="col-md-4 order-md-2 mb-4">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Carrinho</span>
-                    <span class="badge badge-secondary badge-pill"><?php echo count($dados);?></span>
+                    <span id="qtd_produtos" class="badge badge-secondary badge-pill"><?php echo count($produtos_info);?></span>
                 </h4>
                 <ul class="list-group mb-3">
                     <?php
-                        foreach ($produtos_info as $key => $value) {
-                            foreach ($value as $key2 => $value2) {?>
-                                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                    <div>
-                                        <h6 class="my-0"><?php echo $value2['NOME']." x".$dados[$key]['quantidade']?></h6>
-                                    </div>
-                                    <span class="text-muted">$12</span>
-                                </li>
+                        foreach ($produtos_info as $key => $value) {?>
+                        
+                            <li id="<?php echo $key?>" class="list-group-item d-flex justify-content-between">
+                                <div>
+                                    <h6 class="my-3"><?php echo $value['nome']?></h6>
+                                    
+                                </div>
+                                <button id="<?php echo "qtd".$key?>" class="btn btn-light botao" onclick="diminuir()">-</button><h6 class="my-3">4</h6><button class="btn btn-light botao" onclick="aumentar()">+</button>
+                                <span id="<?php echo "precoTotalItem".$key?>" class="text-muted my-3"><?php echo "R$".$value['precoTotalItem']?></span>
+                                <button class="btn btn-light botao" onclick="remover('<?php echo $key?>')"><span class="material-icons">delete</span></button>
+                            </li>
                     <?php
-                            }
                         }
                     ?>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (R$)</span>
+                        <strong id="precoTotalCompra"><?php echo "R$".$precoTotalCompra;?></strong>
+                    </li>
                 </ul>
             </div>
             <div class="col-md-8 order-md-1">
@@ -69,31 +81,45 @@
                         </div>
                     </div>
                     <hr class="mb-4">
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                    <button class="btn btn-primary btn-lg btn-block" type="button" onclick="">finalizar compra</button>
                 </form>
             </div>
         </div>
-
-      <!-- <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">&copy; 2017-2018 Company Name</p>
-        <ul class="list-inline">
-          <li class="list-inline-item"><a href="#">Privacy</a></li>
-          <li class="list-inline-item"><a href="#">Terms</a></li>
-          <li class="list-inline-item"><a href="#">Support</a></li>
-        </ul>
-      </footer> -->
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="../../../../assets/js/vendor/popper.min.js"></script>
-    <script src="../../../../dist/js/bootstrap.min.js"></script>
-    <script src="../../../../assets/js/vendor/holder.min.js"></script>
+    <script src="<?php echo base_url(); ?>/vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="<?php echo base_url(); ?>/vendor/bootstrap/js/popper.js"></script>
+	<script src="<?php echo base_url(); ?>/vendor/bootstrap/js/bootstrap.min.js"></script>
+
     <script>
-      // Example starter JavaScript for disabling form submissions if there are invalid fields
+
+        function remover(id){
+            let confirma = confirm("Realmente deseja exlcluir o item?");
+            alert(confirma);
+            if(confirma){
+                document.getElementById(''+id).remove();
+                $.ajax({
+                    url: "<?php echo base_url();?>gupy/ajax_remover_item",
+                    dataType: "json",
+                    type: "post",
+                    data: {id:id},
+                    cache: false,
+                    success: function(data){
+                        console.log(data);
+                        let qtd_produtos = data.qtd_produtos;
+                        if(qtd_produtos == 0){
+                            window.location.href = '/gupy/main'
+                        } else {
+                            $('#qtd_produtos').val(qtd_produtos);
+                            $('#precoTotalCompra').val(data.precoTotalCompra);
+                        }
+                    },
+                    error: function(d){
+                        alert();
+                    }
+                });
+            }
+        }
       (function() {
         'use strict';
 
