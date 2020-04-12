@@ -101,6 +101,7 @@
             alert(confirma);
             if (confirma) {
                 document.getElementById('' + id).remove();
+
                 $.ajax({
                     url: "<?php echo base_url(); ?>gupy/ajax_remover_item",
                     dataType: "json",
@@ -112,42 +113,49 @@
                     success: function(data) {
                         console.log(data);
                         let qtd_produtos = data.qtd_produtos;
-                        if (qtd_produtos == 0) {
-                            window.location.href = '/gupy/main'
+
+                        if(qtd_produtos == 0){
+                            window.location.href = '<?php echo base_url();?>gupy/main'
                         } else {
-                            $('#qtd_produtos').val(qtd_produtos);
-                            $('#precoTotalCompra').val(data.precoTotalCompra);
+                            document.getElementById('precoTotalCompra').innerHTML = "R$"+data.precoTotalCompra;
+                            document.getElementById('qtd_produtos').innerHTML = qtd_produtos;
                         }
                     },
                     error: function(d) {
                         alert();
                     }
                 });
+            } else {
+                let param = document.getElementById('qtd_item'+id).innerHTML;
+                document.getElementById('qtd_item'+id).innerHTML = param;
             }
         }
 
         function alterar(value, id) {
 
-            let param = $('#qtd_item' + id).val();
-            param = (value == '+1') ? param + 1 : param - 1;
-            if (param == 0) {
+
+            let param = document.getElementById('qtd_item'+id).innerHTML;
+            qtd = Number(param);
+            if(value == '-1'){
+                qtd -= 1;
+            } else {
+                qtd += 1;
+            }
+
+            if(qtd == 0){
                 remover(id);
             } else {
                 $.ajax({
                     url: "<?php echo base_url(); ?>gupy/ajax_alterar_qtd_item",
                     dataType: "json",
                     type: "post",
-                    data: {
-                        id: id,
-                        param: param
-                    },
+
+                    data: {id:id, param:qtd},
                     cache: false,
-                    success: function(data) {
-                        console.log(data);
-                        let qtd_produtos = data.qtd_produtos;
-                        $('#qtd_produtos').val(qtd_produtos);
-                        $('#qtd_item').val(param);
-                        $('#precoTotalCompra').val(data.precoTotalCompra);
+                    success: function(data){
+                        $('#precoTotalItem'+id)[0].innerHTML = "R$"+data.produtos_info[id].precoTotalItem;
+                        document.getElementById('qtd_item'+id).innerHTML = qtd;
+                        document.getElementById('precoTotalCompra').innerHTML = "R$"+data.precoTotalCompra;
                     },
                     error: function(d) {
                         alert();
@@ -155,26 +163,24 @@
                 });
             }
 
-
-
         }
-        (function() {
-            'use strict';
 
-            window.addEventListener('load', function() {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation');
+        
+      (function() {
+        'use strict';
 
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
             }, false);
         })();
 

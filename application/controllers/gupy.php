@@ -101,9 +101,13 @@ class Gupy extends CI_Controller
 		$dados['dados'] = $_SESSION['carrinho'];
 		$precoTotalItem = 0;
 		$precoTotalCompra = 0;
+		$cont = 0;
 		foreach ($dados['dados'] as $key => $value) {
-			if ($value['produto_id'] == $id) {
+
+			if($value['produto_id'] == $id && $cont == 0){
 				$value['quantidade'] = $qtd;
+				$_SESSION['carrinho'][$key]['quantidade'] = $qtd;
+				$cont++;
 			}
 			if ($_SESSION['carrinho'] != 0) {
 				$precoTotalItem = (float) $value['quantidade'] * (float) $value['valor_produto'];
