@@ -130,7 +130,7 @@ $usuario_id = $_SESSION['user_id'];
 		});
 
 		function loadDataInApp(value) {
-			console.log(value);
+			//console.log(value);
 
 			var lines = '';
 		
@@ -156,16 +156,17 @@ $usuario_id = $_SESSION['user_id'];
 				},
 				cache: false,
 				success: function(data) {
-
+				
 					var lines = '';
-					$.each(data, function(index, value) {
-						lines += loadDataInApp(value);
-					});
+					//$.each(data, function(index, value) {
+						//console.log(value);
+						lines += loadDataInApp(data);
+					//});
 
 					if (lines) {
 						$("#produto").html('');
 						$("#produto").append(lines);
-						$("#btn_gerar_voucher").val(data[0].PRECO_ATUAL);
+						$("#btn_gerar_voucher").val(data.PRECO_ATUAL);
 
 					} else {
 						alert('não há produtos cadastrados');
