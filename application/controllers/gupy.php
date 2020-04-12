@@ -552,7 +552,7 @@ class Gupy extends CI_Controller
 			array_push($_SESSION['carrinho'], $produto_info);
 		}else{
 			$_SESSION['carrinho'][$product_key]['quantidade'] +=$quantidade;
-			print_r($_SESSION['carrinho'][$product_key]['quantidade']);
+			// print_r($_SESSION['carrinho'][$product_key]['quantidade']);
 		}
 		foreach ($_SESSION['carrinho'] as $key => $value) {
 			$registros['quantidade'] += $value['quantidade'];
