@@ -94,7 +94,7 @@ $usuario_id = $_SESSION['user_id'];
 
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
-				<div id="produto"></div>
+			<div id="produto"></div>
 		</div>
 		<!-- botão favoritar -->
 		<div id="div_favButton"></div>
@@ -133,7 +133,7 @@ $usuario_id = $_SESSION['user_id'];
 			//console.log(value);
 
 			var lines = '';
-		
+
 			lines += '<a href="javascript:window.history.go(-1)"><- Voltar</a>';
 			lines += '<div class="card card_img" >';
 
@@ -156,12 +156,10 @@ $usuario_id = $_SESSION['user_id'];
 				},
 				cache: false,
 				success: function(data) {
-				
+
 					var lines = '';
-					//$.each(data, function(index, value) {
-						//console.log(value);
-						lines += loadDataInApp(data);
-					//});
+
+					lines += loadDataInApp(data);
 
 					if (lines) {
 						$("#produto").html('');
@@ -301,12 +299,12 @@ $usuario_id = $_SESSION['user_id'];
 					<center><strong>Quantidade de itens: <span id="quantidade_itens"></span></strong></center>
 				</div>
 				<div class="modal-footer">
-						<button type="button" style="width:49%" class="btn btn-primary" onclick="window.location='<?php echo site_url(); ?>gupy/listar_produtos/<?= $loja_id ?>'" data-dismiss="modal">Loja</button>
-						<button type="button" style="width:49%" onclick="window.location='<?php echo site_url(); ?>gupy/checkout'" class="btn btn-success">Carrinho</button>
-					</div>
+					<button type="button" style="width:49%" class="btn btn-primary" onclick="window.location='<?php echo site_url(); ?>gupy/listar_produtos/<?= $loja_id ?>'" data-dismiss="modal">Loja</button>
+					<button type="button" style="width:49%" onclick="window.location='<?php echo site_url(); ?>gupy/checkout'" class="btn btn-success">Carrinho</button>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 </body>
 

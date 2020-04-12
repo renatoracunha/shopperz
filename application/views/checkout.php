@@ -1,34 +1,37 @@
 <?php
+
 ?>
 
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <title>Gupy Checkout</title>
-	    <link rel="icon" type="image/png" href="<?php echo base_url(); ?>/imagens/icons/favicon.ico"/>
-	    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/vendor/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-        <style>
-            .botao{
-                height: 30px;
-                width: 30px;
-                padding: unset;
-                margin-top: 10px;
-            }
-            div > h6{
-                font-size: 12px;
-            }
-        </style>
-    </head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Gupy Checkout</title>
+    <link rel="icon" type="image/png" href="<?php echo base_url(); ?>/imagens/icons/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-    <body class="bg-light">
+    <style>
+        .botao {
+            height: 30px;
+            width: 30px;
+            padding: unset;
+            margin-top: 10px;
+        }
+
+        div>h6 {
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
 
     <div class="container">
         <div class="py-5 text-center">
@@ -39,26 +42,27 @@
             <div class="col-md-4 order-md-2 mb-4">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Carrinho</span>
-                    <span id="qtd_produtos" class="badge badge-secondary badge-pill"><?php echo count($produtos_info);?></span>
+                    <span id="qtd_produtos" class="badge badge-secondary badge-pill"><?php echo count($produtos_info); ?></span>
                 </h4>
                 <ul class="list-group mb-3">
                     <?php
-                        foreach ($produtos_info as $key => $value) {?>
-                        
-                            <li id="<?php echo $key?>" class="list-group-item d-flex justify-content-between">
-                                <div>
-                                    <h6 class="my-3"><?php echo $value['nome']?></h6>
-                                </div>
-                                <button id="<?php echo "qtd".$key?>" class="btn btn-light botao" onclick="alterar('-1','<?php echo $key?>')">-</button><h6 id="qtd_item<?php echo $key?>" class="my-3"><?php echo $value['quantidade']?></h6><button class="btn btn-light botao" onclick="alterar('+1','<?php echo $key?>')">+</button>
-                                <span id="<?php echo "precoTotalItem".$key?>" class="text-muted my-3"><?php echo "R$".$value['precoTotalItem']?></span>
-                                <button class="btn btn-light botao" onclick="remover('<?php echo $key?>')"><span class="material-icons">delete</span></button>
-                            </li>
+                    foreach ($produtos_info as $key => $value) { ?>
+
+                        <li id="<?php echo $key ?>" class="list-group-item d-flex justify-content-between">
+                            <div>
+                                <h6 class="my-3"><?php echo $value['nome'] ?></h6>
+                            </div>
+                            <button id="<?php echo "qtd" . $key ?>" class="btn btn-light botao" onclick="alterar('-1','<?php echo $key ?>')">-</button>
+                            <h6 id="qtd_item<?php echo $key ?>" class="my-3"><?php echo $value['quantidade'] ?></h6><button class="btn btn-light botao" onclick="alterar('+1','<?php echo $key ?>')">+</button>
+                            <span id="<?php echo "precoTotalItem" . $key ?>" class="text-muted my-3"><?php echo "R$" . $value['precoTotalItem'] ?></span>
+                            <button class="btn btn-light botao" onclick="remover('<?php echo $key ?>')"><span class="material-icons">delete</span></button>
+                        </li>
                     <?php
-                        }
+                    }
                     ?>
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Total (R$)</span>
-                        <strong id="precoTotalCompra"><?php echo "R$".$precoTotalCompra;?></strong>
+                        <strong id="precoTotalCompra"><?php echo "R$" . $precoTotalCompra; ?></strong>
                     </li>
                 </ul>
             </div>
@@ -80,94 +84,147 @@
                         </div>
                     </div>
                     <hr class="mb-4">
-                    <button class="btn btn-primary btn-lg btn-block" type="button" onclick="">finalizar compra</button>
+                    <button class="btn btn-primary btn-lg btn-block" type="button" onclick="gerar_voucher()">Finalizar compra</button>
+                    <button class="btn btn-danger btn-lg btn-block" type="button" onclick="window.location='<?php echo site_url(); ?>gupy/listar_produtos/<?=$_SESSION['carrinho'][0]['loja_id'] ?>'">Voltar a loja</button>
                 </form>
             </div>
         </div>
     </div>
 
     <script src="<?php echo base_url(); ?>/vendor/jquery/jquery-3.2.1.min.js"></script>
-	<script src="<?php echo base_url(); ?>/vendor/bootstrap/js/popper.js"></script>
-	<script src="<?php echo base_url(); ?>/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="<?php echo base_url(); ?>/vendor/bootstrap/js/popper.js"></script>
+    <script src="<?php echo base_url(); ?>/vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <script>
-
-        function remover(id){
+        function remover(id) {
             let confirma = confirm("Realmente deseja exlcluir o item?");
             alert(confirma);
-            if(confirma){
-                document.getElementById(''+id).remove();
+            if (confirma) {
+                document.getElementById('' + id).remove();
                 $.ajax({
-                    url: "<?php echo base_url();?>gupy/ajax_remover_item",
+                    url: "<?php echo base_url(); ?>gupy/ajax_remover_item",
                     dataType: "json",
                     type: "post",
-                    data: {id:id},
+                    data: {
+                        id: id
+                    },
                     cache: false,
-                    success: function(data){
+                    success: function(data) {
                         console.log(data);
                         let qtd_produtos = data.qtd_produtos;
-                        if(qtd_produtos == 0){
+                        if (qtd_produtos == 0) {
                             window.location.href = '/gupy/main'
                         } else {
                             $('#qtd_produtos').val(qtd_produtos);
                             $('#precoTotalCompra').val(data.precoTotalCompra);
                         }
                     },
-                    error: function(d){
+                    error: function(d) {
                         alert();
                     }
                 });
             }
         }
 
-        function alterar(value,id){
+        function alterar(value, id) {
 
-            let param = $('#qtd_item'+id).val();
-            param = (value == '+1')?param+1:param-1;
+            let param = $('#qtd_item' + id).val();
+            param = (value == '+1') ? param + 1 : param - 1;
             if (param == 0) {
                 remover(id);
             } else {
                 $.ajax({
-                    url: "<?php echo base_url();?>gupy/ajax_alterar_qtd_item",
+                    url: "<?php echo base_url(); ?>gupy/ajax_alterar_qtd_item",
                     dataType: "json",
                     type: "post",
-                    data: {id:id, param:param},
+                    data: {
+                        id: id,
+                        param: param
+                    },
                     cache: false,
-                    success: function(data){
+                    success: function(data) {
                         console.log(data);
                         let qtd_produtos = data.qtd_produtos;
                         $('#qtd_produtos').val(qtd_produtos);
                         $('#qtd_item').val(param);
                         $('#precoTotalCompra').val(data.precoTotalCompra);
                     },
-                    error: function(d){
+                    error: function(d) {
                         alert();
                     }
                 });
             }
 
-            
+
 
         }
-      (function() {
-        'use strict';
+        (function() {
+            'use strict';
 
-        window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          var forms = document.getElementsByClassName('needs-validation');
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
 
-          // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add('was-validated');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
             }, false);
-          });
-        }, false);
-      })();
+        })();
+
+        function gerar_voucher() {
+            //console.log(data);
+            $.ajax({
+                url: "<?php echo site_url(); ?>gupy/ajax_gerar_voucher",
+                dataType: "json",
+                cache: false,
+                type: "get",
+                success: function(data) {
+
+                    if (data) {
+                        $('#modalVoucher').modal('show');
+                        $('#voucherModal').html('');
+                        $('#voucher_gerado').html(data);
+                    } else {
+                        $('#modalVoucher').modal('show');
+                        $('#voucherModal').html('');
+                        $('#voucherModal').html("Produto sem estoque. Não foi possivel emitir o voucher");
+                    }
+                },
+                error: function(e) {
+                    alert('erro');
+                }
+            });
+        }
     </script>
-  </body>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalVoucher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Compra finalizada!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Dados do voucher(apresentar na loja):<br>
+                    <center><strong>Código: <span id="voucher_gerado"></span></strong></center>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" style="width:49%" class="btn btn-primary" onclick="window.location='<?php echo site_url(); ?>/gupy/manage_vouchers'" data-dismiss="modal">Vouchers</button>
+                    <button type="button" style="width:49%" onclick="window.location='<?php echo site_url(); ?>/gupy/codigo'" class="btn btn-success">Indicar Gupy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>

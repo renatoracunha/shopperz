@@ -32,25 +32,26 @@ class Gupy extends CI_Controller
 	}
 
 	###checkout
-	public function checkout(){
+	public function checkout()
+	{
 		$dados['user_info'] = $this->gupy_model->getUserById($_SESSION['user_id']);
 		$dados['dados'] = $_SESSION['carrinho'];
-		$precoTotalItem =0;
+		$precoTotalItem = 0;
 		$precoTotalCompra = 0;
 		foreach ($dados['dados'] as $key => $value) {
 			// print_r($value);
-			$precoTotalItem = (double)$value['quantidade']*(double)$value['valor_produto'];
+			$precoTotalItem = (float) $value['quantidade'] * (float) $value['valor_produto'];
 
 			$precoTotalCompra += $precoTotalItem;
 
 			$result = $this->gupy_model->get_produto($value['produto_id']);
-			
+
 			$dados['produtos_info'][$value['produto_id']]['nome'] = $result['NOME'];
 
 			$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] = $precoTotalItem;
-			
-			if(array_key_exists('quantidade',$dados['produtos_info'][$value['produto_id']])){
-				
+
+			if (array_key_exists('quantidade', $dados['produtos_info'][$value['produto_id']])) {
+
 				$dados['produtos_info'][$value['produto_id']]['quantidade'] += $value['quantidade'];
 				$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] *= $value['quantidade'];
 			} else {
@@ -58,27 +59,28 @@ class Gupy extends CI_Controller
 			}
 		}
 		$dados['precoTotalCompra'] = $precoTotalCompra;
-		$this->load->view('checkout',$dados);
+		$this->load->view('checkout', $dados);
 	}
 
-	public function ajax_remover_item(){
+	public function ajax_remover_item()
+	{
 		$id = $this->input->post('id');
 
 		$dados['dados'] = $_SESSION['carrinho'];
 		$precoTotalItem = 0;
 		$precoTotalCompra = 0;
 		foreach ($dados['dados'] as $key => $value) {
-			if(in_array($id,$value)){
+			if (in_array($id, $value)) {
 				unset($_SESSION['carrinho'][$key]);
 				continue;
 			}
-			if($_SESSION['carrinho'] != 0){
-				$precoTotalItem = (double)$value['quantidade']*(double)$value['valor_produto'];
+			if ($_SESSION['carrinho'] != 0) {
+				$precoTotalItem = (float) $value['quantidade'] * (float) $value['valor_produto'];
 				$precoTotalCompra += $precoTotalItem;
-				$result = $this->gupy_model->get_produto($value['produto_id']);			
+				$result = $this->gupy_model->get_produto($value['produto_id']);
 				$dados['produtos_info'][$value['produto_id']]['nome'] = $result['NOME'];
-				$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] = $precoTotalItem;			
-				if(array_key_exists('quantidade',$dados['produtos_info'][$value['produto_id']])){				
+				$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] = $precoTotalItem;
+				if (array_key_exists('quantidade', $dados['produtos_info'][$value['produto_id']])) {
 					$dados['produtos_info'][$value['produto_id']]['quantidade'] += $value['quantidade'];
 					$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] *= $value['quantidade'];
 				} else {
@@ -86,12 +88,13 @@ class Gupy extends CI_Controller
 				}
 			}
 		}
-		$dados['qtd_produtos'] = (array_key_exists('produtos_info',$dados))?count($dados['produtos_info']):0;
+		$dados['qtd_produtos'] = (array_key_exists('produtos_info', $dados)) ? count($dados['produtos_info']) : 0;
 		$dados['precoTotalCompra'] = $precoTotalCompra;
-		echo json_encode($dados,JSON_UNESCAPED_UNICODE);
+		echo json_encode($dados, JSON_UNESCAPED_UNICODE);
 	}
 
-	public function ajax_alterar_qtd_item(){
+	public function ajax_alterar_qtd_item()
+	{
 		$id = $this->input->post('id');
 		$qtd = $this->input->post('param');
 
@@ -99,16 +102,16 @@ class Gupy extends CI_Controller
 		$precoTotalItem = 0;
 		$precoTotalCompra = 0;
 		foreach ($dados['dados'] as $key => $value) {
-			if($value['produto_id'] == $id){
+			if ($value['produto_id'] == $id) {
 				$value['quantidade'] = $qtd;
 			}
-			if($_SESSION['carrinho'] != 0){
-				$precoTotalItem = (double)$value['quantidade']*(double)$value['valor_produto'];
+			if ($_SESSION['carrinho'] != 0) {
+				$precoTotalItem = (float) $value['quantidade'] * (float) $value['valor_produto'];
 				$precoTotalCompra += $precoTotalItem;
-				$result = $this->gupy_model->get_produto($value['produto_id']);			
+				$result = $this->gupy_model->get_produto($value['produto_id']);
 				$dados['produtos_info'][$value['produto_id']]['nome'] = $result['NOME'];
-				$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] = $precoTotalItem;			
-				if(array_key_exists('quantidade',$dados['produtos_info'][$value['produto_id']])){				
+				$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] = $precoTotalItem;
+				if (array_key_exists('quantidade', $dados['produtos_info'][$value['produto_id']])) {
 					$dados['produtos_info'][$value['produto_id']]['quantidade'] += $value['quantidade'];
 					$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] *= $value['quantidade'];
 				} else {
@@ -116,9 +119,9 @@ class Gupy extends CI_Controller
 				}
 			}
 		}
-		$dados['qtd_produtos'] = (array_key_exists('produtos_info',$dados))?count($dados['produtos_info']):0;
+		$dados['qtd_produtos'] = (array_key_exists('produtos_info', $dados)) ? count($dados['produtos_info']) : 0;
 		$dados['precoTotalCompra'] = $precoTotalCompra;
-		echo json_encode($dados,JSON_UNESCAPED_UNICODE);
+		echo json_encode($dados, JSON_UNESCAPED_UNICODE);
 	}
 
 	#
@@ -482,7 +485,16 @@ class Gupy extends CI_Controller
 
 	public function ajax_gerar_voucher()
 	{
-		$produto_id = $this->input->get('produto_id');
+		$valor = 0;
+		foreach ($_SESSION['carrinho'] as $key => $value) {
+			$valor += doubleval($value['valor_produto']) * doubleval($value['quantidade']);
+		}
+		print_r(doubleval($valor));
+		exit;
+		$registros = $this->gupy_model->gerar_voucher($valor_produto, $produto_id, $loja_id, $usuario_id);
+		//$registros = $_SESSION;
+		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
+		/*$produto_id = $this->input->get('produto_id');
 		$valor_produto = $this->input->get('valor_produto');
 		$loja_id = $this->input->get('loja_id');
 		$usuario_id = $this->input->get('usuario_id');
@@ -490,21 +502,21 @@ class Gupy extends CI_Controller
 		//$total = $this->gupy_model->get_dados_produto($produto_id);
 
 		if (1) { //ajuste de estoque futuro
-			$registros = $this->gupy_model->gerar_voucher($valor_produto, $produto_id, $loja_id, $usuario_id);
+			
 			$this->gupy_model->inserir_voucher_venda($registros);
 			$registros = voucher_base64_encode($registros);
 			/*if ($registros) {
 
 				$this->input->update_qtd_estoque($produto_id);
-			}*/
+			}
 
 			echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 		} else {
-
+			
 			$this->input->update_status($produto_id);
-
+			
 			echo json_encode(false, JSON_UNESCAPED_UNICODE);
-		}
+		}*/
 	}
 
 	public function ajax_adicionar_carrinho()
@@ -512,23 +524,35 @@ class Gupy extends CI_Controller
 		$produto_id = $this->input->get('produto_id');
 		$valor_produto = $this->input->get('valor_produto');
 		$loja_id = $this->input->get('loja_id');
-		//$usuario_id = $this->input->get('usuario_id');
-		$quantidade = $this->input->get('quantidade');
-		//unset($_SESSION['carrinho']);
-		$produto_info['produto_id']=$produto_id;
-		$produto_info['valor_produto']=$valor_produto;
-		$produto_info['loja_id']=$loja_id;
-		$produto_info['quantidade']=$quantidade;
-		if (empty($_SESSION['carrinho'])) {
-			$_SESSION['carrinho'] = array();	
-		}
-		array_push($_SESSION['carrinho'],$produto_info);
 		$registros['quantidade'] = 0;
 		$registros['valor'] = 0;
-		//$registros = array();
+		$quantidade = $this->input->get('quantidade');
+		//unset($_SESSION['carrinho']);
+		$produto_info['produto_id'] = $produto_id;
+		$produto_info['valor_produto'] = $valor_produto;
+		$produto_info['loja_id'] = $loja_id;
+		$produto_info['quantidade'] = $quantidade;
+		$new_product = true;
+		if (empty($_SESSION['carrinho'])) {
+			$_SESSION['carrinho'] = array();
+		} else {
+			foreach ($_SESSION['carrinho'] as $key => $value) {
+				if ($value['produto_id'] == $produto_id) {
+					//$registros['quantidade'] = $value['quantidade'];
+					$new_product = false;
+					$product_key = $key;
+				}
+			}
+		}
+		if ($new_product) {
+			array_push($_SESSION['carrinho'], $produto_info);
+		}else{
+			$_SESSION['carrinho'][$product_key]['quantidade'] +=$quantidade;
+			print_r($_SESSION['carrinho'][$product_key]['quantidade']);
+		}
 		foreach ($_SESSION['carrinho'] as $key => $value) {
 			$registros['quantidade'] += $value['quantidade'];
-			$registros['valor'] += $value['quantidade']*(double)$value['valor_produto'];
+			$registros['valor'] += $value['quantidade'] * (float) $value['valor_produto'];
 		}
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
