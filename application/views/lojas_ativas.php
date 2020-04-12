@@ -93,17 +93,17 @@ if(!empty($_SESSION['user_id']))
   .search > h3 {
     font-weight: normal;
   }
-  /* .search > div {
+  .search > div {
     display: inline-block;
     position: relative;
-  } */
+  }
 
   .search > div:after {
     content: "";
     background: white;
     width: 4px;
     height: 20px;
-    /* position: absolute; */
+    position: absolute;
     top: 20px;
     right:0px;
     transform: rotate(135deg);
@@ -152,9 +152,9 @@ if(!empty($_SESSION['user_id']))
   </div>
   <div class="limiter">
     <div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
-      <div>
+      <div class="row" style="margin-bottom: 3%">
         <div class="search" >
-          <div>
+          <div class="row">
             <input id="input_pesquisar"  onkeyup="pesquisar_loja(this.value)" type="text" placeholder="       Pesquisar lojas . . ." required>
           </div>
         </div>
