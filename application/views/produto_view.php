@@ -93,16 +93,15 @@ $usuario_id = $_SESSION['user_id'];
 	</div>
 
 	<div class="limiter">
-		<a href="javascript:window.history.back">
-			<- Voltar</a> <div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
+		<div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
 				<div id="produto"></div>
-	</div>
-	<!-- botão favoritar -->
-	<div id="div_favButton"></div>
-	<!-- botão comprar -->
-	<div id="div_btnComprar">
-		<button type="button" class="login100-form-btn btnComprar" id="btn_gerar_voucher" value="" onclick="adicionar_carrinho(this.value)" style="background-color: red">Adicionar ao carrinho!</button>
-	</div>
+		</div>
+		<!-- botão favoritar -->
+		<div id="div_favButton"></div>
+		<!-- botão comprar -->
+		<div id="div_btnComprar">
+			<button type="button" class="login100-form-btn btnComprar" id="btn_gerar_voucher" value="" onclick="adicionar_carrinho(this.value)" style="background-color: red">Adicionar ao carrinho!</button>
+		</div>
 
 	</div>
 	<!--Fim container-->
@@ -131,8 +130,11 @@ $usuario_id = $_SESSION['user_id'];
 		});
 
 		function loadDataInApp(value) {
+			console.log(value);
 
 			var lines = '';
+		
+			lines += '<a href="javascript:window.history.go(-1)"><- Voltar</a>';
 			lines += '<div class="card card_img" >';
 
 			lines += '<img class="card-img-top" style="width: 100%" src="<?php echo base_url('imagens') ?>/' + value.IMAGEM.replace('C:\\fakepath\\', '') + '" alt="Imagem de capa do card"></div>';

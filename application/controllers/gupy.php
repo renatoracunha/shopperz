@@ -72,25 +72,51 @@ class Gupy extends CI_Controller
 				unset($_SESSION['carrinho'][$key]);
 				continue;
 			}
-			$precoTotalItem = (double)$value['quantidade']*(double)$value['valor_produto'];
-
-			$precoTotalCompra += $precoTotalItem;
-
-			$result = $this->gupy_model->get_produto($value['produto_id']);
-			
-			$dados['produtos_info'][$value['produto_id']]['nome'] = $result['NOME'];
-
-			$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] = $precoTotalItem;
-			
-			if(array_key_exists('quantidade',$dados['produtos_info'][$value['produto_id']])){
-				
-				$dados['produtos_info'][$value['produto_id']]['quantidade'] += $value['quantidade'];
-				$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] *= $value['quantidade'];
-			} else {
-				$dados['produtos_info'][$value['produto_id']]['quantidade'] = $value['quantidade'];
+			if($_SESSION['carrinho'] != 0){
+				$precoTotalItem = (double)$value['quantidade']*(double)$value['valor_produto'];
+				$precoTotalCompra += $precoTotalItem;
+				$result = $this->gupy_model->get_produto($value['produto_id']);			
+				$dados['produtos_info'][$value['produto_id']]['nome'] = $result['NOME'];
+				$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] = $precoTotalItem;			
+				if(array_key_exists('quantidade',$dados['produtos_info'][$value['produto_id']])){				
+					$dados['produtos_info'][$value['produto_id']]['quantidade'] += $value['quantidade'];
+					$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] *= $value['quantidade'];
+				} else {
+					$dados['produtos_info'][$value['produto_id']]['quantidade'] = $value['quantidade'];
+				}
 			}
 		}
-		$dados['qtd_produtos'] = count($dados['produtos_info']);
+		$dados['qtd_produtos'] = (array_key_exists('produtos_info',$dados))?count($dados['produtos_info']):0;
+		$dados['precoTotalCompra'] = $precoTotalCompra;
+		echo json_encode($dados,JSON_UNESCAPED_UNICODE);
+	}
+
+	public function ajax_alterar_qtd_item(){
+		$id = $this->input->post('id');
+		$qtd = $this->input->post('param');
+
+		$dados['dados'] = $_SESSION['carrinho'];
+		$precoTotalItem = 0;
+		$precoTotalCompra = 0;
+		foreach ($dados['dados'] as $key => $value) {
+			if($value['produto_id'] == $id){
+				$value['quantidade'] = $qtd;
+			}
+			if($_SESSION['carrinho'] != 0){
+				$precoTotalItem = (double)$value['quantidade']*(double)$value['valor_produto'];
+				$precoTotalCompra += $precoTotalItem;
+				$result = $this->gupy_model->get_produto($value['produto_id']);			
+				$dados['produtos_info'][$value['produto_id']]['nome'] = $result['NOME'];
+				$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] = $precoTotalItem;			
+				if(array_key_exists('quantidade',$dados['produtos_info'][$value['produto_id']])){				
+					$dados['produtos_info'][$value['produto_id']]['quantidade'] += $value['quantidade'];
+					$dados['produtos_info'][$value['produto_id']]['precoTotalItem'] *= $value['quantidade'];
+				} else {
+					$dados['produtos_info'][$value['produto_id']]['quantidade'] = $value['quantidade'];
+				}
+			}
+		}
+		$dados['qtd_produtos'] = (array_key_exists('produtos_info',$dados))?count($dados['produtos_info']):0;
 		$dados['precoTotalCompra'] = $precoTotalCompra;
 		echo json_encode($dados,JSON_UNESCAPED_UNICODE);
 	}

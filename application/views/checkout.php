@@ -48,9 +48,8 @@
                             <li id="<?php echo $key?>" class="list-group-item d-flex justify-content-between">
                                 <div>
                                     <h6 class="my-3"><?php echo $value['nome']?></h6>
-                                    
                                 </div>
-                                <button id="<?php echo "qtd".$key?>" class="btn btn-light botao" onclick="diminuir()">-</button><h6 class="my-3">4</h6><button class="btn btn-light botao" onclick="aumentar()">+</button>
+                                <button id="<?php echo "qtd".$key?>" class="btn btn-light botao" onclick="alterar('-1','<?php echo $key?>')">-</button><h6 id="qtd_item<?php echo $key?>" class="my-3"><?php echo $value['quantidade']?></h6><button class="btn btn-light botao" onclick="alterar('+1','<?php echo $key?>')">+</button>
                                 <span id="<?php echo "precoTotalItem".$key?>" class="text-muted my-3"><?php echo "R$".$value['precoTotalItem']?></span>
                                 <button class="btn btn-light botao" onclick="remover('<?php echo $key?>')"><span class="material-icons">delete</span></button>
                             </li>
@@ -119,6 +118,36 @@
                     }
                 });
             }
+        }
+
+        function alterar(value,id){
+
+            let param = $('#qtd_item'+id).val();
+            param = (value == '+1')?param+1:param-1;
+            if (param == 0) {
+                remover(id);
+            } else {
+                $.ajax({
+                    url: "<?php echo base_url();?>gupy/ajax_alterar_qtd_item",
+                    dataType: "json",
+                    type: "post",
+                    data: {id:id, param:param},
+                    cache: false,
+                    success: function(data){
+                        console.log(data);
+                        let qtd_produtos = data.qtd_produtos;
+                        $('#qtd_produtos').val(qtd_produtos);
+                        $('#qtd_item').val(param);
+                        $('#precoTotalCompra').val(data.precoTotalCompra);
+                    },
+                    error: function(d){
+                        alert();
+                    }
+                });
+            }
+
+            
+
         }
       (function() {
         'use strict';
