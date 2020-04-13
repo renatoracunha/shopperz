@@ -61,7 +61,12 @@
             <a class="dropdown-item" href="<?php echo site_url("gupy/perfil") ?>">Perfil</a>
             <a class="dropdown-item" href="<?php echo site_url("gupy/codigo") ?>">Compartilhar Código</a>
             <a class="dropdown-item" href="<?php echo site_url("gupy/manage_vouchers") ?>">Gerenciar Vouchers</a>
-
+            <?php
+              if ($_SESSION['carrinho']){?>
+              <a class="dropdown-item" href="<?php echo site_url("gupy/checkout") ?>">Carrinho</a>
+            <?php
+              }
+            ?>
           </div>
         </li>
       <?php

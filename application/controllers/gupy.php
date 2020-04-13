@@ -39,9 +39,10 @@ class Gupy extends CI_Controller
 		$precoTotalItem = 0;
 		$precoTotalCompra = 0;
 		foreach ($dados['dados'] as $key => $value) {
-			// print_r($value);
-			$precoTotalItem = (float) $value['quantidade'] * (float) $value['valor_produto'];
-
+			$valor_produto = str_replace(',','.',$value['valor_produto']);
+			$precoTotalItem = (float) $value['quantidade'] * $valor_produto;
+			// print_r($precoTotalItem);exit;
+			
 			$precoTotalCompra += $precoTotalItem;
 
 			$result = $this->gupy_model->get_produto($value['produto_id']);
@@ -75,7 +76,8 @@ class Gupy extends CI_Controller
 				continue;
 			}
 			if ($_SESSION['carrinho'] != 0) {
-				$precoTotalItem = (float) $value['quantidade'] * (float) $value['valor_produto'];
+				$valor_produto = str_replace(',','.',$value['valor_produto']);
+				$precoTotalItem = (float) $value['quantidade'] * $valor_produto;
 				$precoTotalCompra += $precoTotalItem;
 				$result = $this->gupy_model->get_produto($value['produto_id']);
 				$dados['produtos_info'][$value['produto_id']]['nome'] = $result['NOME'];
@@ -110,7 +112,8 @@ class Gupy extends CI_Controller
 				$cont++;
 			}
 			if ($_SESSION['carrinho'] != 0) {
-				$precoTotalItem = (float) $value['quantidade'] * (float) $value['valor_produto'];
+				$valor_produto = str_replace(',','.',$value['valor_produto']);
+				$precoTotalItem = (float) $value['quantidade'] * $valor_produto;
 				$precoTotalCompra += $precoTotalItem;
 				$result = $this->gupy_model->get_produto($value['produto_id']);
 				$dados['produtos_info'][$value['produto_id']]['nome'] = $result['NOME'];

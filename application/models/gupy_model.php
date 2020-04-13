@@ -249,8 +249,9 @@ class Gupy_model extends CI_Model
 	public function get_lojas_populares()
 	{
 
-		$stmt = $this->db->prepare("SELECT lojas.CODIGO as id,lojas.IMAGEM as img FROM lojas 
-		where lojas.STATUS = '1' ORDER BY lojas.FAVORITA");
+		$stmt = $this->db->prepare("SELECT lojas.CODIGO as id,lojas.IMAGEM as img  FROM lojas
+		left join produtos on produtos.CODIGO_LOJA = lojas.CODIGO
+		where lojas.STATUS = '1' GROUP by lojas.CODIGO ORDER BY lojas.FAVORITA desc");
 
 		$stmt->execute();
 		$resultado = $stmt->fetchall(PDO::FETCH_ASSOC);

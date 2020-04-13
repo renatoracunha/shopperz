@@ -54,7 +54,7 @@
                             </div>
                             <button id="<?php echo "qtd" . $key ?>" class="btn btn-light botao" onclick="alterar('-1','<?php echo $key ?>')">-</button>
                             <h6 id="qtd_item<?php echo $key ?>" class="my-3"><?php echo $value['quantidade'] ?></h6><button class="btn btn-light botao" onclick="alterar('+1','<?php echo $key ?>')">+</button>
-                            <span id="<?php echo "precoTotalItem" . $key ?>" class="text-muted my-3"><?php echo "R$" . $value['precoTotalItem'] ?></span>
+                            <span id="<?php echo "precoTotalItem" . $key ?>" class="text-muted my-3"><?php echo "R$" . str_replace('.',',',$value['precoTotalItem']) ?></span>
                             <button class="btn btn-light botao" onclick="remover('<?php echo $key ?>')"><span class="material-icons">delete</span></button>
                         </li>
                     <?php
@@ -62,7 +62,7 @@
                     ?>
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Total (R$)</span>
-                        <strong id="precoTotalCompra"><?php echo "R$" . $precoTotalCompra; ?></strong>
+                        <strong id="precoTotalCompra"><?php echo "R$" . str_replace('.',',',$precoTotalCompra); ?></strong>
                     </li>
                 </ul>
             </div>
@@ -98,7 +98,6 @@
     <script>
         function remover(id) {
             let confirma = confirm("Realmente deseja exlcluir o item?");
-            alert(confirma);
             if (confirma) {
                 document.getElementById('' + id).remove();
 
@@ -111,13 +110,12 @@
                     },
                     cache: false,
                     success: function(data) {
-                        console.log(data);
                         let qtd_produtos = data.qtd_produtos;
 
-                        if (qtd_produtos == 0) {
-                            window.location.href = '<?php echo base_url(); ?>gupy/main'
+                        if(qtd_produtos == 0){
+                            window.location.href = '<?php echo base_url();?>gupy/main'
                         } else {
-                            document.getElementById('precoTotalCompra').innerHTML = "R$" + data.precoTotalCompra;
+                            document.getElementById('precoTotalCompra').innerHTML = `R$ ${data.precoTotalCompra}`.replace('.',',');
                             document.getElementById('qtd_produtos').innerHTML = qtd_produtos;
                         }
                     },
@@ -134,7 +132,7 @@
         function alterar(value, id) {
 
 
-            let param = document.getElementById('qtd_item' + id).innerHTML;
+            let param = document.getElementById('qtd_item'+id).innerHTML;
             qtd = Number(param);
             if (value == '-1') {
                 qtd -= 1;
@@ -155,10 +153,11 @@
                         param: qtd
                     },
                     cache: false,
-                    success: function(data) {
-                        $('#precoTotalItem' + id)[0].innerHTML = "R$" + data.produtos_info[id].precoTotalItem;
-                        document.getElementById('qtd_item' + id).innerHTML = qtd;
-                        document.getElementById('precoTotalCompra').innerHTML = "R$" + data.precoTotalCompra;
+
+                    success: function(data){
+                        $('#precoTotalItem'+id)[0].innerHTML = `R$ ${data.produtos_info[id].precoTotalItem}`.replace('.',',');
+                        document.getElementById('qtd_item'+id).innerHTML = qtd;
+                        document.getElementById('precoTotalCompra').innerHTML = `R$ ${data.precoTotalCompra}`.replace('.',',');
                     },
                     error: function(d) {
                         alert();
