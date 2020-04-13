@@ -116,7 +116,7 @@ class Gupy_model extends CI_Model
 		}
 	}
 
-	public function sign_up_by_api($nome,$email)
+	public function sign_up_by_api($nome, $email)
 	{
 
 		$stmt = $this->db->prepare("INSERT INTO usuario (EMAIL,NOME,CODIGO_TIPO_USUARIO,DATA_CADASTRO,CODIGO_STATUS) VALUES (:EMAIL,:NOME,:CODIGO_TIPO_USUARIO,:DATA_CADASTRO,:CODIGO_STATUS)");
@@ -138,7 +138,8 @@ class Gupy_model extends CI_Model
 		}
 	}
 
-	public function add_phone($telefone){
+	public function add_phone($telefone)
+	{
 
 		$stmt = $this->db->prepare("UPDATE usuario SET TELEFONE = :TELEFONE WHERE CODIGO =:ID_ITEM");
 
@@ -153,7 +154,8 @@ class Gupy_model extends CI_Model
 		}
 	}
 
-	public function getUserById($id){
+	public function getUserById($id)
+	{
 
 		$stmt = $this->db->prepare("SELECT * FROM usuario where CODIGO = :ID");
 		$stmt->bindParam(':ID', $id, PDO::PARAM_INT);
@@ -163,7 +165,8 @@ class Gupy_model extends CI_Model
 		return $resultado;
 	}
 
-	public function update_cadastro($dados){
+	public function update_cadastro($dados)
+	{
 
 		$stmt = $this->db->prepare("UPDATE usuario SET NOME = :NOME, EMAIL = :EMAIL, TELEFONE = :TELEFONE WHERE CODIGO =:ID_ITEM");
 
@@ -368,13 +371,12 @@ class Gupy_model extends CI_Model
 		return $resultado;
 	}
 
-	public function gerar_voucher($valor_produto, $produto_id, $loja_id, $usuario_id)
+	public function gerar_voucher($valor, $loja_id, $usuario_id)
 	{
-		$stmt = $this->db->prepare("INSERT INTO historico_transacoes_usuario(CODIGO_USUARIO,CODIGO_LOJA,CODIGO_PRODUTO,VALOR) VALUES (:USUARIO_ID,:LOJA_ID,:PRODUTO_ID,:VALOR)");
-		$stmt->bindParam(':PRODUTO_ID', $produto_id, PDO::PARAM_INT);
+		$stmt = $this->db->prepare("INSERT INTO historico_transacoes_usuario(CODIGO_USUARIO,CODIGO_LOJA,VALOR) VALUES (:USUARIO_ID,:LOJA_ID,:VALOR)");
 		$stmt->bindParam(':LOJA_ID', $loja_id, PDO::PARAM_INT);
 		$stmt->bindParam(':USUARIO_ID', $usuario_id, PDO::PARAM_INT);
-		$stmt->bindParam(':VALOR', $valor_produto, PDO::PARAM_INT);
+		$stmt->bindParam(':VALOR', $valor, PDO::PARAM_INT);
 
 		if ($stmt->execute()) {
 			$stmt2 = $this->db->prepare("select LAST_INSERT_ID() as ID");
@@ -384,6 +386,21 @@ class Gupy_model extends CI_Model
 			} else {
 				return false;
 			}
+		}
+	}
+
+	public function produtos_transacao($transacao_id, $produto_id, $quantidade, $valor_produto)
+	{
+		$stmt = $this->db->prepare("INSERT INTO produtos_transacao(historico_transacao_usuario_id,produto_id,quantidade,valor_produto) VALUES (:TRANSACAO_ID,:PRODUTO_ID,:QUANTIDADE,:VALOR_PRODUTO)");
+		$stmt->bindParam(':TRANSACAO_ID', $transacao_id, PDO::PARAM_INT);
+		$stmt->bindParam(':PRODUTO_ID', $produto_id, PDO::PARAM_INT);
+		$stmt->bindParam(':QUANTIDADE', $quantidade, PDO::PARAM_INT);
+		$stmt->bindParam(':VALOR_PRODUTO', $valor_produto, PDO::PARAM_INT);
+
+		if ($stmt->execute()) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -503,9 +520,8 @@ class Gupy_model extends CI_Model
 	###gerenciamento de transações###
 	public function get_transacoes($status, $nome = null)
 	{
-		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, produtos.NOME as nome, historico_transacoes_usuario.STATUS as status_voucher from historico_transacoes_usuario
-			join produtos on produtos.CODIGO = historico_transacoes_usuario.CODIGO_PRODUTO
-			join usuario on historico_transacoes_usuario.CODIGO_USUARIO = usuario.CODIGO
+		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, usuario.NOME as nome, historico_transacoes_usuario.DATA_TRANSACAO as data_compra ,historico_transacoes_usuario.STATUS as status_voucher from historico_transacoes_usuario
+		join usuario on usuario.CODIGO = historico_transacoes_usuario.CODIGO_USUARIO
 			where historico_transacoes_usuario.STATUS = :STATUS and historico_transacoes_usuario.CODIGO_LOJA = :USER_ID AND (usuario.NOME like :NOME or historico_transacoes_usuario.VOUCHER like :NOME)  order by historico_transacoes_usuario.CODIGO");
 		$nome = '%' . $nome . '%';
 		$stmt->bindParam(':USER_ID', $_SESSION['codigo_empresa'], PDO::PARAM_INT);
@@ -533,8 +549,8 @@ class Gupy_model extends CI_Model
 
 	public function get_dados_transacao($voucher_id)
 	{
-		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, produtos.NOME as nome, historico_transacoes_usuario.STATUS as status_voucher, usuario.NOME, usuario.TELEFONE from historico_transacoes_usuario
-			join produtos on produtos.CODIGO = historico_transacoes_usuario.CODIGO_PRODUTO
+		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, historico_transacoes_usuario.STATUS as status_voucher, usuario.NOME, usuario.TELEFONE from historico_transacoes_usuario
+			-- join produtos on produtos.CODIGO = historico_transacoes_usuario.CODIGO_PRODUTO
             join usuario on historico_transacoes_usuario.CODIGO_USUARIO = usuario.CODIGO
 			where historico_transacoes_usuario.CODIGO = :VOUCHER_ID and historico_transacoes_usuario.CODIGO_LOJA = :USER_ID");
 		$stmt->bindParam(':USER_ID', $_SESSION['codigo_empresa'], PDO::PARAM_INT);
@@ -552,17 +568,16 @@ class Gupy_model extends CI_Model
 	public function get_user_vouchers($status, $voucher_id = '')
 	{
 
-		if($voucher_id){
-			$voucher = "and historico_transacoes_usuario.CODIGO = ".$voucher_id;
-		}else{
-			$voucher='';
+		if ($voucher_id) {
+			$voucher = "and historico_transacoes_usuario.CODIGO = " . $voucher_id;
+		} else {
+			$voucher = '';
 		}
 
-		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, produtos.NOME as nome, historico_transacoes_usuario.STATUS, lojas.NOME as nome_loja from historico_transacoes_usuario
-		join produtos on produtos.CODIGO = historico_transacoes_usuario.CODIGO_PRODUTO
-		join usuario on historico_transacoes_usuario.CODIGO_USUARIO = usuario.CODIGO
-        join lojas on produtos.CODIGO_LOJA = lojas.CODIGO
-		where historico_transacoes_usuario.STATUS = :STATUS and usuario.CODIGO = :USER_ID ".$voucher);
+		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher,historico_transacoes_usuario.DATA_TRANSACAO as data_compra , historico_transacoes_usuario.STATUS, lojas.NOME as nome_loja from historico_transacoes_usuario
+        join usuario on usuario.CODIGO = historico_transacoes_usuario.CODIGO_USUARIO
+        join lojas on lojas.CODIGO = historico_transacoes_usuario.CODIGO_LOJA
+		where historico_transacoes_usuario.STATUS = :STATUS and usuario.CODIGO = :USER_ID " . $voucher);
 		$stmt->bindParam(':USER_ID', $_SESSION['user_id'], PDO::PARAM_INT);
 		$stmt->bindParam(':STATUS', $status, PDO::PARAM_INT);
 		$stmt->execute();
@@ -571,48 +586,48 @@ class Gupy_model extends CI_Model
 		return $resultado;
 	}
 
-	public function get_dados_produto($id){
+	public function get_dados_produto($id)
+	{
 
 		$stmt = $this->db->prepare("SELECT * from produtos
 			where CODIGO = :PRODUTO_ID");
 		$stmt->bindParam(':PRODUTO_ID', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $resultado;
 	}
 
-	public function update_qtd_estoque($id){
+	public function update_qtd_estoque($id)
+	{
 		$stmt = $this->db->prepare("UPDATE produtos set TOTAL_ESTOQUE = (TOTAL_ESTOQUE - 1)
 			where CODIGO = :PRODUTO_ID");
 		$stmt->bindParam(':PRODUTO_ID', $id, PDO::PARAM_INT);
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 			return true;
 		} else {
 			return false;
 		}
-
 	}
 
-	public function update_status($id){
+	public function update_status($id)
+	{
 		$stmt = $this->db->prepare("UPDATE produtos set STATUS = 0
 			where CODIGO = :PRODUTO_ID");
 		$stmt->bindParam(':PRODUTO_ID', $id, PDO::PARAM_INT);
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 			return true;
 		} else {
 			return false;
 		}
-
 	}
 
 	public function get_user_vouchers_by_company_name($status, $nome)
 	{
 
-		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, produtos.NOME as nome, historico_transacoes_usuario.STATUS, lojas.NOME as status_vouche from historico_transacoes_usuario
-		join produtos on produtos.CODIGO = historico_transacoes_usuario.CODIGO_PRODUTO
-		join usuario on historico_transacoes_usuario.CODIGO_USUARIO = usuario.CODIGO
-        join lojas on produtos.CODIGO_LOJA = lojas.CODIGO
+		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher,historico_transacoes_usuario.DATA_TRANSACAO as data_compra , historico_transacoes_usuario.STATUS, lojas.NOME as nome_loja from historico_transacoes_usuario
+        join usuario on usuario.CODIGO = historico_transacoes_usuario.CODIGO_USUARIO
+        join lojas on lojas.CODIGO = historico_transacoes_usuario.CODIGO_LOJA
 		where historico_transacoes_usuario.STATUS = :STATUS and usuario.CODIGO = :USER_ID and lojas.NOME like :NOME order by lojas.NOME");
 		$nome = '%' . $nome . '%';
 		$stmt->bindParam(':USER_ID', $_SESSION['user_id'], PDO::PARAM_INT);

@@ -112,7 +112,7 @@
 				<span class="login100-form-title p-b-53">
 					<div class="p-t-31 p-b-9">
 						<span class="txt1">
-							Gerenciar produtos
+							Gerenciar vendas
 						</span>
 					</div>
 					<div style="align-items: center" class="input100 validate-input">
@@ -129,7 +129,8 @@
 						<thead>
 							<tr>
 								<th>Código</th>
-								<th>Descrição</th>
+								<th>Comprador</th>
+								<th>Data</th>
 								
 							</tr>
 						</thead>
@@ -171,8 +172,9 @@
 		function loadDataInTable(value){
 			var lines = '';
 			lines+='<tr onclick="abrirModal('+value.id_voucher+')" >';
-			lines+='<td>'+value.id_voucher_cript+'</td>';
+			lines+='<td >'+value.id_voucher_cript+'</td>';
 			lines+='<td>'+value.nome+'</td>';
+			lines+='<td>'+value.data_formatada+'</td>';
 
 			lines+='</tr>'; 
 

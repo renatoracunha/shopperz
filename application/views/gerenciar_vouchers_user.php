@@ -130,7 +130,8 @@
 						<thead>
 							<tr>
 								<th>Código</th>
-								<th>Descrição</th>
+								<th>Loja</th>
+								<th>Data</th>
 								
 							</tr>
 						</thead>
@@ -173,7 +174,8 @@
 			var lines = '';
 			lines+='<tr onclick="abrirModal('+value.id_voucher+')" >';
 			lines+='<td>'+value.id_voucher_cript+'</td>';
-			lines+='<td>'+value.nome+'</td>';
+			lines+='<td>'+value.nome_loja+'</td>';
+			lines+='<td>'+value.data_formatada+'</td>';
 
 			lines+='</tr>'; 
 
@@ -269,7 +271,6 @@
 				data:{voucher_id:voucher_id,status:status},
 				cache:false,
 				success:function(data){
-                    console.log(data)
 					$('#gerenciarCompra').modal('show');
 					$('#voucherModal').html('');
 					$('#voucherModal').html(data.voucher_code);
@@ -298,7 +299,6 @@
 				type:"get",
 				cache:false,
 				success:function(data){
-                    console.log(data);
 					var lines = '';
 					$.each(data,function(index,value){
 						lines+= loadDataInTable(value);

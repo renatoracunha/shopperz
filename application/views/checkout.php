@@ -85,7 +85,7 @@
                     </div>
                     <hr class="mb-4">
                     <button class="btn btn-primary btn-lg btn-block" type="button" onclick="gerar_voucher()">Finalizar compra</button>
-                    <button class="btn btn-danger btn-lg btn-block" type="button" onclick="window.location='<?php echo site_url(); ?>gupy/listar_produtos/<?=$_SESSION['carrinho'][0]['loja_id'] ?>'">Voltar a loja</button>
+                    <button class="btn btn-danger btn-lg btn-block" type="button" onclick="window.location='<?php echo site_url(); ?>gupy/listar_produtos/<?= $_SESSION['carrinho'][0]['loja_id'] ?>'">Voltar a loja</button>
                 </form>
             </div>
         </div>
@@ -114,10 +114,10 @@
                         console.log(data);
                         let qtd_produtos = data.qtd_produtos;
 
-                        if(qtd_produtos == 0){
-                            window.location.href = '<?php echo base_url();?>gupy/main'
+                        if (qtd_produtos == 0) {
+                            window.location.href = '<?php echo base_url(); ?>gupy/main'
                         } else {
-                            document.getElementById('precoTotalCompra').innerHTML = "R$"+data.precoTotalCompra;
+                            document.getElementById('precoTotalCompra').innerHTML = "R$" + data.precoTotalCompra;
                             document.getElementById('qtd_produtos').innerHTML = qtd_produtos;
                         }
                     },
@@ -126,23 +126,23 @@
                     }
                 });
             } else {
-                let param = document.getElementById('qtd_item'+id).innerHTML;
-                document.getElementById('qtd_item'+id).innerHTML = param;
+                let param = document.getElementById('qtd_item' + id).innerHTML;
+                document.getElementById('qtd_item' + id).innerHTML = param;
             }
         }
 
         function alterar(value, id) {
 
 
-            let param = document.getElementById('qtd_item'+id).innerHTML;
+            let param = document.getElementById('qtd_item' + id).innerHTML;
             qtd = Number(param);
-            if(value == '-1'){
+            if (value == '-1') {
                 qtd -= 1;
             } else {
                 qtd += 1;
             }
 
-            if(qtd == 0){
+            if (qtd == 0) {
                 remover(id);
             } else {
                 $.ajax({
@@ -150,12 +150,15 @@
                     dataType: "json",
                     type: "post",
 
-                    data: {id:id, param:qtd},
+                    data: {
+                        id: id,
+                        param: qtd
+                    },
                     cache: false,
-                    success: function(data){
-                        $('#precoTotalItem'+id)[0].innerHTML = "R$"+data.produtos_info[id].precoTotalItem;
-                        document.getElementById('qtd_item'+id).innerHTML = qtd;
-                        document.getElementById('precoTotalCompra').innerHTML = "R$"+data.precoTotalCompra;
+                    success: function(data) {
+                        $('#precoTotalItem' + id)[0].innerHTML = "R$" + data.produtos_info[id].precoTotalItem;
+                        document.getElementById('qtd_item' + id).innerHTML = qtd;
+                        document.getElementById('precoTotalCompra').innerHTML = "R$" + data.precoTotalCompra;
                     },
                     error: function(d) {
                         alert();
@@ -164,25 +167,6 @@
             }
 
         }
-
-        
-      (function() {
-        'use strict';
-
-        window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          var forms = document.getElementsByClassName('needs-validation');
-
-          // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add('was-validated');
-            }, false);
-        })();
 
         function gerar_voucher() {
             //console.log(data);
@@ -225,8 +209,8 @@
                     <center><strong>Código: <span id="voucher_gerado"></span></strong></center>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" style="width:49%" class="btn btn-primary" onclick="window.location='<?php echo site_url(); ?>/gupy/manage_vouchers'" data-dismiss="modal">Vouchers</button>
-                    <button type="button" style="width:49%" onclick="window.location='<?php echo site_url(); ?>/gupy/codigo'" class="btn btn-success">Indicar Gupy</button>
+                    <button type="button" style="width:49%" class="btn btn-primary" onclick="window.location='<?php echo site_url(); ?>gupy/manage_vouchers'" data-dismiss="modal">Vouchers</button>
+                    <button type="button" style="width:49%" onclick="window.location='<?php echo site_url(); ?>gupy/codigo'" class="btn btn-success">Indicar Gupy</button>
                 </div>
             </div>
         </div>
