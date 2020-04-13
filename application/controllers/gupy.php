@@ -330,8 +330,10 @@ class Gupy extends CI_Controller
 		$registros = $this->gupy_model->get_user_vouchers($status, $voucher_id);
 		$registros = current($registros);
 		$itens = $this->gupy_model->get_itens_transacao($voucher_id);
+		$registros['valorTotal'] = 0;
 
 		foreach ($itens as $key => $value) {
+			$registros['valorTotal'] += $value['valor_unidade'];
 			$registros['itens'][$key] = $value['nome_produto'] . '  R$' . $value['valor_unidade'] . ' x ' . $value['quantidade'];
 		}
 		$registros['voucher_code'] = voucher_base64_encode($registros['id_voucher']);

@@ -283,6 +283,7 @@
 						$('#itens').append(value);
 						
 					});
+					$('#valor_total').html(data.valor_total);
 					if ($('#status').val()==9) {
 						$('#modalFooter').show();
 					}else{
@@ -344,6 +345,8 @@
 					<center><strong>Voucher: <span id="voucherModal"></span></strong></center><br>
 					<center><strong>Nome da Loja: <span id="nomeModal"></span></strong></center><br>
 					<center><strong>Itens: <span id="itens"></span></strong></center><br>
+					<center><strong>Valor Total: <span id="valor_total"></span></strong></center><br>
+
 				</div>
 				<!-- <div id="modalFooter" class="modal-footer">
 					<button type="button" id="confirmar_compra" value="" onclick="fechar_transacao(this.value,3)" class="btn btn-danger" data-dismiss="modal">Recusar Venda</button>
