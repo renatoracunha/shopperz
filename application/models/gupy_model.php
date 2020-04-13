@@ -561,6 +561,20 @@ class Gupy_model extends CI_Model
 
 		return $resultado;
 	}
+	
+	public function get_itens_transacao($voucher_id)
+	{
+		$stmt = $this->db->prepare("select produtos.NOME as nome_produto, produtos_transacao.valor_produto as valor_unidade, produtos_transacao.quantidade from produtos_transacao
+		JOIN produtos on produtos.CODIGO = produtos_transacao.produto_id
+		JOIN historico_transacoes_usuario on historico_transacoes_usuario.CODIGO = produtos_transacao.historico_transacao_usuario_id
+			where historico_transacoes_usuario.CODIGO = :VOUCHER_ID and historico_transacoes_usuario.CODIGO_LOJA = :USER_ID");
+		$stmt->bindParam(':USER_ID', $_SESSION['codigo_empresa'], PDO::PARAM_INT);
+		$stmt->bindParam(':VOUCHER_ID', $voucher_id, PDO::PARAM_INT);
+		$stmt->execute();
+		$resultado = $stmt->fetchall(PDO::FETCH_ASSOC);
+
+		return $resultado;
+	}
 
 	#
 	###Usuários

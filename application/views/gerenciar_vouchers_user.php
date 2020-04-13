@@ -277,6 +277,12 @@
 					$('#nomeModal').html(data.nome_loja);
 					$('#confirmar_compra').val(voucher_id);
 					$('#cancelar_compra').val(voucher_id);
+					$('#itens').html('');
+					$.each(data.itens,function(index,value){
+						$('#itens').append('<br>');
+						$('#itens').append(value);
+						
+					});
 					if ($('#status').val()==9) {
 						$('#modalFooter').show();
 					}else{
@@ -337,6 +343,7 @@
 					Dados da compra:<br>
 					<center><strong>Voucher: <span id="voucherModal"></span></strong></center><br>
 					<center><strong>Nome da Loja: <span id="nomeModal"></span></strong></center><br>
+					<center><strong>Itens: <span id="itens"></span></strong></center><br>
 				</div>
 				<!-- <div id="modalFooter" class="modal-footer">
 					<button type="button" id="confirmar_compra" value="" onclick="fechar_transacao(this.value,3)" class="btn btn-danger" data-dismiss="modal">Recusar Venda</button>
