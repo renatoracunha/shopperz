@@ -39,10 +39,10 @@ class Gupy extends CI_Controller
 		$precoTotalItem = 0;
 		$precoTotalCompra = 0;
 		foreach ($dados['dados'] as $key => $value) {
-			$valor_produto = str_replace(',','.',$value['valor_produto']);
+			$valor_produto = str_replace(',', '.', $value['valor_produto']);
 			$precoTotalItem = (float) $value['quantidade'] * $valor_produto;
 			// print_r($precoTotalItem);exit;
-			
+
 			$precoTotalCompra += $precoTotalItem;
 
 			$result = $this->gupy_model->get_produto($value['produto_id']);
@@ -76,7 +76,7 @@ class Gupy extends CI_Controller
 				continue;
 			}
 			if ($_SESSION['carrinho'] != 0) {
-				$valor_produto = str_replace(',','.',$value['valor_produto']);
+				$valor_produto = str_replace(',', '.', $value['valor_produto']);
 				$precoTotalItem = (float) $value['quantidade'] * $valor_produto;
 				$precoTotalCompra += $precoTotalItem;
 				$result = $this->gupy_model->get_produto($value['produto_id']);
@@ -106,13 +106,13 @@ class Gupy extends CI_Controller
 		$cont = 0;
 		foreach ($dados['dados'] as $key => $value) {
 
-			if($value['produto_id'] == $id && $cont == 0){
+			if ($value['produto_id'] == $id && $cont == 0) {
 				$value['quantidade'] = $qtd;
 				$_SESSION['carrinho'][$key]['quantidade'] = $qtd;
 				$cont++;
 			}
 			if ($_SESSION['carrinho'] != 0) {
-				$valor_produto = str_replace(',','.',$value['valor_produto']);
+				$valor_produto = str_replace(',', '.', $value['valor_produto']);
 				$precoTotalItem = (float) $value['quantidade'] * $valor_produto;
 				$precoTotalCompra += $precoTotalItem;
 				$result = $this->gupy_model->get_produto($value['produto_id']);
@@ -316,8 +316,8 @@ class Gupy extends CI_Controller
 
 		foreach ($registros as $key => $value) {
 			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
-			$date = date_create( $value['data_compra']);
-			$registros[$key]['data_formatada'] =date_format($date, 'd/m/y H:i:s');
+			$date = date_create($value['data_compra']);
+			$registros[$key]['data_formatada'] = date_format($date, 'd/m/y H:i:s');
 		}
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
 	}
@@ -329,6 +329,11 @@ class Gupy extends CI_Controller
 
 		$registros = $this->gupy_model->get_user_vouchers($status, $voucher_id);
 		$registros = current($registros);
+		$itens = $this->gupy_model->get_itens_transacao($voucher_id);
+
+		foreach ($itens as $key => $value) {
+			$registros['itens'][$key] = $value['nome_produto'] . '  R$' . $value['valor_unidade'] . ' x ' . $value['quantidade'];
+		}
 		$registros['voucher_code'] = voucher_base64_encode($registros['id_voucher']);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
@@ -343,8 +348,8 @@ class Gupy extends CI_Controller
 		//$registros = current($registros);
 		foreach ($registros as $key => $value) {
 			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
-			$date = date_create( $value['data_compra']);
-			$registros[$key]['data_formatada'] =date_format($date, 'd/m/y H:i:s');
+			$date = date_create($value['data_compra']);
+			$registros[$key]['data_formatada'] = date_format($date, 'd/m/y H:i:s');
 		}
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
@@ -497,15 +502,15 @@ class Gupy extends CI_Controller
 	{
 		$valor = 0;
 		foreach ($_SESSION['carrinho'] as $key => $value) {
-			$value['valor_produto'] = str_replace(",",".",$value['valor_produto']);
-			$valor += (float)$value['valor_produto'] * (float)$value['quantidade'];
+			$value['valor_produto'] = str_replace(",", ".", $value['valor_produto']);
+			$valor += (float) $value['valor_produto'] * (float) $value['quantidade'];
 		}
 		$registros = $this->gupy_model->gerar_voucher($valor, $_SESSION['carrinho'][0]['loja_id'], $_SESSION['user_id']);
 		$this->gupy_model->inserir_voucher_venda($registros);
 		foreach ($_SESSION['carrinho'] as $key => $value) {
-			$this->gupy_model->produtos_transacao($registros,$value['produto_id'],$value['quantidade'],$value['valor_produto']);
+			$this->gupy_model->produtos_transacao($registros, $value['produto_id'], $value['quantidade'], $value['valor_produto']);
 		}
-	
+
 		$registros = voucher_base64_encode($registros);
 		unset($_SESSION['carrinho']);
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
@@ -538,8 +543,8 @@ class Gupy extends CI_Controller
 		}
 		if ($new_product) {
 			array_push($_SESSION['carrinho'], $produto_info);
-		}else{
-			$_SESSION['carrinho'][$product_key]['quantidade'] +=$quantidade;
+		} else {
+			$_SESSION['carrinho'][$product_key]['quantidade'] += $quantidade;
 			// print_r($_SESSION['carrinho'][$product_key]['quantidade']);
 		}
 		foreach ($_SESSION['carrinho'] as $key => $value) {
@@ -645,8 +650,8 @@ class Gupy extends CI_Controller
 		$registros = $this->gupy_model->get_transacoes($status);
 		foreach ($registros as $key => $value) {
 			$registros[$key]['id_voucher_cript'] = voucher_base64_encode($registros[$key]['id_voucher']);
-			$date = date_create( $value['data_compra']);
-			$registros[$key]['data_formatada'] =date_format($date, 'd/m/y H:i:s');
+			$date = date_create($value['data_compra']);
+			$registros[$key]['data_formatada'] = date_format($date, 'd/m/y H:i:s');
 		}
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
@@ -666,6 +671,11 @@ class Gupy extends CI_Controller
 		$voucher_id = $this->input->get('voucher_id');
 
 		$registros = $this->gupy_model->get_dados_transacao($voucher_id);
+		$itens = $this->gupy_model->get_itens_transacao($voucher_id);
+
+		foreach ($itens as $key => $value) {
+			$registros['itens'][$key] = $value['nome_produto'] . '  R$' . $value['valor_unidade'] . ' x ' . $value['quantidade'];
+		}
 		$registros['voucher_code'] = voucher_base64_encode($registros['id_voucher']);
 
 		echo json_encode($registros, JSON_UNESCAPED_UNICODE);
