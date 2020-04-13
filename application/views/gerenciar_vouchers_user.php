@@ -117,7 +117,7 @@
 							</span>
 						</div>
 						<div style="align-items: center" class="input100 validate-input">
-							<select  onchange="loadData()" class="input100" id="status">
+							<select  onchange="loadData()" class="form-control" id="status">
 								<option value="9">Pendentes</option>
 								<option value="1">Usados Com Sucesso</option>
 								<option value="3">Cancelados</option>
@@ -125,14 +125,13 @@
 							<span class="focus-input100"></span>
 						</div>
 					</span>
-				<div class="col-lg-12">
-					<table style="color:black" id="tabela" class="table table-hover table-striped">
+				<div class="table-responsive-sm">
+					<table style="color:black;" id="tabela" class="table table-sm table-hover table-striped">
 						<thead>
 							<tr>
 								<th>Código</th>
 								<th>Loja</th>
 								<th>Data</th>
-								
 							</tr>
 						</thead>
 						<tbody>
