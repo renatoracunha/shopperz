@@ -283,7 +283,7 @@
 						
 					});
 					console.log(data);
-					$('#valor_total').html(`${data.valor}`.replace('.',','));
+					$('#valor_total').html(`${data.valor_total}`.replace('.',','));
 					$('#confirmar_compra').val(voucher_id);
 					$('#cancelar_compra').val(voucher_id);
 					if ($('#status').val()==9) {

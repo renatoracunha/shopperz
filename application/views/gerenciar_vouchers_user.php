@@ -293,7 +293,7 @@
 						$('#itens').append(value);
 
 					});
-					$('#valor_total').html(data.valor_total);
+					$('#valor_total').html(`${data.valor_total}`.replace('.',','));
 					if ($('#status').val() == 9) {
 						$('#modalFooter').show();
 					} else {
