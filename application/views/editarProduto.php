@@ -38,94 +38,93 @@
 		<div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 
-				<a href="javascript:window.history.go(-1)"><- Voltar</a>
-
-				<span class="login100-form-title p-b-53">
-					Editar Produto
-				</span>
-
-
-				<div class="p-t-31 p-b-9">
-					<span class="txt1">
-						Nome
-					</span>
-				</div>
-				<div class="wrap-input100 validate-input" data-validate="Defina um nome">
-					<input class="input100" type="text" id="nome" value="<?= $NOME ?>">
-					<span class="focus-input100"></span>
-				</div>
-				<div class="p-t-31 p-b-9">
-					<span class="txt1">
-						Preço na loja
-					</span>
-				</div>
-				<div class="wrap-input100 validate-input" data-validate="Defina um preço">
-					<input class="input100" type="text" id="preco_inicial" value="<?= $PRECO_ORIGINAL ?>">
-					<span class="focus-input100"></span>
-				</div>
-				<div class="p-t-31 p-b-9">
-					<span class="txt1">
-						Preço no App
-					</span>
-				</div>
-				<div class="wrap-input100 validate-input" data-validate="Defina um preço">
-					<input class="input100" type="text" id="preco" value="<?= $PRECO_ATUAL ?>">
-					<span class="focus-input100"></span>
-				</div>
-				<div class="p-t-31 p-b-9">
-					<span class="txt1">
-						Descição
-					</span>
-				</div>
-				<div class="wrap-input100 validate-input" data-validate="Defina uma descrição">
-					<input class="input100" type="text" id="descricao" value="<?= $DESCRICAO ?>">
-					<span class="focus-input100"></span>
-				</div>
-
-				<div class="p-t-13 p-b-9">
-					<span class="txt1">
-						Imagem
-					</span>
-				</div>
-				<div class="p-t-13 p-b-9">
-					<span class="txt1">
-						Estoque
-					</span>
-				</div>
-				<div class="wrap-input100 validate-input" data-validate="quantidade no estoque">
-					<input class="input100" type="text" id="estoque" value="<?= $TOTAL_ESTOQUE ?>">
-					<span class="focus-input100"></span>
-				</div>
-
-				<div class="p-t-31 p-b-9">
-					<span class="txt1">
-						Categoria do produto
-					</span>
-				</div>
-				<div class="wrap-input100 validate-input" data-validate="Categoria do produto">
-					<select class="input100" id="categoria">
-						<option selected value="99">Outras</option>
-						<?php foreach ($categoria_produto as $categoria) :
-							if ($CODIGO_CATEGORIA == $categoria['id']) {
-								$selected = 'selected';
-							} else {
-								$selected = '';
-							}
-						?>
-
-							<option <?= $selected ?> value="<?php echo $categoria['id'] ?>"><?php echo $categoria['descricao'] ?></option>
-						<?php endforeach ?>
-
-					</select>
-					<span class="focus-input100"></span>
-				</div>
+				<a href="javascript:window.history.go(-1)">
+					<- Voltar</a> <span class="login100-form-title p-b-53">
+						Editar Produto
+						</span>
 
 
-				<div class="container-login100-form-btn m-t-17">
-					<button type="button" class="login100-form-btn" onclick="editar()">
-						Editar
-					</button>
-				</div>
+						<div class="p-t-31 p-b-9">
+							<span class="txt1">
+								Nome
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate="Defina um nome">
+							<input class="input100" type="text" id="nome" value="<?= $NOME ?>">
+							<span class="focus-input100"></span>
+						</div>
+						<div class="p-t-31 p-b-9">
+							<span class="txt1">
+								Preço na loja
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate="Defina um preço">
+							<input class="input100 money" type="text" id="preco_inicial" value="<?= $PRECO_ORIGINAL ?>">
+							<span class="focus-input100"></span>
+						</div>
+						<div class="p-t-31 p-b-9">
+							<span class="txt1">
+								Preço no App
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate="Defina um preço">
+							<input class="input100 money" type="text" id="preco" value="<?= $PRECO_ATUAL ?>">
+							<span class="focus-input100"></span>
+						</div>
+						<div class="p-t-31 p-b-9">
+							<span class="txt1">
+								Descição
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate="Defina uma descrição">
+							<input class="input100" type="text" id="descricao" value="<?= $DESCRICAO ?>">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="p-t-13 p-b-9">
+							<span class="txt1">
+								Imagem
+							</span>
+						</div>
+						<div class="p-t-13 p-b-9">
+							<span class="txt1">
+								Estoque
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate="quantidade no estoque">
+							<input class="input100" type="text" id="estoque" value="<?= $TOTAL_ESTOQUE ?>">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="p-t-31 p-b-9">
+							<span class="txt1">
+								Categoria do produto
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate="Categoria do produto">
+							<select class="input100" id="categoria">
+								<option selected value="99">Outras</option>
+								<?php foreach ($categoria_produto as $categoria) :
+									if ($CODIGO_CATEGORIA == $categoria['id']) {
+										$selected = 'selected';
+									} else {
+										$selected = '';
+									}
+								?>
+
+									<option <?= $selected ?> value="<?php echo $categoria['id'] ?>"><?php echo $categoria['descricao'] ?></option>
+								<?php endforeach ?>
+
+							</select>
+							<span class="focus-input100"></span>
+						</div>
+
+
+						<div class="container-login100-form-btn m-t-17">
+							<button type="button" class="login100-form-btn" onclick="editar()">
+								Editar
+							</button>
+						</div>
 
 
 			</div>
@@ -159,17 +158,32 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
+
+			initMaskMoney();
+			setMask();
+		});
+
+		function initMaskMoney() {
 			$('#preco').maskMoney({
 				prefix: "R$ ",
 				decimal: ",",
 				thousands: "."
 			});
+			
 			$('#preco_inicial').maskMoney({
 				prefix: "R$ ",
 				decimal: ",",
 				thousands: "."
 			});
-		});
+		}
+
+		function setMask() {
+			$('.money').mask('#.##0,00', {
+				reverse: true,
+				maxlength: false
+			});
+		}
+
 
 		function editar() {
 			let id = "<?= $CODIGO ?>";

@@ -715,6 +715,7 @@ class Gupy extends CI_Controller
 	public function ajax_editar_produto()
 	{
 		$dados_produto = $this->input->get();
+
 		foreach ($dados_produto as $key => $value) {
 			if ($key == 'preco' || $key == 'preco_inicial') {
 				$dados_produto[$key] = explode("R$ ", $value);
