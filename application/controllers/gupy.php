@@ -336,7 +336,7 @@ class Gupy extends CI_Controller
 		foreach ($itens as $key => $value) {
 			$valor_produto = str_replace(',', '.', $value['valor_unidade']);
 			$registros['valor_total'] += $valor_produto;
-			$registros['itens'][$key] = $value['nome_produto'] . '  R$' . $value['valor_unidade'] . ' x ' . $value['quantidade'];
+			$registros['itens'][$key] = $value['nome_produto'] . '  R$' . $valor_produto . ' x ' . $value['quantidade'];
 		}
 		$registros['voucher_code'] = voucher_base64_encode($registros['id_voucher']);
 
@@ -677,9 +677,12 @@ class Gupy extends CI_Controller
 
 		$registros = $this->gupy_model->get_dados_transacao($voucher_id);
 		$itens = $this->gupy_model->get_itens_transacao($voucher_id);
+		$registros['valor_total'] = 0;
 
 		foreach ($itens as $key => $value) {
-			$registros['itens'][$key] = $value['nome_produto'] . '  R$' . $value['valor_unidade'] . ' x ' . $value['quantidade'];
+			$valor_produto = str_replace(',', '.', $value['valor_unidade']);
+			$registros['valor_total'] += $valor_produto;
+			$registros['itens'][$key] = $value['nome_produto'] . '  R$' . $valor_produto . ' x ' . $value['quantidade'];
 		}
 		$registros['voucher_code'] = voucher_base64_encode($registros['id_voucher']);
 
