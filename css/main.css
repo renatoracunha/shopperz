@@ -532,3 +532,10 @@ iframe {
   }
 }
 
+@media (max-width: 400px) {
+  table {
+    font-size: 13px;
+    
+  }
+}
+
