@@ -37,6 +37,7 @@
         <div class="py-5 text-center">
             <!-- <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
             <h2>Finalizar Compra</h2>
+            <?php //print_r($_SESSION);exit;?>
         </div>
         <div class="row">
             <div class="col-md-4 order-md-2 mb-4">

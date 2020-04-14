@@ -254,6 +254,7 @@ $usuario_id = $_SESSION['user_id'];
 		}*/
 		function adicionar_carrinho(valor_produto) {
 			//console.log(data);
+			valor_produto = valor_produto.replace(',','.');
 			let quantidade = $('#itens_quantity').val();
 			$.ajax({
 				url: "<?php echo site_url(); ?>gupy/ajax_adicionar_carrinho",
@@ -272,7 +273,7 @@ $usuario_id = $_SESSION['user_id'];
 					if (data) {
 						$('#modalVoucher').modal('show');
 						//$('#voucherModal').html('');
-						$('#total_carrinho').html(data.valor);
+						$('#total_carrinho').html(`${data.valor}`.replace('.',','));
 						$('#quantidade_itens').html(data.quantidade);
 					}
 				},
