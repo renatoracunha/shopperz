@@ -282,7 +282,7 @@ class Gupy_model extends CI_Model
 		$stmt = $this->db->prepare("UPDATE lojas SET FAVORITA = FAVORITA+:VALOR WHERE CODIGO =:LOJA_ID");
 
 		$stmt->bindParam(':LOJA_ID', $loja_id, PDO::PARAM_INT);
-		$stmt->bindParam(':VALOR', $valor, PDO::PARAM_INT);
+		$stmt->bindParam(':VALOR', $valor, PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 			return true;
@@ -377,7 +377,7 @@ class Gupy_model extends CI_Model
 		$stmt = $this->db->prepare("INSERT INTO historico_transacoes_usuario(CODIGO_USUARIO,CODIGO_LOJA,VALOR) VALUES (:USUARIO_ID,:LOJA_ID,:VALOR)");
 		$stmt->bindParam(':LOJA_ID', $loja_id, PDO::PARAM_INT);
 		$stmt->bindParam(':USUARIO_ID', $usuario_id, PDO::PARAM_INT);
-		$stmt->bindParam(':VALOR', $valor, PDO::PARAM_INT);
+		$stmt->bindParam(':VALOR', $valor, PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 			$stmt2 = $this->db->prepare("select LAST_INSERT_ID() as ID");
@@ -396,7 +396,7 @@ class Gupy_model extends CI_Model
 		$stmt->bindParam(':TRANSACAO_ID', $transacao_id, PDO::PARAM_INT);
 		$stmt->bindParam(':PRODUTO_ID', $produto_id, PDO::PARAM_INT);
 		$stmt->bindParam(':QUANTIDADE', $quantidade, PDO::PARAM_INT);
-		$stmt->bindParam(':VALOR_PRODUTO', $valor_produto, PDO::PARAM_INT);
+		$stmt->bindParam(':VALOR_PRODUTO', $valor_produto, PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 			return true;

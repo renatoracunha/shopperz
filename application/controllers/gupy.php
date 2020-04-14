@@ -509,6 +509,7 @@ class Gupy extends CI_Controller
 			$value['valor_produto'] = str_replace(",", ".", $value['valor_produto']);
 			$valor += (float) $value['valor_produto'] * (float) $value['quantidade'];
 		}
+		
 		$registros = $this->gupy_model->gerar_voucher($valor, $_SESSION['carrinho'][0]['loja_id'], $_SESSION['user_id']);
 		$this->gupy_model->inserir_voucher_venda($registros);
 		foreach ($_SESSION['carrinho'] as $key => $value) {

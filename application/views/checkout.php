@@ -1,5 +1,7 @@
 <?php
-
+if(empty($_SESSION['carrinho'])){
+    redirect('/');
+}
 ?>
 
 
