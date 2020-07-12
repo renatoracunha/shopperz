@@ -183,15 +183,17 @@
       font-family: arial;
       height: 350px;
       margin: 1px;
+      position: relative;
     }
 
     .price {
       color: grey;
       font-size: 100%;
+      opacity: 0.7;
       position: absolute;
-      top: 180px;
-      margin: 0 auto;
-
+      bottom: 0;
+      width: 100%;
+      left: 0;
     }
 
     .card button {
@@ -224,11 +226,6 @@
       width: 130px;
       height: 150px;
     }
-
-    .nome_produto {
-      position: absolute;
-      top: 160px;
-    }
   </style>
   </head>
 
@@ -240,7 +237,7 @@
     <div class="limiter">
 
       <div class="container-login100" style="background-image: url('<?php echo site_url(); ?>/imagens/bg-01.jpg');">
-        <div class="row" style="margin-bottom: 5%">
+        <div class="row" style="margin-bottom: 5%;width:100%;">
 
           <div class="search">
             <div class="row">
@@ -249,10 +246,10 @@
           </div>
         </div>
         <div class="wrap-login100  p-b-33 p-t-15" style="margin-bottom: 5%">
-          <a href="javascript:window.history.go(-1)"><- Voltar</a>
-          <br>
-          <br>
-          <div style="margin-bottom: 70%" id="produtos"></div>
+          <a href="javascript:window.history.go(-1)">
+            <- Voltar</a> <br>
+              <br>
+              <div style="margin-bottom: 70%" id="produtos"></div>
         </div>
         <!-- botão favoritar -->
         <div id="div_favButton"></div>
@@ -301,7 +298,7 @@
 
       function loadDataInApp(value) {
         if (value.preco_inicial) {
-          preco_inicial = '<br><strike><span style="color:red">R$' + value.preco_inicial + '</span></strike>';
+          preco_inicial = '<strike><span style="color:red">R$' + value.preco_inicial + '</span></strike>';
         } else {
           preco_inicial = '';
         }
@@ -309,10 +306,15 @@
         var lines = '';
         lines += '<div onclick="get_view_produto(' + value.id + ')" style="align-items: center" class="card column">';
         lines += '<img class="img" src="<?php echo base_url('imagens') ?>/' + img + '" alt="Imagem de capa do card" >';
-        lines += '<h4 class="nome_produto">' + value.nome + '</h4>';
-        lines += '<p class="price">' + preco_inicial + '<br><strong>R$' + value.preco + '</strong></p>';
+        lines += '<div  style="text-overflow: ellipsis;overflow: hidden;max-width:100%;max-height:50% "><h4>' + value.nome + '</h4></div>';
+        //lines += '<h4 class="nome_produto">' + value.nome + '</h4>';
+        if (value.preco_inicial == value.preco) {
+          lines += '<div><p class="price"><br><strong>R$' + value.preco + '</strong></p></div>';
+        } else {
+          lines += '<div><p class="price">' + preco_inicial + '<br><strong>R$' + value.preco + '</strong></p></div>';
+        }
         // lines+='<p>Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>';
-        lines += '<p><button >Comprar</button></p>';
+        //lines += '<p><button >Comprar</button></p>';
         lines += '</div>';
 
 

@@ -80,6 +80,18 @@
 						<input class="input100" type="text" id="telefone"  >
 						<span class="focus-input100"></span>
 					</div>
+
+					<div class="p-t-31 p-b-9">
+						<span class="txt1">
+							Endereço Completo
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Username is required">
+						<input class="input100" placeholder="Rua, Bairro, Cidade, Número, Complemento."  type="text" id="endereco"  >
+						<span class="focus-input100"></span>
+					</div>
+
+					
 					
 					<div class="p-t-13 p-b-9">
 						<span class="txt1">
@@ -154,6 +166,7 @@
 			let telefone = $('#telefone').val();
 			let confirmarSenha = $('#confirmarSenha').val();
 			let tipoUsuario = $('#tipoUsuario').val();
+			let endereco = $('#endereco').val();
 
 			if(senha==''){
 				$('#senha').addClass('is-invalid');
@@ -184,6 +197,13 @@
 				$('#telefone').css("background-color", "#FFD6D6");
 				return;
 			}
+			if(endereco==''){
+				$('#endereco').addClass('is-invalid');
+				$('#endereco').focus();
+				$('#endereco').attr('placeholder','Informe um endereco');
+				$('#endereco').css("background-color", "#FFD6D6");
+				return;
+			}
 			if(confirmarSenha==''){
 				$('#confirmarSenha').addClass('is-invalid');
 				$('#confirmarSenha').focus();
@@ -206,7 +226,7 @@
 				url: "<?php echo base_url();?>gupy/ajax_cadastro",
 				dataType:"json",
 				type:"get",
-				data:{senha:senha,email:email,nome:nome,telefone:telefone,tipoUsuario:tipoUsuario,patrocinador:<?php echo $patrocinador['CODIGO'] ?>},
+				data:{senha:senha,email:email,nome:nome,endereco:endereco,telefone:telefone,tipoUsuario:tipoUsuario,patrocinador:<?php echo $patrocinador['CODIGO'] ?>},
 				cache:false,
 				success:function(data){
 					if (data.cadastrado) {

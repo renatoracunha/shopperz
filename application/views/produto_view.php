@@ -253,8 +253,9 @@ $usuario_id = $_SESSION['user_id'];
 			});
 		}*/
 		function adicionar_carrinho(valor_produto) {
-			//console.log(data);
+			
 			valor_produto = valor_produto.replace(',','.');
+			//console.log(valor_produto);
 			let quantidade = $('#itens_quantity').val();
 			$.ajax({
 				url: "<?php echo site_url(); ?>gupy/ajax_adicionar_carrinho",
@@ -278,7 +279,7 @@ $usuario_id = $_SESSION['user_id'];
 					}
 				},
 				error: function(e) {
-					alert('erro');
+					alert('erro 12345');
 				}
 			});
 		}

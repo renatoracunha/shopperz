@@ -101,7 +101,7 @@
 		});
 
 		function editar(id_item){
-			window.location.href = './editarProduto/'+id_item; 
+			window.location.href = './gupy/editarProduto/'+id_item; 
 		}
 
 		function cadastrar(){
@@ -115,11 +115,11 @@
 			lines+='<td>'+value.nome+'</td>';
 			lines+='<td>'+value.preco+'</td>';
 			lines+='<td>';
-			lines+='<button style="margin-right:4px;" onclick="editar('+value.id+')" class="btn btn-primary opt-btn"><i class="fa fa-pencil" aria-hidden="true"></i></button>';
+			lines+='<button style="margin-right:4px;" onclick="editar('+value.id+')" class="btn btn-sm btn-primary opt-btn"><i class="fa fa-pencil" aria-hidden="true"></i></button>';
 			if (value.STATUS==1) {
-				lines+='<button onclick="desabilitar('+value.id+')" class="btn btn-danger opt-btn"><i class="fa fa-times" aria-hidden="true"></i></button>';
+				lines+='<button onclick="desabilitar('+value.id+')" class="btn btn-sm btn-danger opt-btn"><i class="fa fa-times" aria-hidden="true"></i></button>';
 			}else{
-				lines+='<button onclick="habilitar('+value.id+')" class="btn btn-success opt-btn"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+				lines+='<button onclick="habilitar('+value.id+')" class="btn btn-sm btn-success opt-btn"><i class="fa fa-plus" aria-hidden="true"></i></button>';
 			}
 
 

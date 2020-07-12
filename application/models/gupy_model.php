@@ -94,12 +94,13 @@ class Gupy_model extends CI_Model
 	public function cadastrar_usuario($dados)
 	{
 
-		$stmt = $this->db->prepare("INSERT INTO usuario (EMAIL,NOME,TELEFONE,SENHA,CODIGO_TIPO_USUARIO,CODIGO_PATROCINADOR,DATA_CADASTRO,CODIGO_STATUS) VALUES (:EMAIL,:NOME,:TELEFONE,:SENHA,:CODIGO_TIPO_USUARIO,:CODIGO_PATROCINADOR,:DATA_CADASTRO,:CODIGO_STATUS)");
+		$stmt = $this->db->prepare("INSERT INTO usuario (EMAIL,NOME,TELEFONE,ENDERECO,SENHA,CODIGO_TIPO_USUARIO,CODIGO_PATROCINADOR,DATA_CADASTRO,CODIGO_STATUS) VALUES (:EMAIL,:NOME,:TELEFONE,:ENDERECO,:SENHA,:CODIGO_TIPO_USUARIO,:CODIGO_PATROCINADOR,:DATA_CADASTRO,:CODIGO_STATUS)");
 
 		$stmt->bindValue(':NOME', element('nome', $dados), PDO::PARAM_STR);
 		$stmt->bindValue(':EMAIL', element('email', $dados), PDO::PARAM_STR);
 		$stmt->bindValue(':SENHA', element('senha', $dados), PDO::PARAM_STR);
 		$stmt->bindValue(':TELEFONE', element('telefone', $dados), PDO::PARAM_STR);
+		$stmt->bindValue(':ENDERECO', element('endereco', $dados), PDO::PARAM_STR);
 		$stmt->bindValue(':CODIGO_TIPO_USUARIO', element('tipoUsuario', $dados), PDO::PARAM_INT);
 		$stmt->bindValue(':CODIGO_PATROCINADOR', element('patrocinador', $dados), PDO::PARAM_INT);
 		$stmt->bindValue(':DATA_CADASTRO', date('Y-m-d H:i'), PDO::PARAM_STR);
@@ -315,7 +316,7 @@ class Gupy_model extends CI_Model
 		//$stmt = $this->db->prepare("SELECT CODIGO as id,IMAGEM as img FROM lojas where STATUS = '1' and NOME like :NOME order by NOME");
 		$stmt = $this->db->prepare("SELECT lojas.CODIGO as id,lojas.IMAGEM as img FROM lojas 
 		left join produtos on produtos.CODIGO_LOJA = lojas.CODIGO
-		where lojas.STATUS = '1' and lojas.NOME like :NOME and produtos.CODIGO is not NULL GROUP by id order by lojas.NOME");
+		where lojas.STATUS = '1' and lojas.NOME like :NOME and produtos.STATUS = 1 GROUP by id order by lojas.NOME");
 		$nome = '%' . $nome . '%';
 		$stmt->bindParam(':NOME', $nome, PDO::PARAM_STR);
 		$stmt->execute();
@@ -328,7 +329,7 @@ class Gupy_model extends CI_Model
 	{
 		$stmt = $this->db->prepare("SELECT DISTINCT lojas.CODIGO as id,lojas.IMAGEM as img FROM lojas 
 		join produtos on produtos.CODIGO_LOJA = lojas.CODIGO
-		where lojas.STATUS = '1' and produtos.CODIGO_CATEGORIA = :TIPO_ID");
+		where lojas.STATUS = '1' and produtos.STATUS = 1 and produtos.CODIGO_CATEGORIA = :TIPO_ID");
 		$stmt->bindParam(':TIPO_ID', $tipo_id, PDO::PARAM_INT);
 		$stmt->execute();
 		$resultado = $stmt->fetchall(PDO::FETCH_ASSOC);
@@ -550,11 +551,11 @@ class Gupy_model extends CI_Model
 
 	public function get_dados_transacao($voucher_id)
 	{
-		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, historico_transacoes_usuario.STATUS as status_voucher, usuario.NOME, usuario.TELEFONE from historico_transacoes_usuario
+		$stmt = $this->db->prepare("SELECT historico_transacoes_usuario.CODIGO AS id_voucher, historico_transacoes_usuario.STATUS as status_voucher, usuario.endereco,usuario.NOME, usuario.TELEFONE from historico_transacoes_usuario
 			-- join produtos on produtos.CODIGO = historico_transacoes_usuario.CODIGO_PRODUTO
             join usuario on historico_transacoes_usuario.CODIGO_USUARIO = usuario.CODIGO
-			where historico_transacoes_usuario.CODIGO = :VOUCHER_ID and historico_transacoes_usuario.CODIGO_LOJA = :USER_ID");
-		$stmt->bindParam(':USER_ID', $_SESSION['codigo_empresa'], PDO::PARAM_INT);
+			where historico_transacoes_usuario.CODIGO = :VOUCHER_ID ");
+		//$stmt->bindParam(':USER_ID', $_SESSION['codigo_empresa'], PDO::PARAM_INT);
 		$stmt->bindParam(':VOUCHER_ID', $voucher_id, PDO::PARAM_INT);
 		$stmt->execute();
 		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -567,8 +568,8 @@ class Gupy_model extends CI_Model
 		$stmt = $this->db->prepare("select produtos.NOME as nome_produto, produtos_transacao.valor_produto as valor_unidade, produtos_transacao.quantidade from produtos_transacao
 		JOIN produtos on produtos.CODIGO = produtos_transacao.produto_id
 		JOIN historico_transacoes_usuario on historico_transacoes_usuario.CODIGO = produtos_transacao.historico_transacao_usuario_id
-			where historico_transacoes_usuario.CODIGO = :VOUCHER_ID and historico_transacoes_usuario.CODIGO_LOJA = :USER_ID");
-		$stmt->bindParam(':USER_ID', $_SESSION['codigo_empresa'], PDO::PARAM_INT);
+			where historico_transacoes_usuario.CODIGO = :VOUCHER_ID ");
+		//$stmt->bindParam(':USER_ID', $_SESSION['codigo_empresa'], PDO::PARAM_INT);
 		$stmt->bindParam(':VOUCHER_ID', $voucher_id, PDO::PARAM_INT);
 		$stmt->execute();
 		$resultado = $stmt->fetchall(PDO::FETCH_ASSOC);
